@@ -1,12 +1,11 @@
 author: Sarah Sdao
 id: build-and-deploy-llm-dashboard-with-posit-team-and-cortex
-summary: Build and deploy an interactive LLM-powered dashboard using the Posit Team Native App and Snowflake Cortex
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions, snowflake-site:taxonomy/industry/financial-services
+language: en
+summary: Build and deploy an interactive LLM-powered dashboard using the Posit Team Native App and Snowflake Cortex
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
-tags: Getting Started, Data Science, Posit, R, LLM, AI
-language: en
 
 # Build and Deploy an Interactive LLM-Powered Dashboard with the Posit Team Native App and Snowflake Cortex AI
 
