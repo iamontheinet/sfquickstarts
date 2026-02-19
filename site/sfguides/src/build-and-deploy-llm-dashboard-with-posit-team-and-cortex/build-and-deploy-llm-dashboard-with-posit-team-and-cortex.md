@@ -473,11 +473,9 @@ Before testing the connection, let's capture your settings for use in the dashbo
 ```r
 # Capture user settings
 cortex_model <- "snowflake-arctic"  # Choose from: snowflake-arctic, mistral-large, llama3-70b, etc.
-snowflake_account <- Sys.getenv("SNOWFLAKE_ACCOUNT")  # Your Snowflake account identifier
 
 message("Settings captured:")
 message("- Cortex AI Model: ", cortex_model)
-message("- Snowflake Account: ", snowflake_account)
 ```
 
 ### Test {ellmer} connection
@@ -489,11 +487,14 @@ The {ellmer} package provides a `chat_snowflake()` function that integrates with
 ```r
 library(ellmer)
 
+# Initialize chat with Snowflake Cortex AI using your settings
+library(ellmer)
+
 # Initialize chat_snowflake with Snowflake Cortex AI using your settings
-chat <- chat_snowflake(
+chat <- chat(
+  name = paste0("snowflake/", cortex_model),
   system_prompt = "You are a mortgage lending and housing finance data analysis expert",
-  model = cortex_model,
-  account = snowflake_account
+  account = Sys.getenv("SNOWFLAKE_ACCOUNT")
 )
 
 # Test the connection
@@ -516,7 +517,7 @@ library(querychat)
 
 querychat_app(
   data = mortgage_data,
-  client = chat # Use the configured Snowflake Cortex AI chat
+  client = chat  # Use the configured Snowflake Cortex AI chat
 )
 ```
 
@@ -532,6 +533,7 @@ This simple configuration creates a full interactive dashboard where users can e
 Now let's run the following code, which will build a very simple Shiny App to explore the data using the `querychat` functionality. Running this code will create a new `app.R` file in the current directory that contains all of your already-established user settings.
 
 ```r
+# Create app.R file with Shiny application code using your captured settings
 # Create app.R file with Shiny application code using your captured settings
 app_code <- sprintf('
 library(shiny)
@@ -549,7 +551,7 @@ get_connection <- function() {
   schema <- "PUBLIC_DATA_FREE"
 
   # Running in Posit Workbench
-  if (!is.null(Sys.getenv("SNOWFLAKE_HOME", unset = NULL)) &&
+  if (nzchar(Sys.getenv("SNOWFLAKE_HOME")) &&
       Sys.getenv("RSTUDIO_PRODUCT") != "CONNECT") {
 
     con <- DBI::dbConnect(
@@ -612,14 +614,14 @@ server <- function(input, output, session) {
   con <- get_connection()
   mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 
-  chat <- chat_snowflake(
-    system_prompt = paste(
-      "You are a mortgage lending data expert.",
-      "Help users understand HMDA mortgage data patterns and insights.",
-      "When asked about data, suggest relevant SQL queries or analyses."
-    ),
-    model = "%s",  # Your chosen Cortex AI model
-    account = Sys.getenv("SNOWFLAKE_ACCOUNT")
+  chat <- chat(
+  name = paste0("snowflake/", "%s"),  # Your chosen Cortex AI model
+  system_prompt = paste(
+    "You are a mortgage lending data expert.",
+    "Help users understand HMDA mortgage data patterns and insights.",
+    "When asked about data, suggest relevant SQL queries or analyses."
+  ),
+  account = Sys.getenv("SNOWFLAKE_ACCOUNT")
   )
 
   observeEvent(input$ask, {
