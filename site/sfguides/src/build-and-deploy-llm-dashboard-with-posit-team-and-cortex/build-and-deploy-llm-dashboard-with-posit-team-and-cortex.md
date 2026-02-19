@@ -530,10 +530,9 @@ This simple configuration creates a full interactive dashboard where users can e
 
 ### Build a Shiny App
 
-Now let's run the following code, which will build a very simple Shiny App to explore the data using the `querychat` functionality. Running this code will create a new `app.R` file in the current directory that contains all of your already-established user settings.
+Now let's run the following code, which will build a very simple Shiny App to explore the data using the {querychat} functionality. Running this code will create a new `app.R` file in the current directory that contains all of your already-established user settings.
 
 ```r
-# Create app.R file with Shiny application code using your captured settings
 # Create app.R file with Shiny application code using your captured settings
 app_code <- sprintf('
 library(shiny)
@@ -684,7 +683,8 @@ Now that your dashboard works locally and looks how you'd like it to, let's depl
 
 3. Click the "Add Server" button and enter:
 - **Server URL**: Use `https://connect/`
-- **API Key**: Generate an API key from your Connect account settings, and then paste it into this field
+- **API Key**: Generate an API key from your Connect account settings, and then paste it into this field.
+   - See the [Connect User guide](https://docs.posit.co/connect/user/api-keys/#api-keys-creating) for detailed steps on how to create a new API.
 
 ### Publish Your Dashboard
 
