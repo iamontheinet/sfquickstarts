@@ -19,7 +19,11 @@ dashboard to Posit Connect in Snowflake with one-click publishing for easy shari
 ![](assets/guide-overview.png)
 
 We'll also make sure the shared dashboard respects built-in Snowflake security and authorization settings, ensuring anyone who views the dashboard on
-Connect only sees data they have access to. By the end of this guide, we'll have a fully functional dashboard where users can ask questions like
+Connect only sees data they have access to.
+
+![](assets/overview-architecture.png)
+
+By the end of this guide, we'll have a fully functional dashboard where users can ask questions like
 "What are the most common loan types?" or "How do loan approval rates vary by state?" and get instant visualizations and insights.
 
 ### What You Will Learn
@@ -178,23 +182,6 @@ First, we need to make sure we have it installed and enabled:
 
 For more information, see the [Shiny extension documentation](https://open-vsx.org/extension/posit/shiny).
 
-#### Get and Enable the Databot Extension
-
-   > **Important:** Databot is currently in research preview.
-
-[Databot](https://positron.posit.co/databot.html) is an AI assistant designed to dramatically accelerate exploratory data analysis for data scientists fluent in R or Python, allowing them to do in minutes what might usually take hours. We'll use it below to both connect to our Snowflake data and conduct some exploratory data analysis (EDA).
-
-1. Open the Positron Extensions view: on the left-hand side of Positron Pro, click the Extensions icon in the activity bar to open the Extensions Marketplace.
-
-2. Search for "Databot".
-
-3. Click **Install** to add the Databot extension.
-
-4. After installation, you'll need to acknowledge the research preview status:
-   - Open Settings (`Cmd/Ctrl+,`).
-   - Search for "Databot".
-   - In the **Databot: Research Preview Acknowledgement** field, type "Acknowledged".
-
 #### Get the Posit Publisher Extension
 
 [Posit Publisher](https://docs.posit.co/connect/user/publishing-positron-vscode/) lets you start the deployment of projects to Connect from Positron with a single click.
@@ -306,6 +293,10 @@ There are two ways we can do this: automatically by prompting Databot, or by run
 
 #### Use Databot to Connect
 
+   > **Important:** Databot is currently in research preview.
+
+[Databot](https://positron.posit.co/databot.html) is an AI assistant designed to dramatically accelerate exploratory data analysis for data scientists fluent in R or Python, allowing them to do in minutes what might usually take hours.
+
 <!-- This section relies on the PR in the databot repo being merged + feature released -->
 
 Instead of manually writing connection code, you can use Databot's built-in Snowflake skill to guide you through the connection process. This is
@@ -315,7 +306,7 @@ especially helpful when you're working in Workbench, as Databot can automaticall
 
 1. Open the Command Palette (`Cmd/Ctrl+Shift+P`).
 
-2. Type "Open Databot" and select it.
+2. Type "Databot" and select **Open Databot in Editor Panel**.
 
 3. The Databot panel will open, ready to analyze your mortgage data. Ensure you are still in your R session within the Databot dialog.
 
@@ -484,7 +475,7 @@ Before testing the connection, let's capture your settings for use in the dashbo
 
 ```r
 # Capture user settings
-cortex_model <- "claude-sonnet-4.5"  # Choose from: claude-sonnet-4, claude-sonnet-4.5, claude-haiku-4.5, gpt-4.1, gpt-5
+cortex_model <- "claude-3-5-sonnet"
 
 message("Settings captured:")
 message("- Cortex AI Model: ", cortex_model)
@@ -693,8 +684,6 @@ Now that your dashboard works locally and looks how you'd like it to, let's depl
 Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
 Once you click deploy in Positron, Connect handles dependency management and ensures your code runs successfully as a deployed artifact.
 
-#### Configure Connect Publishing
-
 1. In the Positron tool menu, click the Posit Publisher icon.
 
 ![](assets/posit-publisher.png)
@@ -702,23 +691,19 @@ Once you click deploy in Positron, Connect handles dependency management and ens
 2. Under **Deployment**, click the **Select..** dropdown. Since this is the first time we've deployed this content,
 you'll be prompted to create a new deployment. Select the `app.R` file to deploy.
 
-3. Click the "Add Server" button and enter:
-- **Server URL**: Use `https://connect/`
-- **API Key**: Generate an API key from your Connect account settings within the Posit Team Snowflake Native App, and then paste it into this field.
-   - See the [Connect User guide](https://docs.posit.co/connect/user/api-keys/#api-keys-creating) for detailed steps on how to create a new API key.
+3. Select the Connect deployment.
 
-#### Publish Your Dashboard
+![](assets/deploy-connect.png)
 
-1. With your `app.R` file open, select the files to include:
+4. Select the files to include:
 - [x] `app.R`
 - [x] `renv.lock`
-- [ ] Any credential or configuration files should not be published
 
 2. Click the **Deploy your project** button.
 
 3. Once deployment is successful, click **View** to open your deployed dashboard.
 
-#### Access Your Dashboard on Connect
+### Step 12: Access Your Dashboard on Connect
 
 After clicking **View**, your dashboard will open in Connect where you can interact with it and share it with your team.
 
@@ -727,8 +712,6 @@ After clicking **View**, your dashboard will open in Connect where you can inter
 2. To share your dashboard with others, click the **Settings** pane in the upper-right-hand corner of the content page.
 
 3. In the **Content URL** section, copy the URL.
-
-<!-- Add screenshot -->
 
 4. Share this URL with your team.
 
