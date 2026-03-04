@@ -253,17 +253,7 @@ Learn more about Quarto here: <https://quarto.org/>,
 and the documentation for all the various Quarto outputs here: <https://quarto.org/docs/guide/>.
 Quarto works with R, Python, and JavaScript Observable code out-of-the-box, and is a great tool to communicate your data science analyses.
 
-### Step 6: Start an R Session
-
-Before we can run any code in Positron Pro, we need to start our R session, set any dependencies, and install the necessary packages.
-
-To start your R session, click **Start Session** in the top-right corner of the Positron Pro window.
-
-![](assets/positron-start-session.png)
-
-Select an R version.
-
-### Step 7: Install R Packages from `renv.lock`
+### Step 6: Install R Packages from `renv.lock`
 
 Our analysis uses the following R packages: [{connectapi}](https://pkgs.rstudio.com/connectapi/index.html), [{DBI}](https://dbi.r-dbi.org/),
 [{dplyr}](https://dplyr.tidyverse.org/), [{dbplyr}](https://dbplyr.tidyverse.org/articles/dbplyr.html), [{ellmer}](https://ellmer.tidyverse.org/), [{querychat}](https://posit-dev.github.io/querychat/r/index.html),
@@ -286,7 +276,7 @@ You might need to restart your R session once all dependencies are set. Restart 
 
 ## Phase 3: Connect and Explore
 
-### Step 8: Connect to Snowflake Data
+### Step 7: Connect to Snowflake Data
 
 Now that we have our Positron Pro session started with the necessary extensions and dependencies, we can connect to our data in Snowflake.
 There are two ways we can do this: automatically by prompting Databot, or by running some code ourselves.
@@ -400,7 +390,7 @@ message("Successfully established secure connection to Snowflake!")
 
 We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public datasets, all securely within Snowflake.
 
-### Step 9: Explore the Data with Databot
+### Step 8: Explore the Data with Databot
 
 Before building our dashboard, let's use Databot to explore the mortgage data. Databot is an AI assistant in research preview
 that dramatically accelerates exploratory data analysis (EDA) in R, enabling you to complete analyses in minutes rather than hours.
@@ -464,7 +454,7 @@ As Databot works, it will show you the code it generates before executing it. Re
 
 ## Phase 4: Build Your Dashboard
 
-### Step 10: Build the LLM Dashboard
+### Step 9: Build the LLM Dashboard
 
 Now that we've done some exploratory data analysis, let's create our interactive dashboard. First we need to configure {ellmer} and {querychat} to use Cortex AI.
 Then we can build the Shiny app.
@@ -678,7 +668,7 @@ Continue to iterate on the Shiny app until you are happy with how it looks and a
 
 ## Phase 5: Deploy and Share
 
-### Step 11: Deploy to Posit Connect
+### Step 10: Deploy to Posit Connect
 
 Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is a one-click process.
 Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
@@ -703,7 +693,7 @@ you'll be prompted to create a new deployment. Select the `app.R` file to deploy
 
 3. Once deployment is successful, click **View** to open your deployed dashboard.
 
-### Step 12: Access Your Dashboard on Connect
+### Step 11: Access Your Dashboard on Connect
 
 After clicking **View**, your dashboard will open in Connect where you can interact with it and share it with your team.
 
