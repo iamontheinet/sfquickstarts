@@ -465,7 +465,7 @@ Before testing the connection, let's capture your settings for use in the dashbo
 
 ```r
 # Capture user settings
-cortex_model <- "claude-3-5-sonnet"
+cortex_model <- "claude-3-7-sonnet"
 
 message("Settings captured:")
 message("- Cortex AI Model: ", cortex_model)
@@ -525,7 +525,7 @@ This simple configuration creates a full interactive dashboard where users can e
 
 #### Build a Shiny App
 
-Now let's run the following code, which will build a very simple Shiny App to explore the data using the {querychat} functionality.
+Now let's run the following code, which will build a very simple Shiny App to explore the data with {ellmer}.
 Running this code will create a new `app.R` file in the current directory that contains all of your already-established user settings.
 
 ```r
@@ -712,10 +712,10 @@ After clicking **View**, your dashboard will open in Connect where you can inter
 ### Overview
 
 In this guide, we built a complete LLM-powered dashboard for exploring HMDA mortgage data. We created a Snowflake warehouse
-to query public data, developed a Shiny application using Positron Assistant and Databot with the {ellmer} and {querychat} R packages,
-and deployed the dashboard to Posit Connect where your team can access it securely.
+to query public data, explored data with Databot and {querychat}, developed a Shiny application using Positron Assistant
+and Databot with the {ellmer} R package, and deployed the dashboard to Posit Connect where your team can access it securely.
 
-The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI,
+The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI
 with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
 
 ### What You Learned
