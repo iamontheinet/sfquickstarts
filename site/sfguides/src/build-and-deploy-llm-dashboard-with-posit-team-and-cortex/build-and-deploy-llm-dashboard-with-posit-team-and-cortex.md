@@ -161,7 +161,7 @@ by Workbench within the Posit Team Native App, your entire analysis will occur s
 
 #### Install the Necessary Extensions
 
-The analysis contained in this guide requires you to ensure you have some extensions installed. You can install them from the [Extensions view](https://docs.posit.co/ide/server-pro/user/positron/guide/extensions.html).
+The analysis contained in this guide requires you to have some extensions installed. You can install them from the [Extensions view](https://docs.posit.co/ide/server-pro/user/positron/guide/extensions.html).
 
 #### Get the Shiny Extension
 
