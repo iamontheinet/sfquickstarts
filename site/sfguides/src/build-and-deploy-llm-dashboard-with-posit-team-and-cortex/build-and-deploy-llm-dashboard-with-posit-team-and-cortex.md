@@ -35,8 +35,7 @@ By the end of this guide, we'll have a fully functional dashboard where users ca
 
 ### What You Will Build
 
-- An interactive Shiny dashboard with natural language query capabilities built using Cortex AI
-- A published application accessible to your team on Connect in the Posit Team Snowflake Native App
+- An interactive Shiny dashboard with natural language query capabilities built using Cortex AI, accessible to your team on Connect in the Posit Team Snowflake Native App
 
 ### Prerequisites
 
@@ -105,9 +104,9 @@ We can now start exploring the data using Posit Workbench. You can find Workbenc
 
 #### Open the Posit Team Native App from Snowsight
 
-   > **Note:** Your administrator must first [install and configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Posit Team Native App--plus the products within it--before you can follow the remaining steps.
+   > **Note:** Your administrator must first [configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Posit Team Native App--plus the products within it--before you can follow the remaining steps.
 
-Once your administrator has installed and configured the Posit Team Native App, in Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Installed Apps** > the Posit Team Native App. If you do not see the
+Once your administrator has configured the Posit Team Native App, in Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Installed Apps** > the Posit Team Native App. If you do not see the
 Posit Team Native App listed, ask your Snowflake account administrator for access to the app.
 
 After clicking on the app, you will see the Posit Team Native App page.
@@ -150,7 +149,7 @@ Under **Session Credentials**, click the button with the Snowflake icon to sign 
 
 #### Launch Positron Pro
 
-Under **Environment**, enter at least 2.5 GB of RAM in the **Memory (GB)** field.
+Under **Environment**, enter at least 4 GB of RAM in the **Memory (GB)** field.
 
 Then, click **Launch** to launch Positron Pro. If desired, you can check the **Auto-join session** option to automatically open the IDE when the session is ready.
 
@@ -287,12 +286,12 @@ There are two ways we can do this: automatically by prompting Databot, or by run
 
 [Databot](https://positron.posit.co/databot.html) is an AI assistant designed to dramatically accelerate exploratory data analysis for data scientists fluent in R or Python, allowing them to do in minutes what might usually take hours.
 
-<!-- This section relies on the PR in the databot repo being merged + feature released -->
-
 Instead of manually writing connection code, you can use Databot's built-in Snowflake skill to guide you through the connection process. This is
-especially helpful when you're working in Workbench, as Databot can automatically detect and use managed credentials.
+especially helpful when you're working in Workbench, as Databot can automatically detect and use your Snowflake credentials.
 
-  > **Note:** You must be running Databot v0.0.41 or higher to use it to connect to Snowflake data.
+Databot runs with your available Cortex AI LLMs, keeping your data secure and private.
+
+  > **Note:** You must be running Databot v0.0.41 or higher to use it to connect to Snowflake data. To check your Databot version, click the Extensions icon on the left-hand side, and then search for "Databot." Select the extension in the list to open its details page, where the installed version number is listed in the top-right corner.
 
 1. Open the Command Palette (`Cmd/Ctrl+Shift+P`).
 
@@ -308,12 +307,13 @@ Help me connect to Snowflake
 
 Databot will:
 
-1. Detect if you're in Workbench with integrated authentication.
-2. Provide the appropriate connection code for your environment.
-3. Guide you through discovering available databases, schemas, and tables.
-4. Help you explore Semantic Views if available.
+1. Use your Cortex AI LLM.
+2. Detect if you're in Workbench with integrated authentication.
+3. Provide the appropriate connection code for your environment.
+4. Guide you through discovering available databases, schemas, and tables.
+5. Help you explore Semantic Views if available.
 
-If you're in Workbench, Databot will provide zero-argument connection code that uses managed credentials. This was determined and securely set above in
+If you're in Workbench, Databot will provide zero-argument connection code that uses your Snowflake credentials. This was determined and securely set above in
 [Log in to your Snowflake Account](#log-into-your-snowflake-account).
 
 ```r
@@ -354,7 +354,7 @@ get_connection <- function() {
   schema <- "PUBLIC_DATA_FREE"
 
   if (!is.null(Sys.getenv("SNOWFLAKE_HOME", unset = NULL)) &&
-      Sys.getenv("RSTUDIO_PRODUCT") != "CONNECT") {
+      Sys.getenv("POSIT_PRODUCT") != "CONNECT") {
     con <- DBI::dbConnect(
       odbc::snowflake(),
       connection_name = "workbench",
@@ -362,7 +362,7 @@ get_connection <- function() {
       database = database,
       schema = schema
     )
-  } else if (Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT") {
+  } else if (Sys.getenv("POSIT_PRODUCT") == "CONNECT") {
     client <- connectapi::connect()
     user_session_token <- shiny::session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
     credentials <- connectapi::get_oauth_credentials(client, user_session_token)
@@ -464,7 +464,7 @@ Then we can build the Shiny app.
 Before testing the connection, let's capture your settings for use in the dashboard:
 
 ```r
-# Capture user settings
+# Define user settings
 cortex_model <- "claude-3-7-sonnet"
 
 message("Settings captured:")
@@ -502,7 +502,7 @@ When you run the cell, the response output will appear in the console.
    >  **Note:** `querychat_app()` launches an interactive application that will block further code execution. Close the app
    and stop the function when you're done exploring to continue with the next steps.
 
-{querychat} creates interactive chat interfaces for data exploration. If you want to interactively explore the data before
+{querychat} creates interactive chat interfaces for data exploration. It uses the secure {ellmer} connection we created above. If you want to interactively explore the data before
 building your custom Shiny app, you can run the function below.
 
 Building on the database and model connection we established above, we can configure {querychat} to work with our mortgage data:
@@ -548,7 +548,7 @@ get_connection <- function() {
 
   # Running in Posit Workbench
   if (nzchar(Sys.getenv("SNOWFLAKE_HOME")) &&
-      Sys.getenv("RSTUDIO_PRODUCT") != "CONNECT") {
+      Sys.getenv("POSIT_PRODUCT") != "CONNECT") {
 
     con <- DBI::dbConnect(
       odbc::snowflake(),
@@ -559,7 +559,7 @@ get_connection <- function() {
     )
 
   # Running in Posit Connect (deployed app)
-  } else if (Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT") {
+  } else if (Sys.getenv("POSIT_PRODUCT") == "CONNECT") {
 
     # Get Posit Connect client and user session token
     client <- connectapi::connect()
