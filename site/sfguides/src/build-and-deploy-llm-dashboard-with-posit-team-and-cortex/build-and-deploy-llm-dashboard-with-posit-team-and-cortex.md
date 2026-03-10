@@ -41,7 +41,7 @@ By the end of this guide, we'll have a fully functional dashboard where users ca
 
 - A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with Cortex AI enabled
 - Appropriate access to create data warehouses in Snowflake. This is typically the `sysadmin` role
-- Access to an installed and configured [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team). An administrator with the `accountadmin` role can provide this access
+- The [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team) must already be installed and configured by an administrator with the `accountadmin` role. You must have been granted access to this app
 - Access to the [`SNOWFLAKE_PUBLIC_DATA_FREE` database](https://app.snowflake.com/marketplace/listing/GZTSZ290BV255/snowflake-public-data-products-snowflake-public-data-free) in Snowsight
 - Familiarity with SQL and R
 
@@ -93,23 +93,16 @@ If you find that do not have access to this dataset, please contact your account
 
 We can now start exploring the data using Posit Workbench. You can find Workbench within the Posit Team Native App, and use it to connect to your database.
 
-#### Get the Posit Team Native App from the Snowflake Marketplace
+#### Open the Posit Team Native App
 
-- In Snowsight, click on **Marketplace**. If the Posit Team Native App is not already installed, search for "Posit Team" and then click **Get**.
+In Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Apps** > the Posit Team Native App.
 
-  ![](assets/snowflake-get-posit-team.png)
+If you do not see the Posit Team Native App listed, contact your Snowflake account administrator to:
+- Install the [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team) from the Marketplace
+- [Configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Native App and its products
+- Grant you access to the app
 
-- You might be asked to validate your email address.
-- Choose a name for the App.
-
-#### Open the Posit Team Native App from Snowsight
-
-   > **Note:** Your administrator must first [configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Posit Team Native App--plus the products within it--before you can follow the remaining steps.
-
-Once your administrator has configured the Posit Team Native App, in Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Installed Apps** > the Posit Team Native App. If you do not see the
-Posit Team Native App listed, ask your Snowflake account administrator for access to the app.
-
-After clicking on the app, you will see the Posit Team Native App page.
+Once you locate the app, click on it to open the Posit Team Native App page.
 
 Click **Launch app**.
 
@@ -121,42 +114,31 @@ From the Posit Team Native App, click **Posit Workbench**.
 
 ![](assets/snowflake-launch-workbench.png)
 
-You might be prompted to first log in to Snowflake using your regular credentials or authentication method.
+You might be prompted to log in to Snowflake using your regular credentials or authentication method.
 
 ### Step 4: Create a Positron Pro Session
 
 Workbench provides several IDEs, including Positron Pro, VS Code, RStudio Pro, and JupyterLab. For this analysis, we will use Positron, the next-generation
 data science IDE built for Python and R. It combines the power of a full-featured IDE with interactive data science tools for Python and R.
 
-#### New Session
-
-Within Workbench, click **+ New Session** to launch a new session.
+1. Within Workbench, click **+ New Session** to launch a new session.
 
 ![](assets/workbench-start-new-session.png)
 
-#### Select an IDE
-
-When prompted, select Positron Pro. You can optionally give your session a unique name.
+2. When prompted, select the Positron Pro IDE. You can optionally give your session a unique name.
 
 ![](assets/workbench-create-new-session.png)
 
-#### Log into your Snowflake account
-
-Next, connect to your Snowflake account from within Workbench.
-Under **Session Credentials**, click the button with the Snowflake icon to sign in to Snowflake. Follow any sign in prompts.
+3. Under **Session Credentials**, click the button with the Snowflake icon to sign in to Snowflake. Follow any sign in prompts.
 
 ![](assets/workbench-snowflake-login-success.png)
 
-#### Launch Positron Pro
+   - This lets your Workbench session securely inherit your Snowflake role, which grants you access to data warehouses and compute resources using your existing Snowflake
+  identity.
+  - For more information on how Workbench uses your Snowflake credentials, see the [Workbench-managed Snowflake credentials](https://docs.posit.co/ide/server-pro/user/posit-workbench/managed-credentials/snowflake.html)
+  section of the Workbench user guide.
 
-Under **Environment**, enter at least 4 GB of RAM in the **Memory (GB)** field.
-
-Then, click **Launch** to launch Positron Pro. If desired, you can check the **Auto-join session** option to automatically open the IDE when the session is ready.
-
-![](assets/positron-launch.png)
-
-You will now be able to work with your Snowflake data in Positron Pro. Since the IDE is provided
-by Workbench within the Posit Team Native App, your entire analysis will occur securely within Snowflake.
+4. Click **Launch** to launch Positron Pro. If desired, you can check the **Auto-join session** option to automatically open the IDE when the session is ready.
 
 #### Install the Necessary Extensions
 
@@ -224,20 +206,7 @@ This guide will walk you through the steps contained in <https://github.com/posi
 Before we dive into our data analysis, let's first discuss Quarto. We've documented the code for this guide in a Quarto document,
 [quarto.qmd](https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard/blob/main/quarto.qmd).
 
-[Quarto](https://quarto.org/)
-is an open-source publishing system that makes it easy to create
-[data products](https://quarto.org/docs/guide/) such as
-[documents](https://quarto.org/docs/output-formats/html-basics.html),
-[presentations](https://quarto.org/docs/presentations/),
-[dashboards](https://quarto.org/docs/dashboards/),
-[websites](https://quarto.org/docs/websites/),
-and
-[books](https://quarto.org/docs/books/). It is available out-of-the-box with Positron Pro and allows data scientists to interweave all of their code, results, output, and prose text into a single
-literate programming document. This way everything travels together as a reproducible data product.
-
-A Quarto document can be thought of as a regular markdown document, but with the ability to run code chunks.
-
-You can run any of the code chunks by clicking the `Run Cell` button above the chunk in Positron Pro.
+A Quarto document can be thought of as a regular markdown document, but with the ability to run code chunks. You can run any of the code chunks by clicking the `Run Cell` button above the chunk in Positron Pro.
 
 ![](assets/quarto-run-chunk.png)
 
@@ -246,11 +215,9 @@ To render and preview the entire document, click the `Preview` button or run `qu
 ![](assets/quarto-preview.png)
 
 This will run all the code in the document from top to bottom and generate an HTML file, by default, for you to view and share.
-This is especially helpful for creating multiple plots and other static content.
 
 Learn more about Quarto here: <https://quarto.org/>,
 and the documentation for all the various Quarto outputs here: <https://quarto.org/docs/guide/>.
-Quarto works with R, Python, and JavaScript Observable code out-of-the-box, and is a great tool to communicate your data science analyses.
 
 ### Step 6: Install R Packages from `renv.lock`
 
@@ -286,10 +253,11 @@ There are two ways we can do this: automatically by prompting Databot, or by run
 
 [Databot](https://positron.posit.co/databot.html) is an AI assistant designed to dramatically accelerate exploratory data analysis for data scientists fluent in R or Python, allowing them to do in minutes what might usually take hours.
 
-Instead of manually writing connection code, you can use Databot's built-in Snowflake skill to guide you through the connection process. This is
-especially helpful when you're working in Workbench, as Databot can automatically detect and use your Snowflake credentials.
+Instead of manually writing connection code, you can use Databot's built-in Snowflake skill to guide you through the connection process. This is especially helpful when you're working in Workbench, as Databot can automatically detect and use your Snowflake credentials.
 
-Databot runs with your available Cortex AI LLMs, keeping your data secure and private.
+Databot runs with your available Cortex AI LLMs, keeping your data secure and private. Choose which model you would like to use by clicking the model in the lower right-hand corner of the Databot window.
+
+![](assets/databot-choose-model.png)
 
   > **Note:** You must be running Databot v0.0.41 or higher to use it to connect to Snowflake data. To check your Databot version, click the Extensions icon on the left-hand side, and then search for "Databot." Select the extension in the list to open its details page, where the installed version number is listed in the top-right corner.
 
@@ -312,20 +280,6 @@ Databot will:
 3. Provide the appropriate connection code for your environment.
 4. Guide you through discovering available databases, schemas, and tables.
 5. Help you explore Semantic Views if available.
-
-If you're in Workbench, Databot will provide zero-argument connection code that uses your Snowflake credentials. This was determined and securely set above in
-[Log in to your Snowflake Account](#log-into-your-snowflake-account).
-
-```r
-library(DBI)
-library(odbc)
-
-# Uses Workbench managed credentials automatically
-con <- DBI::dbConnect(
-  odbc::snowflake(),
-  connection_name = "workbench"
-)
-```
 
 Once connected, you can move on to the next section, which is to [configure the {querychat} and {ellmer} packages to work with your Cortex AI-provided LLM](#configure-your-settings).
 
@@ -392,21 +346,7 @@ We have now used Workbench, Positron, and R to connect to the HMDA mortgage data
 
 ### Step 8: Explore the Data with Databot
 
-Before building our dashboard, let's use Databot to explore the mortgage data. Databot is an AI assistant in research preview
-that dramatically accelerates exploratory data analysis (EDA) in R, enabling you to complete analyses in minutes rather than hours.
-Unlike general coding assistants, Databot is purpose-built for EDA with rapid iteration of short code snippets that execute quickly.
-
-#### Open Databot
-
-If you didn't connect to your data with Databot previously, open Databot by following these steps:
-
-1. Open the Command Palette (`Cmd/Ctrl+Shift+P`).
-
-2. Type "Open Databot" and select **Open Databot in Editor panel**.
-
-3. The Databot panel will open, ready to analyze your mortgage data. Ensure you are still in your R session within the Databot dialog.
-
-#### Explore the Mortgage Data
+Before building our dashboard, let's use Databot to explore the mortgage data. Unlike general coding assistants, Databot is purpose-built for EDA with rapid iteration of short code snippets that execute quickly.
 
 With your connection to the `HOME_MORTGAGE_DISCLOSURE` table established (from the previous section), you can now ask Databot
 to explore the data. Try these prompts:
@@ -443,14 +383,13 @@ Check for missing values and data quality issues in the mortgage data
 
 Databot will examine the dataset for completeness and potential problems.
 
-#### Review Generated Code
+**Create a Quarto report:**
 
-As Databot works, it will show you the code it generates before executing it. Review this code to:
+Once you are done exploring the data, you can create a Quarto report so you can reproduce the analysis another time or share the information with your team. Just ask Databot to create a report:
 
-- Verify the analysis approach is appropriate
-- Understand the transformations being applied
-- Learn techniques you can reuse in your own work
-- Catch any potential issues before execution
+```
+Create a Quarto report with your findings
+```
 
 ## Phase 4: Build Your Dashboard
 
@@ -656,7 +595,7 @@ To start a chat with Positron Assistant, click on the Positron Assistant icon in
 
 ![](assets/positron-assistant.png)
 
-Select a model from the available options. For best results with Cortex AI, we recommend using Claude Sonnet 4.5.
+Select a model from the available options. For best results with Cortex AI, we recommend using Claude Sonnet 4.5 or later models.
 
 You can ask Positron Assistant to help improve your Shiny app. Try something like:
 
@@ -664,14 +603,34 @@ You can ask Positron Assistant to help improve your Shiny app. Try something lik
 Can you help me make the app.R file more dynamic and colorful?
 ```
 
-Continue to iterate on the Shiny app until you are happy with how it looks and acts.
+Continue to make changes to the app with Positron Assistant until you are happy with how it looks and behaves.
 
 ## Phase 5: Deploy and Share
 
-### Step 10: Deploy to Posit Connect
+### Step 10: Obtain your Connect API Key
 
-Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is a one-click process.
-Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
+Before we start the process to deploy the dashboard to Connect, you need to create and save an API key.
+
+1. Access Posit Connect from the Posit Team Snowflake Native App.
+
+![](assets/snowflake-launch-connect.png)
+
+2. Click on your account in the upper right-hand corner of Connect, and then click **Manage Your API Keys**.
+
+<img src="assets/connect-manage-api-keys.png" height="400px">
+
+3. Click **+ New API Key**.
+
+4. Create a name for your API key, and select the **Publisher** role permission.
+
+5. Click **Create Key**.
+
+6. Copy the key to somewhere secure. You will need it when deploying your content in the next step.
+
+### Step 11: Deploy to Posit Connect
+
+Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is a one-click process. Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
+
 Once you click deploy in Positron, Connect handles dependency management and ensures your code runs successfully as a deployed artifact.
 
 1. In the Positron tool menu, click the Posit Publisher icon.
@@ -681,31 +640,37 @@ Once you click deploy in Positron, Connect handles dependency management and ens
 2. Under **Deployment**, click the **Select..** dropdown. Since this is the first time we've deployed this content,
 you'll be prompted to create a new deployment. Select the `app.R` file to deploy.
 
-3. Select the Connect deployment.
+3. Select the Connect deployment or create a new one with the the URL: `https://connect/`.
 
 ![](assets/deploy-connect.png)
 
-4. Select the files to include:
+4. Enter the API key you created in the steps above.
+
+5. Select the files to include:
 - [x] `app.R`
 - [x] `renv.lock`
 
-2. Click the **Deploy your project** button.
+6. Click **Integration requests** > **+** > the available Snowflake integration
 
-3. Once deployment is successful, click **View** to open your deployed dashboard.
+<img src="assets/publisher-snowflake-integration.png" height="400px">
 
-### Step 11: Access Your Dashboard on Connect
+7. Click the **Deploy your project** button.
 
-After clicking **View**, your dashboard will open in Connect where you can interact with it and share it with your team.
+For more information on the deployment process, see [Publishing from VS Code or Positron](https://docs.posit.co/connect/user/publishing-positron-vscode/) in the Connect user guide.
 
-1. Test your deployed dashboard to ensure it's working as expected.
+### Step 12: Access Your Dashboard on Connect
 
-2. To share your dashboard with others, click the **Settings** pane in the upper-right-hand corner of the content page.
+1. Click on your dashboard in the **Content** tab of Connect.
 
-3. In the **Content URL** section, copy the URL.
+2. Test your deployed dashboard to ensure it's working as expected.
 
-4. Share this URL with your team.
+3. To share your dashboard with others, click the **Settings** pane in the upper-right-hand corner of the content page.
 
-> **Note:** Your dashboard automatically uses viewer-level authentication. Each user who accesses the dashboard will connect with their own Snowflake credentials, ensuring they only see data they have permission to access.
+4. In the **Content URL** section, copy the URL.
+
+5. Share this URL with your team.
+
+> **Note:** Since you added the Snowflake integration to your content before deploying it, your dashboard automatically uses viewer-level authentication. Each user who accesses the dashboard will connect with their own Snowflake credentials, ensuring they only see data they have permission to access.
 
 ## Conclusion and Resources
 
