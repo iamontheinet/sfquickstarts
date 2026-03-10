@@ -300,41 +300,21 @@ library(DBI)
 library(odbc)
 library(dplyr)
 library(dbplyr)
-library(connectapi)
+library(connectcreds)
 
 get_connection <- function() {
   warehouse <- "MORTGAGE_DATA_WH"
   database <- "SNOWFLAKE_PUBLIC_DATA_FREE"
   schema <- "PUBLIC_DATA_FREE"
+  account <- Sys.getenv("SNOWFLAKE_ACCOUNT")
 
-  if (!is.null(Sys.getenv("SNOWFLAKE_HOME", unset = NULL)) &&
-      Sys.getenv("POSIT_PRODUCT") != "CONNECT") {
     con <- DBI::dbConnect(
       odbc::snowflake(),
-      connection_name = "workbench",
+      account = account,
       warehouse = warehouse,
       database = database,
       schema = schema
     )
-  } else if (Sys.getenv("POSIT_PRODUCT") == "CONNECT") {
-    client <- connectapi::connect()
-    user_session_token <- shiny::session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
-    credentials <- connectapi::get_oauth_credentials(client, user_session_token)
-    token <- credentials$access_token
-
-    con <- DBI::dbConnect(
-      odbc::snowflake(),
-      account = "YOUR_ACCOUNT",
-      warehouse = warehouse,
-      database = database,
-      schema = schema,
-      authenticator = "OAUTH",
-      token = token
-    )
-  } else {
-    stop("No Snowflake credentials found.")
-  }
-  return(con)
 }
 
 con <- get_connection()
