@@ -66,7 +66,7 @@ CREATE OR REPLACE WAREHOUSE MORTGAGE_DATA_WH
     INITIALLY_SUSPENDED = TRUE;
 ```
 
-This command creates a small warehouse called `MORTGAGE_DATA_WH` that will be used to query the public dataset. Contact your account administrator if find you do not
+This command creates a small warehouse called `MORTGAGE_DATA_WH` that will be used to query the public dataset. Contact your account administrator if you find you do not
 have the correct role to do this.
 
 ### Step 2: Access the HMDA Dataset
@@ -87,7 +87,7 @@ LIMIT 10;
 
 You should see the first 10 rows of the HMDA dataset, which includes columns about mortgage applications, loan details, applicant information, and property characteristics.
 
-If you find that do not have access to this dataset, please contact your account administrator.
+If you find that you do not have access to this dataset, please contact your account administrator.
 
 ### Step 3: Launch Posit Workbench from the Posit Team Native App
 
@@ -281,7 +281,7 @@ Databot will:
 4. Guide you through discovering available databases, schemas, and tables.
 5. Help you explore Semantic Views if available.
 
-Once connected, you can move on to the next section, which is to [configure the {querychat} and {ellmer} packages to work with your Cortex AI-provided LLM](#configure-your-settings).
+Once connected, you can move on to the next section, which is to [build the LLM dashboard](#phase-4-build-your-dashboard).
 
 #### Connect with Code
 
@@ -563,7 +563,7 @@ Once you click deploy in Positron, Connect handles dependency management and ens
 
 ![](assets/posit-publisher.png)
 
-2. Under **Deployment**, click the **Select..** dropdown. Since this is the first time we've deployed this content,
+2. Under **Deployment**, click the **Select...** dropdown. Since this is the first time we've deployed this content,
 you'll be prompted to create a new deployment. Select the `app.R` file to deploy.
 
 3. Select the Connect deployment or create a new one with the the URL: `https://connect/`.
