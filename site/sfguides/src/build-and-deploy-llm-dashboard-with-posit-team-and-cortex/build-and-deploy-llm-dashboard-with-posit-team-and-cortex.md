@@ -2,19 +2,16 @@ author: Sarah Sdao
 id: build-and-deploy-llm-dashboard-with-posit-team-and-cortex
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions, snowflake-site:taxonomy/industry/financial-services
 language: en
-summary: Build and deploy an interactive LLM-powered dashboard using the Posit Team Native App and Snowflake Cortex
+summary: Build and deploy an interactive Shiny dashboard using the Posit Team Native App and Snowflake Cortex AI for exploratory data analysis
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
-# Build and Deploy an Interactive LLM-Powered Dashboard with the Posit Team Native App and Snowflake Cortex AI
+# Build and Deploy an Interactive Shiny Dashboard with the Posit Team Native App and Snowflake Cortex AI
 
 ## Overview
 
-In this guide, we'll use the Posit Team Snowflake Native App to build an interactive dashboard that lets users explore Home Mortgage Disclosure Act (HMDA) data
-using natural language queries powered by Snowflake Cortex AI. In Posit Workbench, we'll use Positron Assistant and Databot to do some quick, yet powerful
-exploratory data analysis and develop a Shiny application using the {querychat} and {ellmer} R packages. Along the way, we'll deploy the interactive
-dashboard to Posit Connect in Snowflake with one-click publishing for easy sharing across your organization.
+In this guide, we'll use the Posit Team Snowflake Native App to build an interactive dashboard that lets users explore Home Mortgage Disclosure Act (HMDA) data. In Posit Workbench, we'll use Positron Assistant and Databot with Snowflake Cortex AI to do some quick, yet powerful exploratory data analysis and develop a Shiny application. Along the way, we'll deploy the interactive dashboard to Posit Connect in Snowflake with one-click publishing for easy sharing across your organization.
 
 ![](assets/guide-overview.png)
 
@@ -23,19 +20,18 @@ Connect only sees data they have access to.
 
 ![](assets/overview-architecture.png)
 
-By the end of this guide, we'll have a fully functional dashboard where users can ask questions like
-"What are the most common loan types?" or "How do loan approval rates vary by state?" and get instant visualizations and insights.
+By the end of this guide, we'll have a fully functional dashboard where users can explore the data through interactive visualizations and filters, viewing insights about loan types, approval rates by state, and other mortgage lending patterns.
 
 ### What You Will Learn
 
 - How to securely connect to your Snowflake databases from Workbench and the Positron Pro IDE
-- How to leverage Cortex AI using Databot and Positron Assistant to build a Shiny application
-- How to create an LLM-powered chat interface for data exploration
+- How to leverage Cortex AI using Databot and Positron Assistant for exploratory data analysis
+- How to create an interactive Shiny dashboard for data exploration
 - How to deploy and share the dashboard to Connect in Snowflake with one-click publishing
 
 ### What You Will Build
 
-- An interactive Shiny dashboard with natural language query capabilities built using Cortex AI, accessible to your team on Connect in the Posit Team Snowflake Native App
+- An interactive Shiny dashboard with dynamic visualizations and filters for exploring mortgage data, accessible to your team on Connect in the Posit Team Snowflake Native App
 
 ### Prerequisites
 
@@ -202,7 +198,7 @@ and the documentation for all the various Quarto outputs here: <https://quarto.o
 ### Step 5: Install R Packages from `renv.lock`
 
 Our analysis uses the following R packages: [{connectcreds}](https://github.com/posit-dev/connectcreds), [{DBI}](https://dbi.r-dbi.org/),
-[{dplyr}](https://dplyr.tidyverse.org/), [{dbplyr}](https://dbplyr.tidyverse.org/articles/dbplyr.html), [{ellmer}](https://ellmer.tidyverse.org/), [{querychat}](https://posit-dev.github.io/querychat/r/index.html),
+[{dplyr}](https://dplyr.tidyverse.org/), [{dbplyr}](https://dbplyr.tidyverse.org/articles/dbplyr.html),
 [{ggplot2}](https://ggplot2.tidyverse.org/) and [{shiny}](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/),
 plus more for advanced data analysis and deployment to Connect.
 
@@ -261,7 +257,7 @@ Databot will:
 4. Guide you through discovering available databases, schemas, and tables.
 5. Help you explore Semantic Views if available.
 
-Once connected, you can move on to the next section, which is to [build the LLM dashboard](#phase-4-build-your-dashboard).
+Once connected, you can move on to the next section, which is to [build the dashboard](#phase-4-build-your-dashboard).
 
 #### Connect with Code
 
@@ -348,75 +344,25 @@ Create a Quarto report with your findings
 
 ## Phase 4: Build Your Dashboard
 
-### Step 8: Build the LLM Dashboard
+### Step 8: Build the Dashboard
 
-Now that we've done some exploratory data analysis, let's create our interactive dashboard. First we need to configure {ellmer} and {querychat} to use Cortex AI.
-Then we can build the Shiny app.
-
-#### Test {ellmer} connection
-
-When we installed the R packages earlier, {ellmer} was included. However, we still need to configure it to use a Cortex AI-provided LLM and our mortgage data.
-
-The {ellmer} package provides a `chat_snowflake()` function that integrates with Snowflake Cortex AI.
-
-```r
-library(ellmer)
-
-# Initialize chat with Snowflake Cortex AI
-
-chat <- chat(
-  name = "snowflake/claude-sonnet-4-5",
-  system_prompt = "You are a mortgage lending and housing finance data analysis expert",
-  account = Sys.getenv("SNOWFLAKE_ACCOUNT")
-)
-# Test the connection
-response <- chat$chat("What patterns do you see in home mortgage lending data?")
-cat(response)
-```
-
-When you run the cell, the response output will appear in the console.
-
-#### OPTIONAL: Explore with {querychat}
-
-   >  **Note:** `querychat_app()` launches an interactive application that will block further code execution. Close the app
-   and stop the function when you're done exploring to continue with the next steps.
-
-{querychat} creates interactive chat interfaces for data exploration. It uses the secure {ellmer} connection we created above. If you want to interactively explore the data before
-building your custom Shiny app, you can run the function below.
-
-Building on the database and model connection we established above, we can configure {querychat} to work with our mortgage data:
-
-```r
-library(querychat)
-
-querychat_app(
-  data = mortgage_data,
-  client = chat  # Use the configured Snowflake Cortex AI chat
-)
-```
-
-The `querychat_app()` function creates an application that allows users to ask natural language questions about the data. It uses:
-
-- `data`: The database table connection (using `dplyr::tbl()`)
-- `client`: The {ellmer} chat object configured with Snowflake Cortex AI
-
-This simple configuration creates a full interactive dashboard where users can explore the HMDA mortgage data using natural language queries.
+Now that we've done some exploratory data analysis, let's create our interactive dashboard. We'll build a Shiny app that lets users explore the HMDA data through interactive filters and visualizations.
 
 #### Build a Shiny App
 
-Now let's run the following code, which will build a very simple Shiny App to explore the data with {ellmer}.
-Running this code will create a new `app.R` file in the current directory that contains all of your already-established user settings.
+Let's run the following code, which will build a Shiny app to explore the data interactively.
+Running this code will create a new `app.R` file in the current directory that contains all of your already-established connection settings.
 
 ```r
 # Create app.R file with Shiny application code
 app_code <- '
 library(shiny)
-library(ellmer)
 library(DBI)
 library(odbc)
 library(dplyr)
 library(dbplyr)
 library(connectcreds)
+library(ggplot2)
 
 get_connection <- function() {
   warehouse <- "DEFAULT_WH"
@@ -437,43 +383,63 @@ get_connection <- function() {
 
 # Define UI
 ui <- fluidPage(
-  titlePanel("HMDA Data Explorer with Snowflake Cortex AI"),
+  titlePanel("HMDA Mortgage Data Explorer"),
   sidebarLayout(
     sidebarPanel(
-      textAreaInput("user_question", "Ask a question about mortgage data:",
-                    placeholder = "What are the most common loan types?"),
-      actionButton("ask", "Ask Cortex AI")
+      selectInput("loan_type", "Select Loan Type:",
+                  choices = c("All", "Conventional", "FHA", "VA", "FSA/RHS")),
+      selectInput("state", "Select State:",
+                  choices = c("All", "CA", "TX", "FL", "NY", "PA")),
+      sliderInput("loan_amount", "Loan Amount Range:",
+                  min = 0, max = 1000000, value = c(0, 500000),
+                  step = 50000)
     ),
     mainPanel(
-      h4("AI Response:"),
-      verbatimTextOutput("response"),
-      h4("Data Results:"),
-      tableOutput("results")
+      h4("Loan Distribution:"),
+      plotOutput("loan_plot"),
+      h4("Summary Statistics:"),
+      verbatimTextOutput("summary_stats")
     )
   )
 )
 
 # Define server
 server <- function(input, output, session) {
-  # Initialize connection and chat
+  # Initialize connection
   con <- get_connection()
   mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 
-  chat <- chat(
-    name = "snowflake/claude-sonnet-4-5",
-    system_prompt = "You are a mortgage lending and housing finance data analysis expert",
-    account = Sys.getenv("SNOWFLAKE_ACCOUNT")
-  )
+  # Reactive filtered data
+  filtered_data <- reactive({
+    data <- mortgage_data
 
-  observeEvent(input$ask, {
-    req(input$user_question)
+    if (input$loan_type != "All") {
+      data <- data %>% filter(LOAN_TYPE == input$loan_type)
+    }
 
-    output$response <- renderText({
-      chat$chat(input$user_question)
-    })
+    if (input$state != "All") {
+      data <- data %>% filter(STATE == input$state)
+    }
 
-    # Example: Could execute data queries based on the question
-    # This would require parsing the question or using AI to generate queries
+    data %>%
+      filter(LOAN_AMOUNT >= input$loan_amount[1],
+             LOAN_AMOUNT <= input$loan_amount[2])
+  })
+
+  output$loan_plot <- renderPlot({
+    data <- filtered_data() %>% collect()
+
+    ggplot(data, aes(x = LOAN_AMOUNT)) +
+      geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+      theme_minimal() +
+      labs(title = "Distribution of Loan Amounts",
+           x = "Loan Amount ($)",
+           y = "Count")
+  })
+
+  output$summary_stats <- renderPrint({
+    data <- filtered_data() %>% collect()
+    summary(data$LOAN_AMOUNT)
   })
 }
 
@@ -485,17 +451,16 @@ shinyApp(ui = ui, server = server)
 writeLines(app_code, "app.R")
 
 message("Shiny app created successfully!")
-message("- Cortex AI Model: snowflake/claude-sonnet-4-5")
-message("\nRun the app with: shiny::runApp('app.R')")
+message("\nRun the app with: shiny::runApp(\"app.R\")")
 ```
 
 Open the new `app.R` file and click the **Run App** icon to view and use the Shiny app in the **Viewer** pane.
 
 ![](assets/shiny-run-app.png)
 
-#### Start a Chat with Positron Assistant
+#### Enhance Your Dashboard with Positron Assistant
 
-The code above provided a very simple Shiny app, which we might want to adjust to be more visually appealing. Let's let Positron Assistant handle that for us based on our natural language prompts.
+The code above provided a simple Shiny app with basic functionality. You can use Positron Assistant to enhance the dashboard with additional features, better styling, or more complex visualizations.
 
 To start a chat with Positron Assistant, click on the Positron Assistant icon in the toolbar:
 
@@ -503,10 +468,16 @@ To start a chat with Positron Assistant, click on the Positron Assistant icon in
 
 Select a model from the available options. For best results with Cortex AI, we recommend using Claude Sonnet 4.5 or later models.
 
-You can ask Positron Assistant to help improve your Shiny app. Try something like:
+You can ask Positron Assistant to help improve your Shiny app. Try prompts like:
 
 ```
-Can you help me make the app.R file more dynamic and colorful?
+Add a second tab that shows approval rates by state
+```
+
+or
+
+```
+Improve the visual styling of the dashboard with better colors and layout
 ```
 
 Continue to make changes to the app with Positron Assistant until you are happy with how it looks and behaves.
@@ -582,9 +553,9 @@ For more information on the deployment process, see [Publishing from VS Code or 
 
 ### Overview
 
-In this guide, we built a complete LLM-powered dashboard for exploring HMDA mortgage data. We used a Snowflake warehouse
-to query public data, explored data with Databot and {querychat}, developed a Shiny application using Positron Assistant
-and Databot with the {ellmer} R package, and deployed the dashboard to Posit Connect where your team can access it securely.
+In this guide, we built a complete interactive dashboard for exploring HMDA mortgage data. We used a Snowflake warehouse
+to query public data, explored data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
+and deployed the dashboard to Posit Connect where your team can access it securely.
 
 The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI
 with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
@@ -592,10 +563,10 @@ with Posit's authoring and publishing tools enables you to build and share power
 ### What You Learned
 
 - How to access and query Snowflake public datasets using R
-- How to use Databot for exploratory data analysis
+- How to use Databot with Snowflake Cortex AI for exploratory data analysis
 - How to build with multiple environments in mind using connection code that works seamlessly in Workbench, Connect, and local development
 - How to implement viewer-level authentication to ensure each user connects to Snowflake with their own credentials
-- How to create LLM-powered interfaces by configuring {ellmer} and {querychat} to enable natural language data exploration with Snowflake Cortex AI
+- How to create interactive Shiny dashboards with dynamic filters and visualizations for data exploration
 - How to publish Shiny applications to Connect with one-click deployment from Workbench
 
 ### Resources
@@ -604,8 +575,6 @@ with Posit's authoring and publishing tools enables you to build and share power
 - **Snowflake Public Data**: [Using Snowflake Data Marketplace](https://docs.snowflake.com/en/user-guide/data-marketplace)
 - **Positron**: [Positron Documentation](https://positron.posit.co/)
 - **Databot**: [Databot Documentation](https://positron.posit.co/databot.html)
-- **{ellmer}**: [Documentation](https://ellmer.tidyverse.org/)
-- **{querychat}**: [Documentation](https://posit-dev.github.io/querychat/)
 - **Shiny for R**: [Documentation](https://shiny.posit.co/)
 - **Posit Workbench**: [User Guide](https://docs.posit.co/ide/server-pro/user/)
 - **Posit Connect**: [User Guide](https://docs.posit.co/connect/user/)
