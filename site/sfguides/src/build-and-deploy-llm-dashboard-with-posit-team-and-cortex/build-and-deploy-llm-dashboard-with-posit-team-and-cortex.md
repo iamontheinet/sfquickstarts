@@ -40,36 +40,16 @@ By the end of this guide, we'll have a fully functional dashboard where users ca
 ### Prerequisites
 
 - A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with Cortex AI enabled
-- Appropriate access to create data warehouses in Snowflake. This is typically the `sysadmin` role
 - The [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team) must already be installed and configured by an administrator with the `accountadmin` role. You must have been granted access to this app
 - Access to the [`SNOWFLAKE_PUBLIC_DATA_FREE` database](https://app.snowflake.com/marketplace/listing/GZTSZ290BV255/snowflake-public-data-products-snowflake-public-data-free) in Snowsight
 - Familiarity with SQL and R
 
 ## Phase 1: Set Up Your Environment
 
-### Step 1: Create a Warehouse
+### Step 1: Access the HMDA Dataset
 
 For this analysis, we'll use the Home Mortgage Disclosure Act (HMDA) dataset from Snowflake's free public database. This dataset contains mortgage application and
 origination data collected under the HMDA, including information about loan types, applicant demographics, property characteristics, and loan outcomes across different geographic areas.
-
-To work with the dataset, we need a warehouse for our analysis. In Snowsight, open a SQL worksheet (**+** > **SQL File**). Then, paste in and run the following code. Make sure to
-change the role to your own role.
-
-```sql
-USE ROLE SYSADMIN; -- Replace with your actual Snowflake role (e.g., sysadmin)
-
-CREATE OR REPLACE WAREHOUSE MORTGAGE_DATA_WH
-    WAREHOUSE_SIZE = 'xsmall'
-    WAREHOUSE_TYPE = 'standard'
-    AUTO_SUSPEND = 60
-    AUTO_RESUME = TRUE
-    INITIALLY_SUSPENDED = TRUE;
-```
-
-This command creates a small warehouse called `MORTGAGE_DATA_WH` that will be used to query the public dataset. Contact your account administrator if you find you do not
-have the correct role to do this.
-
-### Step 2: Access the HMDA Dataset
 
 The HMDA dataset we'll use is located at:
 
@@ -89,7 +69,7 @@ You should see the first 10 rows of the HMDA dataset, which includes columns abo
 
 If you find that you do not have access to this dataset, please contact your account administrator.
 
-### Step 3: Launch Posit Workbench from the Posit Team Native App
+### Step 2: Launch Posit Workbench from the Posit Team Native App
 
 We can now start exploring the data using Posit Workbench. You can find Workbench within the Posit Team Native App, and use it to connect to your database.
 
@@ -116,7 +96,7 @@ From the Posit Team Native App, click **Posit Workbench**.
 
 You might be prompted to log in to Snowflake using your regular credentials or authentication method.
 
-### Step 4: Create a Positron Pro Session
+### Step 3: Create a Positron Pro Session
 
 Workbench provides several IDEs, including Positron Pro, VS Code, RStudio Pro, and JupyterLab. For this analysis, we will use Positron, the next-generation
 data science IDE built for Python and R. It combines the power of a full-featured IDE with interactive data science tools for Python and R.
@@ -175,7 +155,7 @@ For more information, see the [Shiny extension documentation](https://open-vsx.o
 
 ## Phase 2: Prepare Your Development Environment
 
-### Step 5: Access this Guide's Materials
+### Step 4: Access this Guide's Materials
 
 This guide will walk you through the steps contained in <https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard>. To follow along, clone the repository by following the steps below.
 
@@ -219,7 +199,7 @@ This will run all the code in the document from top to bottom and generate an HT
 Learn more about Quarto here: <https://quarto.org/>,
 and the documentation for all the various Quarto outputs here: <https://quarto.org/docs/guide/>.
 
-### Step 6: Install R Packages from `renv.lock`
+### Step 5: Install R Packages from `renv.lock`
 
 Our analysis uses the following R packages: [{connectcreds}](https://github.com/posit-dev/connectcreds), [{DBI}](https://dbi.r-dbi.org/),
 [{dplyr}](https://dplyr.tidyverse.org/), [{dbplyr}](https://dbplyr.tidyverse.org/articles/dbplyr.html), [{ellmer}](https://ellmer.tidyverse.org/), [{querychat}](https://posit-dev.github.io/querychat/r/index.html),
@@ -242,7 +222,7 @@ You might need to restart your R session once all dependencies are set. Restart 
 
 ## Phase 3: Connect and Explore
 
-### Step 7: Connect to Snowflake Data
+### Step 6: Connect to Snowflake Data
 
 Now that we have our Positron Pro session started with the necessary extensions and dependencies, we can connect to our data in Snowflake.
 There are two ways we can do this: automatically by prompting Databot, or by running some code ourselves.
@@ -298,7 +278,7 @@ library(dbplyr)
 library(connectcreds)
 
 get_connection <- function() {
-  warehouse <- "MORTGAGE_DATA_WH"
+  warehouse <- "DEFAULT_WH"
   database <- "SNOWFLAKE_PUBLIC_DATA_FREE"
   schema <- "PUBLIC_DATA_FREE"
   account <- Sys.getenv("SNOWFLAKE_ACCOUNT")
@@ -319,7 +299,7 @@ message("Successfully established secure connection to Snowflake!")
 
 We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public datasets, all securely within Snowflake.
 
-### Step 8: Explore the Data with Databot
+### Step 7: Explore the Data with Databot
 
 Before building our dashboard, let's use Databot to explore the mortgage data. Unlike general coding assistants, Databot is purpose-built for EDA with rapid iteration of short code snippets that execute quickly.
 
@@ -368,7 +348,7 @@ Create a Quarto report with your findings
 
 ## Phase 4: Build Your Dashboard
 
-### Step 9: Build the LLM Dashboard
+### Step 8: Build the LLM Dashboard
 
 Now that we've done some exploratory data analysis, let's create our interactive dashboard. First we need to configure {ellmer} and {querychat} to use Cortex AI.
 Then we can build the Shiny app.
@@ -439,7 +419,7 @@ library(dbplyr)
 library(connectcreds)
 
 get_connection <- function() {
-  warehouse <- "MORTGAGE_DATA_WH"
+  warehouse <- "DEFAULT_WH"
   database <- "SNOWFLAKE_PUBLIC_DATA_FREE"
   schema <- "PUBLIC_DATA_FREE"
   account <- Sys.getenv("SNOWFLAKE_ACCOUNT")
@@ -533,7 +513,7 @@ Continue to make changes to the app with Positron Assistant until you are happy 
 
 ## Phase 5: Deploy and Share
 
-### Step 10: Obtain your Connect API Key
+### Step 9: Obtain your Connect API Key
 
 Before we start the process to deploy the dashboard to Connect, you need to create and save an API key.
 
@@ -553,7 +533,7 @@ Before we start the process to deploy the dashboard to Connect, you need to crea
 
 6. Copy the key to somewhere secure. You will need it when deploying your content in the next step.
 
-### Step 11: Deploy to Posit Connect
+### Step 10: Deploy to Posit Connect
 
 Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is a one-click process. Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
 
@@ -584,7 +564,7 @@ you'll be prompted to create a new deployment. Select the `app.R` file to deploy
 
 For more information on the deployment process, see [Publishing from VS Code or Positron](https://docs.posit.co/connect/user/publishing-positron-vscode/) in the Connect user guide.
 
-### Step 12: Access Your Dashboard on Connect
+### Step 11: Access Your Dashboard on Connect
 
 1. Click on your dashboard in the **Content** tab of Connect.
 
@@ -602,7 +582,7 @@ For more information on the deployment process, see [Publishing from VS Code or 
 
 ### Overview
 
-In this guide, we built a complete LLM-powered dashboard for exploring HMDA mortgage data. We created a Snowflake warehouse
+In this guide, we built a complete LLM-powered dashboard for exploring HMDA mortgage data. We used a Snowflake warehouse
 to query public data, explored data with Databot and {querychat}, developed a Shiny application using Positron Assistant
 and Databot with the {ellmer} R package, and deployed the dashboard to Posit Connect where your team can access it securely.
 
