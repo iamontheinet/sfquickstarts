@@ -1,5 +1,5 @@
 author: Sarah Sdao
-id: build-and-deploy-llm-dashboard-with-posit-team-and-cortex
+id: build-and-deploy-interactive-dashboard-with-posit-team-and-cortex
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions, snowflake-site:taxonomy/industry/financial-services
 language: en
 summary: Build and deploy an interactive Shiny dashboard using the Posit Team Native App and Snowflake Cortex AI for exploratory data analysis
@@ -20,7 +20,7 @@ Connect only sees data they have access to.
 
 ![](assets/overview-architecture.png)
 
-By the end of this guide, we'll have a fully functional dashboard where users can explore the data through interactive visualizations and filters, viewing insights about loan types, approval rates by state, and other mortgage lending patterns.
+By the end of this guide, we'll have a fully functional dashboard where users can explore the data through interactive visualizations and filters, viewing insights about loan amounts, key metrics (total loans, average loan amounts, and total loan volume), and year-over-year lending trends.
 
 ### What You Will Learn
 
@@ -71,18 +71,16 @@ We can now start exploring the data using Posit Workbench. You can find Workbenc
 
 #### Open the Posit Team Native App
 
-In Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Apps** > the Posit Team Native App.
-
-If you do not see the Posit Team Native App listed, contact your Snowflake account administrator to:
-- Install the [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team) from the Marketplace
-- [Configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Native App and its products
-- Grant you access to the app
-
-Once you locate the app, click on it to open the Posit Team Native App page.
+In Snowsight, navigate to **Horizon Catalog** > **Catalog** > **Apps** > Posit Team.
 
 Click **Launch app**.
 
 ![](assets/snowflake-launch-app.png)
+
+> If you do not see the Posit Team Native App listed, contact your Snowflake account administrator to:
+> - Install the [Posit Team Snowflake Native App](https://app.snowflake.com/marketplace/listing/GZTSZMCB9S/posit-pbc-posit-team) from the Marketplace
+> - [Configure](https://docs.posit.co/partnerships/snowflake/posit-team/) the Posit Team Native App and its products
+> - Grant you access to the app
 
 #### Open Workbench from the Posit Team Native App
 
@@ -109,10 +107,8 @@ data science IDE built for Python and R. It combines the power of a full-feature
 
 ![](assets/workbench-snowflake-login-success.png)
 
-   - This lets your Workbench session securely inherit your Snowflake role, which grants you access to data warehouses and compute resources using your existing Snowflake
-  identity.
-  - For more information on how Workbench uses your Snowflake credentials, see the [Workbench-managed Snowflake credentials](https://docs.posit.co/ide/server-pro/user/posit-workbench/managed-credentials/snowflake.html)
-  section of the Workbench user guide.
+  - This lets your Workbench session securely inherit your Snowflake role, which grants you access to data warehouses and compute resources using your existing Snowflake identity.
+  - For more information on how Workbench uses your Snowflake credentials, see the [Workbench-managed Snowflake credentials](https://docs.posit.co/ide/server-pro/user/posit-workbench/managed-credentials/snowflake.html) section of the Workbench user guide.
 
 4. Click **Launch** to launch Positron Pro. If desired, you can check the **Auto-join session** option to automatically open the IDE when the session is ready.
 
@@ -122,7 +118,7 @@ The analysis contained in this guide requires you to have some extensions instal
 
 #### Get the Shiny Extension
 
-The Shiny VS Code extension supports the development of Shiny apps in Positron. The Shiny Extension is included automatically in Positron as a [bootstrapped extension](https://positron.posit.co/extensions.html#bootstrapped-extensions).
+The Shiny extension supports the development of Shiny apps in Positron. The Shiny extension is included automatically in Positron as a [bootstrapped extension](https://positron.posit.co/extensions.html#bootstrapped-extensions).
 
 First, we need to make sure we have it installed and enabled:
 
@@ -199,16 +195,22 @@ and the documentation for all the various Quarto outputs here: <https://quarto.o
 
 Our analysis uses the following R packages: [{connectcreds}](https://github.com/posit-dev/connectcreds), [{DBI}](https://dbi.r-dbi.org/),
 [{dplyr}](https://dplyr.tidyverse.org/), [{dbplyr}](https://dbplyr.tidyverse.org/articles/dbplyr.html),
-[{ggplot2}](https://ggplot2.tidyverse.org/) and [{shiny}](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/),
+[{ggplot2}](https://ggplot2.tidyverse.org/), [{scales}](https://scales.r-lib.org/), and [{shiny}](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/),
 plus more for advanced data analysis and deployment to Connect.
 
 These dependencies are all found in the file `renv.lock`. We can automatically install all dependencies by running the `renv::restore()`
 function. These dependencies will carry over to our Connect deployment as well.
 
-Open the `quarto.qmd` file in your current directory in Positron. Then run the following code chunk:
+Open the `quarto.qmd` file in your current directory in Positron. Then run the following code chunk to install the `renv` package:
 
 ```r
 install.packages("renv")
+```
+
+Now you can install all of the packages and dependencies needed for this analysis at once by running `renv::restore`:
+
+
+```r
 renv::restore()
 ```
 
@@ -243,10 +245,10 @@ Databot runs with your available Cortex AI LLMs, keeping your data secure and pr
 
 3. The Databot panel will open, ready to analyze your mortgage data. Ensure you are still in your R session within the Databot dialog.
 
-In the Databot panel, simply enter:
+In the Databot panel, enter:
 
 ```
-Help me connect to Snowflake
+Help me connect to Snowflake and create a `mortgage_data` table from the `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES`.
 ```
 
 Databot will:
@@ -289,7 +291,7 @@ get_connection <- function() {
 }
 
 con <- get_connection()
-mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE")
+mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 message("Successfully established secure connection to Snowflake!")
 ```
 
@@ -299,7 +301,7 @@ We have now used Workbench, Positron, and R to connect to the HMDA mortgage data
 
 Before building our dashboard, let's use Databot to explore the mortgage data. Unlike general coding assistants, Databot is purpose-built for EDA with rapid iteration of short code snippets that execute quickly.
 
-With your connection to the `HOME_MORTGAGE_DISCLOSURE` table established (from the previous section), you can now ask Databot
+With your connection to the `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES` table established (from the previous section), you can now ask Databot
 to explore the data. Try these prompts:
 
 **Understand the dataset structure:**
@@ -363,6 +365,7 @@ library(dplyr)
 library(dbplyr)
 library(connectcreds)
 library(ggplot2)
+library(scales)
 
 get_connection <- function() {
   warehouse <- "DEFAULT_WH"
@@ -389,7 +392,7 @@ ui <- fluidPage(
       selectInput("loan_type", "Select Loan Type:",
                   choices = c("All", "Conventional", "FHA", "VA", "FSA/RHS")),
       selectInput("state", "Select State:",
-                  choices = c("All", "CA", "TX", "FL", "NY", "PA")),
+                  choices = c("All", "California", "Texas", "Florida", "New York", "Pennsylvania")),
       sliderInput("loan_amount", "Loan Amount Range:",
                   min = 0, max = 1000000, value = c(0, 500000),
                   step = 50000)
@@ -397,8 +400,10 @@ ui <- fluidPage(
     mainPanel(
       h4("Loan Distribution:"),
       plotOutput("loan_plot"),
-      h4("Summary Statistics:"),
-      verbatimTextOutput("summary_stats")
+      h4("Key Metrics:"),
+      verbatimTextOutput("key_metrics"),
+      h4("Year Trends:"),
+      plotOutput("year_plot")
     )
   )
 )
@@ -409,37 +414,88 @@ server <- function(input, output, session) {
   con <- get_connection()
   mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 
+  # Close connection when session ends
+  onStop(function() {
+    dbDisconnect(con)
+  })
+
   # Reactive filtered data
   filtered_data <- reactive({
-    data <- mortgage_data
+    # Extract slider values into local variables before using in filter
+    min_amount <- input$loan_amount[1]
+    max_amount <- input$loan_amount[2]
+
+    data <- mortgage_data %>%
+      filter(LOAN_AMOUNT >= min_amount,
+             LOAN_AMOUNT <= max_amount)
 
     if (input$loan_type != "All") {
       data <- data %>% filter(LOAN_TYPE == input$loan_type)
     }
 
     if (input$state != "All") {
-      data <- data %>% filter(STATE == input$state)
+      data <- data %>% filter(STATE_NAME == input$state)
     }
 
-    data %>%
-      filter(LOAN_AMOUNT >= input$loan_amount[1],
-             LOAN_AMOUNT <= input$loan_amount[2])
+    # Limit to 10,000 rows for performance
+    result <- data %>%
+      head(10000) %>%
+      collect()
+
+    result
   })
 
   output$loan_plot <- renderPlot({
-    data <- filtered_data() %>% collect()
+    data <- filtered_data()
 
-    ggplot(data, aes(x = LOAN_AMOUNT)) +
-      geom_histogram(bins = 30, fill = "steelblue", color = "white") +
-      theme_minimal() +
-      labs(title = "Distribution of Loan Amounts",
-           x = "Loan Amount ($)",
-           y = "Count")
+    if (nrow(data) == 0) {
+      plot.new()
+      text(0.5, 0.5, "No data available for the selected filters", cex = 1.5)
+    } else {
+      ggplot(data, aes(x = LOAN_AMOUNT)) +
+        geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+        scale_x_continuous(labels = label_dollar(scale_cut = cut_short_scale())) +
+        theme_minimal() +
+        labs(title = paste("Distribution of Loan Amounts (", nrow(data), "loans)"),
+             x = "Loan Amount",
+             y = "Count")
+    }
   })
 
-  output$summary_stats <- renderPrint({
-    data <- filtered_data() %>% collect()
-    summary(data$LOAN_AMOUNT)
+  output$key_metrics <- renderPrint({
+    data <- filtered_data()
+    if (nrow(data) == 0) {
+      cat("No data available for the selected filters")
+    } else {
+      total_loans <- nrow(data)
+      avg_loan <- mean(data$LOAN_AMOUNT, na.rm = TRUE)
+      total_volume <- sum(data$LOAN_AMOUNT, na.rm = TRUE)
+
+      cat(sprintf("Total Loans: %s\\n", format(total_loans, big.mark = ",")))
+      cat(sprintf("Average Loan Amount: %s\\n", dollar(avg_loan)))
+      cat(sprintf("Total Loan Volume: %s\\n", dollar(total_volume)))
+    }
+  })
+
+  output$year_plot <- renderPlot({
+    data <- filtered_data()
+
+    if (nrow(data) == 0) {
+      plot.new()
+      text(0.5, 0.5, "No data available for the selected filters", cex = 1.5)
+    } else {
+      year_summary <- data %>%
+        group_by(YEAR) %>%
+        summarise(count = n(), .groups = "drop")
+
+      ggplot(year_summary, aes(x = factor(YEAR), y = count)) +
+        geom_col(fill = "steelblue") +
+        theme_minimal() +
+        labs(title = "Loan Count by Year",
+             x = "Year",
+             y = "Number of Loans") +
+        scale_y_continuous(labels = label_comma())
+    }
   })
 }
 
@@ -506,7 +562,7 @@ Before we start the process to deploy the dashboard to Connect, you need to crea
 
 ### Step 10: Deploy to Posit Connect
 
-Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is a one-click process. Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
+Now that your dashboard works locally and looks how you'd like it to, let's deploy it to Connect so your team can access it. Deployment is an incredibly simple process. Because Workbench and Connect run within the same Native App, the complex network and authentication challenges are eliminated.
 
 Once you click deploy in Positron, Connect handles dependency management and ensures your code runs successfully as a deployed artifact.
 
