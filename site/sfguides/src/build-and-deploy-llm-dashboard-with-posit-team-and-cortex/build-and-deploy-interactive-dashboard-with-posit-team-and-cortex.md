@@ -157,10 +157,10 @@ This guide will walk you through the steps contained in <https://github.com/posi
    - Type "File: Open Folder", and press `enter`.
    - Navigate to your home directory and click **OK**.
 
-2. Clone the [GitHub repo](https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard/) by running the following command in a terminal:
+2. Clone the [GitHub repo](https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard#) by running the following command in a terminal:
 
    ```bash
-   git clone https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard/
+   git clone https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard/
    ```
 
    > If you don't already see a terminal open, open the Command Palette (`Ctrl/Cmd+Shift+P`), then select **Terminal: Create New Terminal** to open one.
