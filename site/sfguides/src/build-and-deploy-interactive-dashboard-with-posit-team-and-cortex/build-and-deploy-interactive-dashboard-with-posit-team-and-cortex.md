@@ -112,38 +112,25 @@ data science IDE built for Python and R. It combines the power of a full-feature
 
 4. Click **Launch** to launch Positron Pro. If desired, you can check the **Auto-join session** option to automatically open the IDE when the session is ready.
 
-#### Install the Necessary Extensions
+#### Ensure You Have the Necessary Extensions
 
-The analysis contained in this guide requires you to have some extensions installed. You can install them from the [Extensions view](https://docs.posit.co/ide/server-pro/user/positron/guide/extensions.html).
+The analysis contained in this guide requires you to have some extensions installed and enabled. You can verify that you have them from the [Extensions view](https://docs.posit.co/ide/server-pro/user/positron/guide/extensions.html).
 
-#### Get the Shiny Extension
+- The [Shiny extension]((https://open-vsx.org/extension/posit/shiny)) supports the development of Shiny apps in Positron.
+- [Posit Publisher](https://docs.posit.co/connect/user/publishing-positron-vscode/) lets you start the deployment of projects to Connect from Positron with a single click.
 
-The Shiny extension supports the development of Shiny apps in Positron. The Shiny extension is included automatically in Positron as a [bootstrapped extension](https://positron.posit.co/extensions.html#bootstrapped-extensions).
-
-First, we need to make sure we have it installed and enabled:
+Both of these extensions are included automatically in Positron as [bootstrapped extensions](https://positron.posit.co/extensions.html#bootstrapped-extensions). Before we dive into our data analysis, let's make sure we have them installed and enabled:
 
 1. Open the Positron Extensions view: on the left-hand side of Positron Pro, click the Extensions icon in the activity bar to open the Extensions Marketplace.
 
-2. Search for "Shiny" to find the Shiny extension.
+2. Search for "Shiny" or "Posit Publisher" to find the extensions. For example:
 
 ![](assets/positron-shiny-extension.png)
 
-3. Verify that you have the Shiny extension:
-  - If it is already installed and enabled, you will see a wheel icon.
+3. Verify that you have each extension:
+  - If an extension is already installed and enabled, you will see a wheel icon.
   - If it is not already installed, click **Install**.
-  - If you cannot install it yourself or you find that the extension is disabled, ask your administrator for access.
-
-For more information, see the [Shiny extension documentation](https://open-vsx.org/extension/posit/shiny).
-
-#### Get the Posit Publisher Extension
-
-[Posit Publisher](https://docs.posit.co/connect/user/publishing-positron-vscode/) lets you start the deployment of projects to Connect from Positron with a single click.
-
-1. Open the Positron Extensions view: on the left-hand side of Positron Pro, click the Extensions icon in the activity bar to open the Extensions Marketplace.
-
-2. Search for "Posit Publisher".
-
-3. Click **Install** to add the Publisher extension.
+  - If you cannot install the extensinos yourself or you find that they are disabled, ask your administrator for access.
 
 ## Phase 2: Prepare Your Development Environment
 
@@ -207,8 +194,13 @@ Open the `quarto.qmd` file in your current directory in Positron. Then run the f
 install.packages("renv")
 ```
 
-Now you can install all of the packages and dependencies needed for this analysis at once by running `renv::restore`:
+Next, activate the `renv` environment and run:
 
+```r
+renv::activate()
+```
+
+Finally, you need to restore all required packages from the lockfile by running:
 
 ```r
 renv::restore()
@@ -248,7 +240,7 @@ Databot runs with your available Cortex AI LLMs, keeping your data secure and pr
 In the Databot panel, enter:
 
 ```
-Help me connect to Snowflake and create a `mortgage_data` table from the `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES`.
+Help me connect to Snowflake.
 ```
 
 Databot will:
@@ -259,7 +251,7 @@ Databot will:
 4. Guide you through discovering available databases, schemas, and tables.
 5. Help you explore Semantic Views if available.
 
-Once connected, you can move on to the next section, which is to [build the dashboard](#phase-4-build-your-dashboard).
+Once connected, you can move on to the next section, which is to [explore the data with Databot](#step-7-explore-the-data-with-databot).
 
 #### Connect with Code
 
@@ -281,18 +273,18 @@ get_connection <- function() {
   schema <- "PUBLIC_DATA_FREE"
   account <- Sys.getenv("SNOWFLAKE_ACCOUNT")
 
-    con <- DBI::dbConnect(
-      odbc::snowflake(),
-      account = account,
-      warehouse = warehouse,
-      database = database,
-      schema = schema
-    )
-}
+  con <- DBI::dbConnect(
+    odbc::snowflake(),
+    account = account,
+    warehouse = warehouse,
+    database = database,
+    schema = schema
+  )
 
 con <- get_connection()
 mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 message("Successfully established secure connection to Snowflake!")
+}
 ```
 
 We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public datasets, all securely within Snowflake.
@@ -307,7 +299,7 @@ to explore the data. Try these prompts:
 **Understand the dataset structure:**
 
 ```
-Explore the mortgage_data and summarize its structure
+Explore `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES` from the `SNOWFLAKE_PUBLIC_DATA_FREE` database and summarize its structure
 ```
 
 Databot will generate and execute code to show you the columns, data types, and basic statistics.
@@ -613,14 +605,13 @@ In this guide, we built a complete interactive dashboard for exploring HMDA mort
 to query public data, explored data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
 and deployed the dashboard to Posit Connect where your team can access it securely.
 
-The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI
-with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
+The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
 
 ### What You Learned
 
-- How to access and query Snowflake public datasets using R
+- How to access Snowflake public datasets using Positron and R
 - How to use Databot with Snowflake Cortex AI for exploratory data analysis
-- How to build with multiple environments in mind using connection code that works seamlessly in Workbench, Connect, and local development
+- How to build with multiple environments in mind using connection code that works seamlessly in Workbench and Connect
 - How to implement viewer-level authentication to ensure each user connects to Snowflake with their own credentials
 - How to create interactive Shiny dashboards with dynamic filters and visualizations for data exploration
 - How to publish Shiny applications to Connect with one-click deployment from Workbench
