@@ -149,7 +149,7 @@ For more information, see the [Shiny extension documentation](https://open-vsx.o
 
 ### Step 4: Access this Guide's Materials
 
-This guide will walk you through the steps contained in <https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard>. To follow along, clone the repository by following the steps below.
+This guide will walk you through the steps contained in <https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard>. To follow along, clone the repository by following the steps below.
 
 1. Open your home folder:
 
@@ -157,7 +157,7 @@ This guide will walk you through the steps contained in <https://github.com/posi
    - Type "File: Open Folder", and press `enter`.
    - Navigate to your home directory and click **OK**.
 
-2. Clone the [GitHub repo](https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard#) by running the following command in a terminal:
+2. Clone the [GitHub repo](https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard) by running the following command in a terminal:
 
    ```bash
    git clone https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard/
@@ -171,12 +171,12 @@ This guide will walk you through the steps contained in <https://github.com/posi
 
    - Press `Ctrl/Cmd+Shift+P` to open the Command Palette.
    - Select **File: Open Folder**.
-   - Navigate to `snowflake-posit-build-deploy-LLM-dashboard` and click **OK**.
+   - Navigate to `snowflake-posit-build-deploy-interactive-dashboard` and click **OK**.
 
 ## Explore Quarto
 
 Before we dive into our data analysis, let's first discuss Quarto. We've documented the code for this guide in a Quarto document,
-[quarto.qmd](https://github.com/posit-dev/snowflake-posit-build-deploy-LLM-dashboard/blob/main/quarto.qmd).
+[quarto.qmd](https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard/blob/main/quarto.qmd).
 
 A Quarto document can be thought of as a regular markdown document, but with the ability to run code chunks. You can run any of the code chunks by clicking the `Run Cell` button above the chunk in Positron Pro.
 
@@ -263,7 +263,7 @@ Once connected, you can move on to the next section, which is to [build the dash
 
 #### Connect with Code
 
-You can also connect to your data using the `quarto.qmd` file from `snowflake-posit-build-deploy-LLM-dashboard`. Click the **Run Cell** button to run the next R code chunk in the `quarto.qmd` file.
+You can also connect to your data using the `quarto.qmd` file from `snowflake-posit-build-deploy-interactive-dashboard`. Click the **Run Cell** button to run the next R code chunk in the `quarto.qmd` file.
 
 The code uses {dplyr}, which provides an intuitive way to work with database tables in R. To ensure our connection works across different environments (development,
 Workbench, and Connect), the code uses {dbplyr}, {DBI}, {odbc}, and {connectcreds} to create a flexible connection function.
