@@ -11,7 +11,7 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
 ## Overview
 
-In this guide, we'll use the Posit Team Snowflake Native App to build an interactive dashboard that lets users explore Home Mortgage Disclosure Act (HMDA) data. In Posit Workbench, we'll use Positron Assistant and Databot with Snowflake Cortex AI to do some quick, yet powerful exploratory data analysis and develop a Shiny application. Along the way, we'll deploy the interactive dashboard to Posit Connect in Snowflake with one-click publishing for easy sharing across your organization.
+In this guide, we'll use the Posit Team Snowflake Native App to build an interactive dashboard that lets users explore Home Mortgage Disclosure Act (HMDA) data. In Posit Workbench, we'll use Positron Assistant and Databot with Snowflake Cortex AI to do some quick, yet powerful exploratory data analysis. Then, we'll create an interactive Shiny app and deploy it to Posit Connect in Snowflake with one-click publishing for easy sharing across your organization.
 
 ![](assets/guide-overview.png)
 
@@ -53,7 +53,7 @@ The HMDA dataset we'll use is located at:
 - **Schema:** `PUBLIC_DATA_FREE`
 - **Table:** `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES`
 
-To verify you have access to this data, run the following query in your SQL worksheet:
+To verify you have access to this data, navigate to Snowight and click **+** > **SQL File** . Then run the following query:
 
 ```sql
 SELECT *
@@ -63,7 +63,7 @@ LIMIT 10;
 
 You should see the first 10 rows of the HMDA dataset, which includes columns about mortgage applications, loan details, applicant information, and property characteristics.
 
-If you find that you do not have access to this dataset, please contact your account administrator.
+> If you find that you do not have access to this dataset, please contact your account administrator.
 
 ### Step 2: Launch Posit Workbench from the Posit Team Native App
 
@@ -130,7 +130,7 @@ Both of these extensions are included automatically in Positron as [bootstrapped
 3. Verify that you have each extension:
   - If an extension is already installed and enabled, you will see a wheel icon.
   - If it is not already installed, click **Install**.
-  - If you cannot install the extensinos yourself or you find that they are disabled, ask your administrator for access.
+  - If you cannot install the extensions yourself or you find that they are disabled, ask your administrator for access.
 
 ## Phase 2: Prepare Your Development Environment
 
@@ -138,7 +138,7 @@ Both of these extensions are included automatically in Positron as [bootstrapped
 
 This guide will walk you through the steps contained in <https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard>. To follow along, clone the repository by following the steps below.
 
-1. Open your home folder:
+1. Open your home folder in Positron:
 
    - Press `Ctrl/Cmd+Shift+P` to open the Command Palette.
    - Type "File: Open Folder", and press `enter`.
@@ -175,8 +175,7 @@ To render and preview the entire document, click the `Preview` button or run `qu
 
 This will run all the code in the document from top to bottom and generate an HTML file, by default, for you to view and share.
 
-Learn more about Quarto here: <https://quarto.org/>,
-and the documentation for all the various Quarto outputs here: <https://quarto.org/docs/guide/>.
+Learn more about Quarto here: <https://quarto.org/>.
 
 ### Step 5: Install R Packages from `renv.lock`
 
@@ -186,7 +185,7 @@ Our analysis uses the following R packages: [{connectcreds}](https://github.com/
 plus more for advanced data analysis and deployment to Connect.
 
 These dependencies are all found in the file `renv.lock`. We can automatically install all dependencies by running the `renv::restore()`
-function. These dependencies will carry over to our Connect deployment as well.
+function. These dependencies will carry over to our Connect deployment as well, ensuring your content runs smoothly.
 
 Open the `quarto.qmd` file in your current directory in Positron. Then run the following code chunk to install the `renv` package:
 
@@ -287,7 +286,7 @@ message("Successfully established secure connection to Snowflake!")
 }
 ```
 
-We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public datasets, all securely within Snowflake.
+We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public dataset, all securely within Snowflake.
 
 ### Step 7: Explore the Data with Databot
 
@@ -508,7 +507,7 @@ Open the new `app.R` file and click the **Run App** icon to view and use the Shi
 
 #### Enhance Your Dashboard with Positron Assistant
 
-The code above provided a simple Shiny app with basic functionality. You can use Positron Assistant to enhance the dashboard with additional features, better styling, or more complex visualizations.
+The code above provided a simple Shiny app with basic functionality and appearance. You can use Positron Assistant with Cortex AI to enhance the dashboard with additional features, better styling, or more complex visualizations.
 
 To start a chat with Positron Assistant, click on the Positron Assistant icon in the toolbar:
 
@@ -585,7 +584,7 @@ For more information on the deployment process, see [Publishing from VS Code or 
 
 ### Step 11: Access Your Dashboard on Connect
 
-1. Click on your dashboard in the **Content** tab of Connect.
+1. Go back to Connect in the Posit Team Native App. Click the **Content** tab, and then your deployed dashboard.
 
 2. Test your deployed dashboard to ensure it's working as expected.
 
@@ -601,15 +600,14 @@ For more information on the deployment process, see [Publishing from VS Code or 
 
 ### Overview
 
-In this guide, we built a complete interactive dashboard for exploring HMDA mortgage data. We used a Snowflake warehouse
-to query public data, explored data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
+In this guide, connected securely to Snowflake data using Posit Workbench in the Posit Team Native App, explored the data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
 and deployed the dashboard to Posit Connect where your team can access it securely.
 
 The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
 
 ### What You Learned
 
-- How to access Snowflake public datasets using Positron and R
+- How to access Snowflake public datasets using Workbench, Positron, and R
 - How to use Databot with Snowflake Cortex AI for exploratory data analysis
 - How to build with multiple environments in mind using connection code that works seamlessly in Workbench and Connect
 - How to implement viewer-level authentication to ensure each user connects to Snowflake with their own credentials
