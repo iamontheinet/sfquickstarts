@@ -160,7 +160,7 @@ This guide will walk you through the steps contained in <https://github.com/posi
    - Select **File: Open Folder**.
    - Navigate to `snowflake-posit-build-deploy-interactive-dashboard` and click **OK**.
 
-## Explore Quarto
+#### Explore Quarto
 
 Before we dive into our data analysis, let's first discuss Quarto. We've documented the code for this guide in a Quarto document,
 [quarto.qmd](https://github.com/posit-dev/snowflake-posit-build-deploy-interactive-dashboard/blob/main/quarto.qmd).
