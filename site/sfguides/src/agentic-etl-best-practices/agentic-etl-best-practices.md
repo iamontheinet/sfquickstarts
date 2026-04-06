@@ -1,3 +1,11 @@
+author: Jacob Prall
+id: agentic-etl-best-practices
+language: en
+summary: Learn best practices for building production-ready ETL pipelines with Cortex Code, Snowflake's AI coding agent, using natural language prompts for ingestion, transformation, orchestration, and monitoring.
+categories: snowflake-site:taxonomy/solution-center/ai-ml/quickstart
+environments: web
+status: Published
+
 # Agentic ETL Best Practices with Cortex Code
 
 ## Build Production-Ready Data Pipelines with Natural Language

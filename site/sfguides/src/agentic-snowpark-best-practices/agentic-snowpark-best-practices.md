@@ -1,3 +1,11 @@
+author: Jacob Prall
+id: agentic-snowpark-best-practices
+language: en
+summary: Learn best practices for writing production-grade Snowpark Python with Cortex Code, Snowflake's AI coding agent, using natural language prompts for transformations, UDFs, stored procedures, and performance optimization.
+categories: snowflake-site:taxonomy/solution-center/ai-ml/quickstart
+environments: web
+status: Published
+
 # Agentic Data Engineering with Snowpark Best Practices Using Cortex Code
 
 ## Write Production-Grade Snowpark Python Without the Boilerplate
