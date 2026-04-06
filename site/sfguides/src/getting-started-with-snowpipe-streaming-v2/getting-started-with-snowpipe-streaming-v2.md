@@ -2,19 +2,19 @@ author: Vino Duraisamy, Chase Thomas
 id: getting-started-with-snowpipe-streaming-v2
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: Stream data into Snowflake in real-time using Snowpipe Streaming V2 (high-performance architecture) with the Python SDK and monitor it with a live Streamlit dashboard.
+summary: Stream data into Snowflake in real-time using Snowpipe Streaming high-performance architecture with the Python SDK and monitor it with a live Streamlit dashboard.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
-# Getting Started with Snowpipe Streaming V2 and Cortex Code
+# Getting Started with Snowpipe Streaming high-performance architecture and Cortex Code
 <!---------------------------->
 
 ## Overview
 
 Duration: 3
 
-Getting data into Snowflake shouldn't require staging files, managing pipes, or writing boilerplate infrastructure code. With [Snowpipe Streaming V2](https://www.snowflake.com/en/engineering-blog/next-gen-snowpipe-streaming-architecture/) (SSV2), our next-gen high-performance architecture lets you stream rows directly into Snowflake tables with low latency — no staging files, no explicit pipe creation required.
+Getting data into Snowflake shouldn't require staging files, managing pipes, or writing boilerplate infrastructure code. With [Snowpipe Streaming high-performance architecture](https://www.snowflake.com/en/engineering-blog/next-gen-snowpipe-streaming-architecture/), our next-gen architecture lets you stream rows directly into Snowflake tables with low latency — no staging files, no explicit pipe creation required.
 
 The key difference from classic Snowpipe Streaming is the use of a **default auto-created pipe**. When you first stream data into a table, Snowflake automatically creates a managed pipe named `<TABLE_NAME>-streaming`. There is no `CREATE PIPE` SQL needed.
 
@@ -28,7 +28,7 @@ In this guide, you will build an end-to-end streaming pipeline in under a few mi
 
 ### What You Will Learn
 
-- How Snowpipe Streaming V2 (SSV2) works
+- How Snowpipe Streaming high-performance architecture works
 - How to configure RSA key-pair (JWT) authentication for the Python SDK
 - How to use the `snowpipe-streaming` Python SDK to open channels and stream rows
 - How to deploy a real-time Streamlit in Snowflake dashboard
@@ -373,7 +373,7 @@ Create a file called `streamlit_app.py` in your `~/ssv2-quickstart` directory:
 import streamlit as st
 import time
 
-st.set_page_config(page_title="SSV2 Streaming Monitor", layout="wide")
+st.set_page_config(page_title="Snowpipe Streaming high-performance architecture Monitor", layout="wide")
 
 conn = st.connection("snowflake")
 
@@ -382,7 +382,7 @@ SCHEMA   = "SSV2_SCHEMA"
 TABLE    = "SSV2_QUICKSTART_USERS"
 REFRESH_INTERVAL = 2
 
-st.title("Snowpipe Streaming V2 — Live Monitor")
+st.title("Snowpipe Streaming high-performance architecture — Live Monitor")
 st.caption(f"Reading from `{DATABASE}.{SCHEMA}.{TABLE}` · refreshes every {REFRESH_INTERVAL}s")
 
 try:
@@ -475,7 +475,7 @@ CREATE OR REPLACE STREAMLIT SSV2_QUICKSTART_DB.SSV2_SCHEMA.SSV2_LIVE_MONITOR
     ROOT_LOCATION = '@SSV2_QUICKSTART_DB.SSV2_SCHEMA.SSV2_STREAMLIT_STAGE'
     MAIN_FILE = 'streamlit_app.py'
     QUERY_WAREHOUSE = <YOUR_WAREHOUSE>
-    TITLE = 'SSV2 Streaming Monitor';
+    TITLE = 'Snowpipe Streaming high-performance architecture Monitor';
 
 -- Get the URL to open the dashboard
 SHOW STREAMLITS IN SCHEMA SSV2_QUICKSTART_DB.SSV2_SCHEMA;
@@ -672,11 +672,11 @@ Here is how the skill maps to the steps you completed manually in this guide:
 
 Duration: 1
 
-Congratulations! You have successfully built an end-to-end real-time streaming pipeline using Snowpipe Streaming V2 and seen how Cortex Code can automate the entire workflow with a single prompt.
+Congratulations! You have successfully built an end-to-end real-time streaming pipeline using Snowpipe Streaming high-performance architecture and seen how Cortex Code can automate the entire workflow with a single prompt.
 
 ### What You Learned
 
-- **Snowpipe Streaming V2** uses a high-performance architecture with default auto-created pipes — no `CREATE PIPE` SQL needed
+- **Snowpipe Streaming high-performance architecture** uses default auto-created pipes — no `CREATE PIPE` SQL needed
 - The default pipe follows the naming convention `<TABLE_NAME>-streaming` (with a **hyphen**)
 - The Python SDK authenticates via **RSA key-pair (JWT)** and streams rows through channels
 - **Streamlit in Snowflake** can be used to build real-time monitoring dashboards with zero local infrastructure
