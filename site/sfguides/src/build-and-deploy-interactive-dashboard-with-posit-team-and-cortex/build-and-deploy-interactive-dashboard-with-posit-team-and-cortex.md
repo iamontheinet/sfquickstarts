@@ -53,7 +53,7 @@ The HMDA dataset we'll use is located at:
 - **Schema:** `PUBLIC_DATA_FREE`
 - **Table:** `HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES`
 
-To verify you have access to this data, navigate to Snowight and click **+** > **SQL File** . Then run the following query:
+To verify you have access to this data, navigate to Snowsight and click **+** > **SQL File** . Then run the following query:
 
 ```sql
 SELECT *
@@ -116,7 +116,7 @@ data science IDE built for Python and R. It combines the power of a full-feature
 
 The analysis contained in this guide requires you to have some extensions installed and enabled. You can verify that you have them from the [Extensions view](https://docs.posit.co/ide/server-pro/user/positron/guide/extensions.html).
 
-- The [Shiny extension]((https://open-vsx.org/extension/posit/shiny)) supports the development of Shiny apps in Positron.
+- The [Shiny extension](https://open-vsx.org/extension/posit/shiny) supports the development of Shiny apps in Positron.
 - [Posit Publisher](https://docs.posit.co/connect/user/publishing-positron-vscode/) lets you start the deployment of projects to Connect from Positron with a single click.
 
 Both of these extensions are included automatically in Positron as [bootstrapped extensions](https://positron.posit.co/extensions.html#bootstrapped-extensions). Before we dive into our data analysis, let's make sure we have them installed and enabled:
@@ -280,10 +280,12 @@ get_connection <- function() {
     schema = schema
   )
 
+  return(con)
+}
+
 con <- get_connection()
 mortgage_data <- tbl(con, "HOME_MORTGAGE_DISCLOSURE_ATTRIBUTES")
 message("Successfully established secure connection to Snowflake!")
-}
 ```
 
 We have now used Workbench, Positron, and R to connect to the HMDA mortgage data in Snowflake's public dataset, all securely within Snowflake.
@@ -565,7 +567,7 @@ Once you click deploy in Positron, Connect handles dependency management and ens
 2. Under **Deployment**, click the **Select...** dropdown. Since this is the first time we've deployed this content,
 you'll be prompted to create a new deployment. Select the `app.R` file to deploy.
 
-3. Select the Connect deployment or create a new one with the the URL: `https://connect/`.
+3. Select the Connect deployment or create a new one with the URL: `https://connect/`.
 
 ![](assets/deploy-connect.png)
 
@@ -601,7 +603,7 @@ For more information on the deployment process, see [Publishing from VS Code or 
 
 ### Overview
 
-In this guide, connected securely to Snowflake data using Posit Workbench in the Posit Team Native App, explored the data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
+In this guide, we connected securely to Snowflake data using Posit Workbench in the Posit Team Native App, explored the data with Databot powered by Cortex AI, developed a Shiny application using Positron Assistant,
 and deployed the dashboard to Posit Connect where your team can access it securely.
 
 The steps we took along the way easily transfer to other datasets and use cases. This pattern of combining Snowflake's data platform and Cortex AI with Posit's authoring and publishing tools enables you to build and share powerful data applications quickly.
