@@ -26,7 +26,7 @@ By the end of this guide, we'll have a fully functional dashboard where users ca
 
 - How to securely connect to your Snowflake databases from Workbench and the Positron Pro IDE
 - How to leverage Cortex AI using Databot and Positron Assistant for exploratory data analysis
-- How to create an interactive Shiny dashboard for data exploration
+- How to create an interactive Shiny dashboard for data exploration and use Positron Assistant to refine it
 - How to deploy and share the dashboard to Connect in Snowflake with one-click publishing
 
 ### What You Will Build
@@ -329,7 +329,8 @@ Databot will examine the dataset for completeness and potential problems.
 
 **Create a Quarto report:**
 
-Once you are done exploring the data, you can create a Quarto report so you can reproduce the analysis another time or share the information with your team. Just ask Databot to create a report:
+Once you are done exploring the data, you can create a Quarto report so you can reproduce the analysis another time or share the information with your team. Just ask Databot to create a report by calling
+`/report`, or by entering:
 
 ```
 Create a Quarto report with your findings
