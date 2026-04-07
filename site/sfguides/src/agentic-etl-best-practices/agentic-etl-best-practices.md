@@ -32,7 +32,7 @@ To use Cortex Code from your terminal, VS Code, or Cursor, install the CLI:
 curl -LsS https://ai.snowflake.com/static/cc-scripts/install.sh | sh
 ```
 
-For more details see the [Cortex Code CLI documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli). You can also try the CLI with a [30-day Cortex Code CLI trial](signup.snowflake.com).
+For more details see the [Cortex Code CLI documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli). You can also try the CLI with a [30-day Cortex Code CLI trial](https://signup.snowflake.com).
 
 ## Terminology
 
