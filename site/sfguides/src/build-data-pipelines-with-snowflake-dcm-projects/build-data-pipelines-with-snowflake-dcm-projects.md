@@ -377,8 +377,6 @@ Since none of the defined objects exist yet, the plan will show only **CREATE** 
 2. Optionally, add a **Deployment alias** (e.g., "Initial platform deployment").
 3. DCM will create all objects and attach grants using the owner role of the project object.
 
-![Platform deploy dialog](assets/platform_deploy_dialog.png)
-
 Alternatively, you can deploy from SQL using the `EXECUTE DCM PROJECT` command. Make sure you are using the `DCM_DEVELOPER` role, and replace `YOUR_USERNAME` with your Snowflake username:
 
 ```sql
@@ -390,8 +388,6 @@ EXECUTE DCM PROJECT dcm_demo.projects.dcm_platform_dev DEPLOY
 ```
 
 Once the deployment completes, refresh the Database Explorer. You should see `DCM_DEMO_2_DEV` (the shared raw database), `DCM_DEMO_2_FINANCE_DEV` (the Finance team's database), and `DCM_DEMO_2_MARKETING_DEV` (the Marketing team's database).
-
-![Database Explorer showing platform objects](assets/platform_deployed_objects.png)
 
 <!-- ------------------------ -->
 ## Load Sample Data
@@ -642,8 +638,6 @@ The plan should show CREATE statements for:
 1. Click **Deploy** in the top-right corner of the Plan results.
 2. Add a deployment alias (e.g., "Initial pipeline deployment").
 
-![Pipeline deploy dialog](assets/pipeline_deploy_dialog.png)
-
 Alternatively, you can deploy from SQL using the `EXECUTE DCM PROJECT` command. Make sure you are using the `DCM_DEMO_2_FINANCE_DEV_ADMIN` role, and replace `YOUR_USERNAME` with your Snowflake username:
 
 ```sql
@@ -655,8 +649,6 @@ EXECUTE DCM PROJECT dcm_demo_2_finance_dev.projects.finance_pipeline DEPLOY
 ```
 
 Once the deployment completes, refresh the Database Explorer. You should see the `SILVER` and `GOLD` schemas inside `DCM_DEMO_2_FINANCE_DEV`, each populated with Dynamic Tables and views.
-
-![Database Explorer showing pipeline objects](assets/pipeline_deployed_objects.png)
 
 <!-- ------------------------ -->
 ## Query the Results
