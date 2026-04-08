@@ -2,7 +2,7 @@ author: Pavan Pothukuchi, Caleb Baechtold, Lucy Zhu, Sho Tanaka
 id: getting-started-with-cortex-code-in-snowsight-for-data-science-ml
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai
 language: en
-summary: Build a fraud detection ML model end-to-end using Cortex Code in Snowsight — from synthetic data generation to model training, registry, and batch inference.
+summary: Build a customer lifetime value (LTV) prediction model end-to-end using Cortex Code in Snowsight — from synthetic data generation to model training, registry, and batch inference.
 environments: web
 status: Draft
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -12,7 +12,7 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 <!-- ------------------------ -->
 ## Overview
 
-[Cortex Code](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code) is an AI-powered coding agent that helps you build, debug, and deploy Snowflake applications through natural language conversations. In this quickstart, you will use Cortex Code in Snowsight Workspaces to build a complete ML workflow — generating synthetic financial transaction data, performing exploratory data analysis (EDA), training a fraud detection model, logging it to the Snowflake Model Registry, and running batch inference on a Snowflake Warehouse.
+[Cortex Code](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code) is an AI-powered coding agent that helps you build, debug, and deploy Snowflake applications through natural language conversations. In this quickstart, you will use Cortex Code in Snowsight Workspaces to build a complete ML workflow — generating synthetic e-commerce transaction data, performing exploratory data analysis (EDA), training a customer lifetime value (LTV) prediction model, logging it to the Snowflake Model Registry, and running batch inference on a Snowflake Warehouse.
 
 This guide walks through the Snowsight Workspaces experience, which offers an interactive environment with visualizations, a curated Python environment, and automated Notebook cell creation and execution. The same prompts also work in the [Cortex Code CLI](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli).
 
@@ -23,15 +23,15 @@ This guide walks through the Snowsight Workspaces experience, which offers an in
 ### What You Will Learn
 
 - How to perform EDA and feature engineering using natural language prompts
-- How to train and compare multiple ML models inside Snowflake
+- How to train and compare multiple regression models inside Snowflake
 - How to log models with metrics to the Snowflake Model Registry
 - How to run batch inference on a Snowflake Warehouse
 
 ### What You Will Build
 
-An end-to-end fraud detection pipeline including:
-- A synthetic financial transactions dataset (~100,000 rows with ~0.5% fraud)
-- A trained binary classification model (comparing two algorithms)
+An end-to-end customer LTV prediction pipeline including:
+- A synthetic e-commerce transactions dataset (~500 customers, ~100,000 transactions over 18 months)
+- A trained regression model that predicts a customer's total spend in the next 90 days
 - A registered model in the Snowflake Model Registry with evaluation metrics
 - Batch inference predictions via Snowflake Warehouse
 
@@ -64,23 +64,23 @@ CREATE OR REPLACE FILE FORMAT ml_csvformat
   FIELD_OPTIONALLY_ENCLOSED_BY = '"'
   TYPE = 'CSV';
 
-CREATE OR REPLACE STAGE ml_fraud_data_stage
+CREATE OR REPLACE STAGE ml_ltv_data_stage
   FILE_FORMAT = ml_csvformat
-  URL = 's3://sfquickstarts/sfguide_getting_started_with_cortex_code_for_ds_ml/fraud_transactions/';
+  URL = 's3://sfquickstarts/sfguide_getting_started_with_cortex_code_for_ds_ml/ltv_transactions/';
 
-CREATE OR REPLACE TABLE ML_FRAUD_TRANSACTIONS (
+CREATE OR REPLACE TABLE ML_LTV_TRANSACTIONS (
   TRANSACTION_ID NUMBER(38,0),
+  CUSTOMER_ID NUMBER(38,0),
   TRANSACTION_TIME TIMESTAMP_NTZ(9),
   AMOUNT NUMBER(10,2),
-  MERCHANT VARCHAR(16777216),
-  LOCATION VARCHAR(16777216),
-  IS_FRAUD BOOLEAN
+  PRODUCT_CATEGORY VARCHAR(16777216),
+  CHANNEL VARCHAR(16777216)
 );
 
-COPY INTO ML_FRAUD_TRANSACTIONS
-  FROM @ml_fraud_data_stage;
+COPY INTO ML_LTV_TRANSACTIONS
+  FROM @ml_ltv_data_stage;
 
-SELECT 'Setup complete — ML_FRAUD_TRANSACTIONS loaded.' AS STATUS;
+SELECT 'Setup complete — ML_LTV_TRANSACTIONS loaded.' AS STATUS;
 ```
 
 **Step 2.** Create or open a **Workspace** from the left navigation.
@@ -92,29 +92,30 @@ You are now ready to start prompting Cortex Code to build your ML pipeline.
 <!-- ------------------------ -->
 ## Optional - Generate Synthetic Data
 
-The `setup.sql` in the previous step already loads the `ML_FRAUD_TRANSACTIONS` table from S3. You can skip this step and proceed directly to Exploratory Data Analysis.
+The `setup.sql` in the previous step already loads the `ML_LTV_TRANSACTIONS` table from S3. You can skip this step and proceed directly to Exploratory Data Analysis.
 
 If you want to experience generating data with Cortex Code, use the following prompt. Note that this will **replace** the pre-loaded data.
 
 ```
-Generate realistic looking synthetic data in CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA. Create a table
-ML_FRAUD_TRANSACTIONS with 100000 financial transactions where ~0.5% of
-them are fraudulent. Include Amount, Location, Merchant, and Time. Make the
-fraudulent ones look suspicious based on location or amount, but add realistic
-noise: ~1/3 of fraud transactions should have normal-looking patterns (typical
-amounts, common locations, regular hours), and ~2% of legitimate transactions
-should have suspicious characteristics (high amounts, unusual locations, or odd
-hours).
+Generate realistic looking synthetic e-commerce transaction data in
+CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA. Create a table ML_LTV_TRANSACTIONS
+with ~100000 transactions from ~500 customers over an 18-month period. Include
+CUSTOMER_ID, TRANSACTION_TIME, AMOUNT, PRODUCT_CATEGORY, and CHANNEL. Make the
+data realistic: customers should have varying purchase frequencies (some buy
+weekly, others monthly), amounts should vary by category (electronics $50-$2000,
+groceries $10-$200, apparel $20-$500), and channels should be web, mobile, or
+in-store. About 10% of customers should be high-value (frequent buyers with
+higher average spend).
 ```
 
-> Replace `CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA` with your target database and schema if you have.
+> Replace `CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA` with your target database and schema if you have one.
 
 Cortex Code generates the SQL or Python code to create and populate the table, then executes it in your Snowflake account. You will see the code and results appear in a new Notebook in your Workspace.
 
 <!-- ------------------------ -->
 ## Confirm Sample Data
 
-Before you start EDA and model training, confirm that the sample dataset is loaded and that Cortex Code is “grounded” to the right database and schema.
+Before you start EDA and model training, confirm that the sample dataset is loaded and that Cortex Code is "grounded" to the right database and schema.
 
 ### Select the Schema in Cortex Code
 
@@ -129,15 +130,16 @@ Before you start EDA and model training, confirm that the sample dataset is load
 Use Cortex Code with the following prompt:
 
 ```
-Confirm that CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA.ML_FRAUD_TRANSACTIONS exists and that it contains data. Show me:
-- row count
-- fraud rate (percent where IS_FRAUD = TRUE)
+Confirm that CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA.ML_LTV_TRANSACTIONS exists and that it contains data. Show me:
+- total row count and number of unique customers
+- date range of transactions
+- average transaction amount by product category
 - a few sample rows
 ```
 
 If the table is empty (or missing), re-run `setup.sql` from the Setup section and repeat the steps above.
 
-After you run the prompt, you should see a short summary (row count and fraud rate) and a small sample of rows.
+After you run the prompt, you should see a summary (row count, customer count, date range, and category breakdown) and a small sample of rows.
 
 ![Sample data verification result in Cortex Code](assets/snowsight-cortex-code-confirm-sample-data.jpg)
 
@@ -145,46 +147,46 @@ After you run the prompt, you should see a short summary (row count and fraud ra
 <!-- ------------------------ -->
 ## Exploratory Data Analysis (EDA)
 
-Next, analyze the patterns in the data to identify the right features for the model:
+Next, analyze the patterns in the data to identify the right features for predicting customer lifetime value:
 
 ```
-Do EDA and recommend the features needed to train a model that can predict fraud
+Do EDA and recommend the features needed to train a regression model that can predict each customer's total spend in the next 90 days
 ```
 
-Cortex Code typically breaks this into multiple steps (for example, analyzing amount, location, time-based patterns, and top merchants) and then summarizes key findings with recommended features.
+Cortex Code typically breaks this into multiple steps (for example, analyzing purchase frequency, spending distributions, recency patterns, and category preferences) and then summarizes key findings with recommended features.
 
 ![EDA results and feature recommendations in Cortex Code](assets/snowsight-cortex-code-eda-feature-recommendations.jpg)
 
-In this example, Cortex Code identifies signals such as higher average amounts for fraud, fraud hotspots by location/merchant, and time-of-day effects. These insights translate into features like log(amount), hour-of-day/day-of-week, and categorical encodings for merchant and location.
-
+In this example, Cortex Code identifies signals such as purchase frequency trends, average order value by customer segment, recency of last purchase, and preferred product categories. These insights translate into features like total_transactions, avg_amount, days_since_last_purchase, favorite_category, and channel_distribution.
 
 The EDA step typically reveals patterns such as:
-- Fraudulent transactions tend to have higher amounts
-- Certain locations or merchant categories have elevated fraud rates
-- Transactions at unusual hours may correlate with fraud
+- High-value customers purchase more frequently and have higher average order values
+- Recency of last purchase is a strong predictor of future spend
+- Certain product categories correlate with higher lifetime value
+- Channel preferences (web vs. mobile vs. in-store) vary across customer segments
 
 Cortex Code will recommend features to use in the model based on these findings.
 
 <!-- ------------------------ -->
 ## Train the Model
 
-Now build the features and train a classification model:
+Now build the features and train a regression model:
 
 ```
-Build those features and train a model. Let's use two different algorithms and evaluate the best one. Use 20% of the data as the eval set.
+Build those features and train a regression model to predict each customer's total spend in the next 90 days. Use two different algorithms and evaluate the best one. Use 20% of the data as the eval set.
 ```
 
 Cortex Code typically creates a Notebook, generates feature engineering steps, trains two models, and reports evaluation metrics so you can choose the best performer.
 
 ![Training and evaluation workflow created by Cortex Code](assets/snowsight-cortex-code-train-two-models.jpg)
 
-In this example, Cortex Code generates SQL/Python for feature engineering, runs training/evaluation steps, and produces a comparison section (metrics like AUC, precision/recall, and a confusion matrix) to help you pick the best model.
+In this example, Cortex Code generates Python for feature engineering (aggregating per-customer metrics from the transaction history), runs training/evaluation steps, and produces a comparison section (metrics like RMSE, MAE, and R-squared) to help you pick the best model.
 
 Cortex Code will:
-1. Engineer the features based on the EDA recommendations
+1. Engineer the features based on the EDA recommendations (per-customer aggregations over the training window)
 2. Split the data into training (80%) and evaluation (20%) sets
-3. Train two different classification algorithms (e.g., Random Forest and XGBoost)
-4. Compare their performance using metrics such as precision, recall, F1 score, and AUC-ROC
+3. Train two different regression algorithms (e.g., Random Forest Regressor and XGBoost Regressor)
+4. Compare their performance using metrics such as RMSE, MAE, and R-squared
 5. Recommend the better-performing model
 
 Review the evaluation metrics to confirm the model meets your requirements before proceeding.
@@ -202,42 +204,38 @@ Cortex Code handles the `log_model()` call with appropriate parameters including
 
 ![Model logged to Snowflake Model Registry with metrics](assets/snowsight-cortex-code-model-registry-log-model.jpg)
 
-In this example, the output confirms the model was registered successfully and shows key evaluation metrics recorded with the model version.
+In this example, the output confirms the model was registered successfully and shows key evaluation metrics (RMSE, MAE, R-squared) recorded with the model version.
 
 <!-- ------------------------ -->
 ## Run Batch Inference
 
-Generate sample data and run batch predictions:
+Generate customer feature profiles and run batch LTV predictions:
 
 ```
-Create 100 sample requests with a mix of potential fraud and legit transactions and run the predictions for them.
+Create feature profiles for 50 customers and run LTV predictions for them. Show the top 10 highest predicted LTV customers.
 ```
 
-![Batch inference results for 100 sample requests](assets/snowsight-cortex-code-batch-inference-100-requests.jpg)
+![Batch inference results for LTV predictions](assets/snowsight-cortex-code-batch-inference-100-requests.jpg)
 
-In this example, Cortex Code generates the 100 requests, runs inference via your Snowflake Warehouse, and summarizes the predicted fraud vs. legitimate counts (with a detailed results table).
+In this example, Cortex Code generates the customer feature profiles, runs inference via your Snowflake Warehouse, and displays the predicted 90-day spend for each customer (sorted by highest predicted LTV).
 
-Cortex Code creates test transactions and calls the registered model's `predict` method using your Snowflake Warehouse. The results include the predicted class (fraud/legitimate) along with probability scores.
+Cortex Code creates test customer profiles and calls the registered model's `predict` method using your Snowflake Warehouse. The results include the predicted spend amount for the next 90 days.
 
 <!-- ------------------------ -->
-## Conclusion And Resources
+## Conclusion and Resources
 
-Congratulations! You have successfully built and deployed a fraud detection ML model using Cortex Code in Snowsight — from data generation through batch inference on a Snowflake Warehouse.
+Congratulations! You have successfully built and deployed a customer LTV prediction model using Cortex Code in Snowsight — from data generation through batch inference on a Snowflake Warehouse.
 
 ### What You Learned
 
 - How to use Cortex Code in Snowsight to generate realistic synthetic data with natural language prompts
 - How to perform exploratory data analysis and feature engineering conversationally
-- How to train, compare, and select ML models inside Snowflake
+- How to train, compare, and select regression models inside Snowflake
 - How to log models with metrics to the Snowflake Model Registry
 - How to run batch inference on a Snowflake Warehouse
 
 ### Related Resources
 
-- [Getting Started with Cortex Code CLI for Data Science ML](https://www.snowflake.com/en/developers/guides/getting-started-with-cortex-code-cli-for-data-science-ml/) — companion guide for CLI + SPCS online inference
 - [Cortex Code in Snowsight Documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-snowsight)
-- [Cortex Code CLI Documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli)
 - [Snowflake Model Registry](https://docs.snowflake.com/en/developer-guide/snowflake-ml/model-registry/overview)
-- [Credit Card Fraud Detection using Snowflake ML](https://www.snowflake.com/en/developers/guides/credit-card-fraud-detection-using-snowflake-ml/)
 - [Best Practices for Cortex Code CLI](https://www.snowflake.com/en/developers/guides/best-practices-cortex-code-cli/)
-
