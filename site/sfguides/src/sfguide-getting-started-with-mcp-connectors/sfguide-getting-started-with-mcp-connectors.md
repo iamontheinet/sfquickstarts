@@ -1,8 +1,8 @@
 author: Josh Reini
-id: sfguide-manage-specialized-mcp-agents
+id: sfguide-getting-started-with-mcp-connectors
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai
 language: en
-summary: Build domain-scoped Cortex Agents backed by Snowflake-managed MCP servers and external MCP connectors, all governed via Snowflake RBAC.
+summary: Build domain-scoped Cortex Agents backed by Snowflake-managed MCP servers and external MCP connectors, all governed in Snowflake.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -36,7 +36,7 @@ Snowflake Intelligence (MCP Client)
 | Cortex Search Services | 3 | Employee handbook, IT incidents, invoices |
 | Semantic Views | 8 | Compensation, benefits, org, budget, product usage, spend, P&L, infra, SLA |
 | Tables | 16 | Across HR, Finance, and IT schemas |
-| RBAC Roles | 2 | `hr_analyst_role`, `finance_analyst_role` |
+| RBAC Roles | 3 | `hr_analyst_role`, `finance_analyst_role`, `it_ops_role` |
 
 ### What You'll Learn
 
@@ -82,7 +82,7 @@ CREATE SCHEMA IF NOT EXISTS ACME_CORP.IT;
 
 ### Create Tables
 
-The full table definitions and sample data are in [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql). Run the table creation section (Step 1) to get all 16 tables populated:
+The full table definitions and sample data are in [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-getting-started-with-mcp-connectors/assets/setup.sql). Run the table creation section (Step 1) to get all 16 tables populated:
 
 | Schema | Tables |
 |---|---|
@@ -90,72 +90,10 @@ The full table definitions and sample data are in [setup.sql](https://github.com
 | `FINANCE` | `budgets`, `expenses`, `financial_reports`, `spend_approvals`, `product_usage`, `invoices` |
 | `IT` | `incidents`, `services`, `sla_records`, `infrastructure_assets` |
 
-> **Tip:** You can run the entire [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql) file at once in a Snowsight SQL worksheet to create all objects in one shot.
+> **Tip:** You can run the entire [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-getting-started-with-mcp-connectors/assets/setup.sql) file at once in a Snowsight SQL worksheet to create all objects in one shot.
 
 <!-- ------------------------ -->
-## Semantic Views
-
-Create semantic views to enable natural-language-to-SQL via Cortex Analyst. The setup script creates 8 semantic views. Here are two examples:
-
-### Compensation (HR)
-
-```sql
-CREATE OR REPLACE SEMANTIC VIEW ACME_CORP.HR.comp_semantic_view
-  TABLES (
-    employees AS ACME_CORP.HR.employees PRIMARY KEY (employee_id),
-    compensation_bands AS ACME_CORP.HR.compensation_bands PRIMARY KEY (band_id)
-      UNIQUE (level, department)
-  )
-  RELATIONSHIPS (
-    employees (level, department) REFERENCES compensation_bands (level, department)
-  )
-  FACTS (
-    employees.salary AS salary,
-    compensation_bands.min_salary AS min_salary,
-    compensation_bands.max_salary AS max_salary
-  )
-  DIMENSIONS (
-    employees.name AS name COMMENT = 'Full name of the employee',
-    employees.department AS department COMMENT = 'Department',
-    employees.title AS title COMMENT = 'Job title',
-    employees.level AS level COMMENT = 'Career level from L4 to L9'
-  )
-  METRICS (
-    employees.headcount AS COUNT(employee_id) COMMENT = 'Total number of employees',
-    employees.average_salary AS AVG(salary) COMMENT = 'Average employee salary',
-    employees.total_payroll AS SUM(salary) COMMENT = 'Total salary expenditure'
-  );
-```
-
-### Budgets (Finance)
-
-```sql
-CREATE OR REPLACE SEMANTIC VIEW ACME_CORP.FINANCE.budget_semantic_view
-  TABLES (
-    budgets AS ACME_CORP.FINANCE.budgets PRIMARY KEY (budget_id),
-    expenses AS ACME_CORP.FINANCE.expenses PRIMARY KEY (expense_id)
-  )
-  FACTS (
-    budgets.allocated_amount AS allocated_amount,
-    budgets.spent_amount AS spent_amount,
-    expenses.amount AS amount
-  )
-  DIMENSIONS (
-    budgets.department AS department COMMENT = 'Department name',
-    budgets.fiscal_quarter AS fiscal_quarter COMMENT = 'Fiscal quarter (Q1-Q4)',
-    expenses.category AS category COMMENT = 'Expense category'
-  )
-  METRICS (
-    budgets.total_allocated AS SUM(allocated_amount) COMMENT = 'Total budget allocated',
-    budgets.total_spent AS SUM(spent_amount) COMMENT = 'Total budget spent',
-    expenses.total_expenses AS SUM(amount) COMMENT = 'Total expense amount'
-  );
-```
-
-See [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql) (Step 3) for all 8 semantic view definitions.
-
-<!-- ------------------------ -->
-## Internal MCP Servers
+## Snowflake Managed MCP Servers
 
 MCP servers wrap your Cortex Search services and Semantic Views as discoverable tools for agents.
 
@@ -214,10 +152,10 @@ Each connector follows the same pattern:
 4. Add it to an agent (next step)
 
 > aside positive
-> **Callback URLs:** Your OAuth app configuration needs this redirect URI for Snowflake Intelligence:
-> - `<your_snowsight_url>/oauth/complete-secret`
+> **Callback URL:** Your OAuth app needs this redirect URI:
+> `<your_snowsight_url>/oauth/complete-secret`
 >
-> Get the Snowsight URL from `SELECT SYSTEM$ALLOWLIST()` -- pick the entry of type `SNOWSIGHT_DEPLOYMENT` starting with `apps-api`.
+> Get the Snowsight URL from `SELECT SYSTEM$ALLOWLIST()` — look for the `SNOWSIGHT_DEPLOYMENT` entry starting with `apps-api`.
 
 ### Option A: Atlassian (Jira & Confluence)
 
@@ -353,9 +291,11 @@ CREATE EXTERNAL MCP SERVER ACME_CORP.FINANCE.salesforce_mcp_server
 <!-- ------------------------ -->
 ## Cortex Agents
 
-Create agents that wire together internal MCP servers and (optionally) your external connectors. These agents are accessed through **Snowflake Intelligence**, which acts as the MCP client.
+Create agents that wire together Snowflake-managed MCP servers and (optionally) your external connectors. These agents are accessed through **Snowflake Intelligence**, which acts as the MCP client.
 
-### Domain Agent Example
+External connectors go in the same `mcp_servers` array as internal servers. Add whichever connectors you created in the previous step, or omit them entirely.
+
+### HR Assistant
 
 ```sql
 CREATE OR REPLACE AGENT ACME_CORP.HR.hr_agent
@@ -375,39 +315,72 @@ CREATE OR REPLACE AGENT ACME_CORP.HR.hr_agent
     "mcp_servers": [
       {"server_spec": {"name": "ACME_CORP.HR.handbook_comp_server"}},
       {"server_spec": {"name": "ACME_CORP.HR.benefits_server"}},
-      {"server_spec": {"name": "ACME_CORP.HR.org_server"}}
+      {"server_spec": {"name": "ACME_CORP.HR.org_server"}},
+      {"server_spec": {"name": "ACME_CORP.IT.glean_mcp_server"}}
     ]
   }
   $$;
 ```
 
-### Adding External Connectors to an Agent
+### Finance Assistant
 
-To add external connectors, include them in the `mcp_servers` array alongside the internal servers:
+```sql
+CREATE OR REPLACE AGENT ACME_CORP.FINANCE.finance_agent
+  COMMENT = 'Finance domain agent'
+  PROFILE = '{"display_name": "Finance Assistant"}'
+  FROM SPECIFICATION $$
+  {
+    "models": {"orchestration": "claude-sonnet-4-5"},
+    "instructions": {
+      "orchestration": "You are a finance assistant for Acme Corp. Use budget_analyst for budget questions. Use product_analytics for product usage and revenue. Use invoice_search for invoice lookups. Use approval_search or spend_analytics for spend requests. Use financial_reporting for P&L. Present data in markdown tables with currency formatting. Be concise.",
+      "sample_questions": [
+        {"question": "Show me all pending invoices. What is the total outstanding amount?"},
+        {"question": "What is the gross margin by department for Q1 2025?"},
+        {"question": "Which department has the highest budget utilization in Q1 2025?"}
+      ]
+    },
+    "mcp_servers": [
+      {"server_spec": {"name": "ACME_CORP.FINANCE.budget_server"}},
+      {"server_spec": {"name": "ACME_CORP.FINANCE.product_usage_server"}},
+      {"server_spec": {"name": "ACME_CORP.FINANCE.invoice_search_server"}},
+      {"server_spec": {"name": "ACME_CORP.FINANCE.spend_approvals_server"}},
+      {"server_spec": {"name": "ACME_CORP.FINANCE.reporting_server"}},
+      {"server_spec": {"name": "ACME_CORP.FINANCE.salesforce_mcp_server"}}
+    ]
+  }
+  $$;
+```
+
+### IT Ops Assistant
 
 ```sql
 CREATE OR REPLACE AGENT ACME_CORP.IT.it_agent
-  COMMENT = 'IT domain agent with external connector'
+  COMMENT = 'IT domain agent'
   PROFILE = '{"display_name": "IT Ops Assistant"}'
   FROM SPECIFICATION $$
   {
     "models": {"orchestration": "claude-sonnet-4-5"},
     "instructions": {
-      "orchestration": "You are an IT operations assistant. Use incident_search for incident lookups. Use infra_health and sla_compliance for infrastructure monitoring. Present data in markdown tables. Be concise."
+      "orchestration": "You are an IT operations assistant for Acme Corp. Use incident_search for incident lookups. Use infra_health and sla_compliance for infrastructure monitoring. Present data in markdown tables. Be concise.",
+      "sample_questions": [
+        {"question": "What P1 incidents occurred in March 2025?"},
+        {"question": "Which SLAs were breached in Q1 2025?"},
+        {"question": "Show me all unresolved incidents."}
+      ]
     },
     "mcp_servers": [
       {"server_spec": {"name": "ACME_CORP.IT.incident_server"}},
       {"server_spec": {"name": "ACME_CORP.IT.infra_monitor_server"}},
-      {"server_spec": {"name": "ACME_CORP.IT.atlassian_mcp_server"}}
+      {"server_spec": {"name": "ACME_CORP.IT.atlassian_mcp_server"}},
+      {"server_spec": {"name": "ACME_CORP.IT.github_mcp_server"}},
+      {"server_spec": {"name": "ACME_CORP.IT.linear_mcp_server"}}
     ]
   }
   $$;
 ```
 
-> aside negative
-> Replace or add to the external MCP server entries with whichever connectors you created in the previous step. If you skipped that step, simply omit the external server entries.
-
-See [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql) for all 3 agent definitions (HR, Finance, IT).
+> aside positive
+> Remove any external `server_spec` entries for connectors you didn't create in the previous step. The agents work fine with only the Snowflake-managed servers.
 
 <!-- ------------------------ -->
 ## RBAC for MCP Servers
@@ -423,12 +396,15 @@ Role  -->  Agent  -->  MCP Server  -->  Tools  -->  Data
 ```sql
 CREATE ROLE IF NOT EXISTS hr_analyst_role;
 CREATE ROLE IF NOT EXISTS finance_analyst_role;
+CREATE ROLE IF NOT EXISTS it_ops_role;
 
 GRANT USAGE ON WAREHOUSE COMPUTE TO ROLE hr_analyst_role;
 GRANT USAGE ON WAREHOUSE COMPUTE TO ROLE finance_analyst_role;
+GRANT USAGE ON WAREHOUSE COMPUTE TO ROLE it_ops_role;
 
 GRANT USAGE ON DATABASE ACME_CORP TO ROLE hr_analyst_role;
 GRANT USAGE ON DATABASE ACME_CORP TO ROLE finance_analyst_role;
+GRANT USAGE ON DATABASE ACME_CORP TO ROLE it_ops_role;
 ```
 
 ### HR Analyst Grants
@@ -452,6 +428,7 @@ GRANT USAGE ON AGENT ACME_CORP.HR.hr_agent TO ROLE hr_analyst_role;
 |---|---|---|
 | `hr_analyst_role` | HR Assistant, HR MCP servers | Finance, IT agents |
 | `finance_analyst_role` | Finance Assistant, Finance MCP servers | HR, IT agents |
+| `it_ops_role` | IT Ops Assistant, IT MCP servers | HR, Finance agents |
 
 Restricted roles don't see a "permission denied" error. The agent simply isn't visible in their namespace.
 
@@ -478,21 +455,23 @@ Restricted roles don't see a "permission denied" error. The agent simply isn't v
 ```sql
 GRANT ROLE hr_analyst_role TO USER <your_username>;
 GRANT ROLE finance_analyst_role TO USER <your_username>;
+GRANT ROLE it_ops_role TO USER <your_username>;
 ALTER USER <your_username> SET DEFAULT_SECONDARY_ROLES = ();
 ```
 2. In Snowflake Intelligence, switch to `hr_analyst_role` in the role picker
 3. Only the **HR Assistant** is visible -- Finance and IT agents don't appear
 4. Switch to `finance_analyst_role` -- only the **Finance Assistant** is visible
+5. Switch to `it_ops_role` -- only the **IT Ops Assistant** is visible
 
 <!-- ------------------------ -->
 ## Teardown
 
-To drop all demo artifacts, uncomment and run the teardown section at the bottom of [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql). This drops agents, MCP servers, semantic views, search services, tables, schemas, and roles.
+To drop all demo artifacts, uncomment and run the teardown section at the bottom of [setup.sql](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-getting-started-with-mcp-connectors/assets/setup.sql). This drops agents, MCP servers, semantic views, search services, tables, schemas, and roles.
 
 <!-- ------------------------ -->
 ## Conclusion And Resources
 
-Congratulations! You've successfully connected Snowflake Intelligence to Cortex Agents backed by Snowflake-managed MCP servers and external MCP connectors, all governed via Snowflake RBAC.
+Congratulations! You've successfully connected Snowflake Intelligence to Cortex Agents backed by Snowflake-managed MCP servers and external MCP connectors, all governed in Snowflake.
 
 ### What You Learned
 
@@ -514,4 +493,4 @@ Congratulations! You've successfully connected Snowflake Intelligence to Cortex 
 - [Cortex Agents](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents) -- Agent orchestration
 - [Semantic Views](https://docs.snowflake.com/en/user-guide/views-semantic/overview) -- Semantic models for Cortex Analyst
 - [Cortex Search](https://docs.snowflake.com/en/sql-reference/sql/create-cortex-search) -- Unstructured search services
-- [Setup Script](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-manage-specialized-mcp-agents/assets/setup.sql) -- Complete setup SQL with teardown at the bottom
+- [Setup Script](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/sfguide-getting-started-with-mcp-connectors/assets/setup.sql) -- Complete setup SQL with teardown at the bottom
