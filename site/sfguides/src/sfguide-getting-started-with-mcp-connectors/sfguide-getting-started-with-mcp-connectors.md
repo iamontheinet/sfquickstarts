@@ -151,11 +151,11 @@ Each connector follows the same pattern:
 3. Create an External MCP Server that references the integration
 4. Add it to an agent (next step)
 
-> aside positive
-> **Callback URL:** Your OAuth app needs this redirect URI:
-> `<your_snowsight_url>/oauth/complete-secret`
->
-> Get the Snowsight URL from `SELECT SYSTEM$ALLOWLIST()` — look for the `SNOWSIGHT_DEPLOYMENT` entry starting with `apps-api`.
+aside positive
+**Callback URL:** Your OAuth app needs this redirect URI:
+`<your_snowsight_url>/oauth/complete-secret`
+
+Get the Snowsight URL from `SELECT SYSTEM$ALLOWLIST()` — look for the `SNOWSIGHT_DEPLOYMENT` entry starting with `apps-api`.
 
 ### Option A: Atlassian (Jira & Confluence)
 
@@ -379,8 +379,8 @@ CREATE OR REPLACE AGENT ACME_CORP.IT.it_agent
   $$;
 ```
 
-> aside positive
-> Remove any external `server_spec` entries for connectors you didn't create in the previous step. The agents work fine with only the Snowflake-managed servers.
+aside positive
+Remove any external `server_spec` entries for connectors you didn't create in the previous step. The agents work fine with only the Snowflake-managed servers.
 
 <!-- ------------------------ -->
 ## RBAC for MCP Servers
