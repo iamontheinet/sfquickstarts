@@ -7,6 +7,8 @@ environments: web
 status: Published
 feedback link: https://github.com/manisrinivasan2k1/sfquickstarts/issues
 
+# Build a Due Diligence and Investment Research Agent in Snowflake Using Tavily
+<!-- ------------------------ -->
 ## Overview
 
 ![Snowflake x Tavily](assets/snowflakextavily.png)
