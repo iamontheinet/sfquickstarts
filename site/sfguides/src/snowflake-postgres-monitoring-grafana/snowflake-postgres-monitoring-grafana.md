@@ -11,20 +11,21 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 <!-- ------------------------ -->
 ## Overview
 
-This guide walks through setting up Postgres monitoring dashboards in Grafana using the Snowflake data source plugin. Grafana connects directly to Snowflake and queries the event table where Postgres logs are stored, giving you real-time dashboards, log exploration, and alerting without any intermediate pipeline.
+This guide walks through setting up Postgres monitoring dashboards in Grafana using the Snowflake data source plugin. Grafana connects directly to Snowflake and queries the event table where Postgres logs are stored, giving you metrics, real-time dashboards, log exploration, and alerting without any intermediate pipeline.
 
-**What you'll build:** A Grafana monitoring setup where Snowflake Postgres logs are queried directly from the event table and visualized in dashboards for log exploration, slow query tracking, error monitoring, and connection activity.
+Snowflake Postgres logs and metrics are routed through Snowflake's account-level event table at `SNOWFLAKE.TELEMETRY.EVENTS`. This table is the bridge between your Postgres instance and Grafana.
+
+**What you'll build:** A Grafana monitoring setup where Snowflake Postgres logs and metrics can be queried directly from the event table and visualized in dashboards for basic instance monitoring, log exploration, slow query tracking, error monitoring, and connection activity.
 
 ---
 
 ### What You'll Learn
 
 - How to configure Postgres logging parameters on a Snowflake Postgres instance
-- How Snowflake's event table captures and stores Postgres logs
+- How Snowflake's event table captures and stores Postgres logs and metrics
 - How to create a dedicated Snowflake role and service user for Grafana
 - How to install and configure the Grafana Snowflake data source plugin
 - How to build Grafana dashboards for Postgres monitoring
-- How to set up Grafana alerts on Postgres log patterns
 
 ### Prerequisites
 
@@ -33,6 +34,8 @@ This guide walks through setting up Postgres monitoring dashboards in Grafana us
 - A **Grafana Cloud** account (any tier) or a **Grafana Enterprise** instance with an activated license
 - **OpenSSL** installed locally (for RSA key generation)
 - **psql** installed locally (for testing connections)
+
+
 
 
 <!-- ------------------------ -->
@@ -44,7 +47,16 @@ Snowflake Postgres supports standard PostgreSQL logging parameters. Before flipp
 
 A modern Postgres instance produces comprehensive logs covering nearly every facet of database behavior. While logs are the go-to place for finding critical errors, they're also a key tool for application performance monitoring. Here are the parameters you should know about:
 
-**Log severity level (`log_min_messages`):** Controls which server messages are logged based on severity — from `DEBUG5` (most verbose) up through `INFO`, `NOTICE`, `WARNING`, `ERROR`, `LOG`, `FATAL`, and `PANIC`. The default is `WARNING`, which is a sensible baseline for most environments.
+**Log severity level (`log_min_messages`):** Controls which server messages are logged based on severity. Setting a level includes that level and everything above it. The default in Snowflake Postgres is `NOTICE`, which is a sensible baseline for most environments.
+
+- `DEBUG5` through `DEBUG1` — Increasingly verbose developer diagnostics. Rarely useful outside of Postgres core development.
+- `INFO` — Messages explicitly requested by the user (e.g., output from `VACUUM VERBOSE`).
+- `NOTICE` — Information the user should know about, such as truncation of long identifiers or index creation hints. **(default)**
+- `WARNING` — Potential problems that don't prevent the operation from completing (e.g., committing outside a transaction block).
+- `ERROR` — The current command failed and was aborted, but the session continues.
+- `LOG` — Operational messages useful for administrators (e.g., checkpoint activity, connection authorized).
+- `FATAL` — The current session is terminated due to an unrecoverable error.
+- `PANIC` — The entire database server is shut down. All sessions are aborted.
 
 **What SQL to log (`log_statement`):**
 - `none` — Don't log SQL statements (errors and warnings still appear via `log_min_messages`)
@@ -86,8 +98,6 @@ This is a printf-style format string that gets prepended to every log line. Each
 | `%a` | Application name | `psql` |
 | `%h` | Client hostname/IP | `34.214.158.144` |
 
-This can be changed with the `log_line_prefix` setting as needed.
-
 ### Configure Logging on Your Snowflake Postgres Instance
 
 By default, Snowflake Postgres does not generate logs. You will need to set `log_statement` to enable them. If you do not have a production instance, you can set this to `all` for testing log ingestion. For production, review your necessary configurations.
@@ -97,11 +107,11 @@ ALTER SYSTEM SET log_statement = 'all';
 ```
 
 <!-- ------------------------ -->
-## 2. Confirm Logs in the Snowflake Event Table
+## 2. Confirm Logs and Metrics in the Snowflake Event Table
 
-Snowflake Postgres logs are routed through Snowflake's account-level event table at `SNOWFLAKE.TELEMETRY.EVENTS`. This table is the bridge between your Postgres instance and Grafana.
+### Snowflake Postgres logs
 
-After enabling logging (Step 1), run a few queries against your Postgres instance to generate some log data. If you set `log_statement` to `all`, here's a sample to run:
+After enabling logging (above), run a few queries against your Postgres instance to generate some log data. If you set `log_statement` to `all`, here's a sample to run:
 
 ```sql
 CREATE TABLE cookie_monster (
@@ -130,7 +140,7 @@ Now verify that logs appear in the event table:
 
 ```sql
 -- Replace the instance ID with your Postgres instance's ID
--- Find it with: SHOW POSTGRES INSTANCES;  (look at the "id" column)
+-- Find it with: SHOW POSTGRES INSTANCES;  
 SELECT
     TIMESTAMP,
     RESOURCE_ATTRIBUTES['instance.id']::STRING AS instance_id,
@@ -143,7 +153,98 @@ ORDER BY TIMESTAMP DESC
 LIMIT 20;
 ```
 
-> **Tip:** To find your Postgres instance ID, run `SHOW POSTGRES INSTANCES;` and look at the `id` column. It's a string like `4jypgsndvzd5ta6ufaryx6owja`.
+> **Tip:** To find your Postgres instance ID, run `SHOW POSTGRES INSTANCES;` Use the first segment of the host column (everything before the first period). For example, if host is 4jypgsndvzd5ta6ufaryx6owja.sfdevrel-sfdevrel-enterprise.us-west-2.aws.postgres.snowflake.app, the instance ID is 4jypgsndvzd5ta6ufaryx6owja.
+
+### Snowflake Postgres metrics
+
+Snowflake Postgres collects metrics in `SNOWFLAKE.TELEMETRY.EVENTS` automatically via a monitoring agent every ~5 seconds. The tables below list every metric by category.
+
+#### Postgres
+
+| Metric | Type | Description |
+|---|---|---|
+| `postgres_connections` | gauge | Number of active backend connections |
+| `postgres_databases_size_bytes` | gauge | Total size of all databases (bytes) |
+| `postgres_wal_size_bytes` | gauge | WAL directory size (bytes) |
+| `postgres_log_size_bytes` | gauge | Log directory size (bytes) |
+| `postgres_tmp_size_bytes` | gauge | Temp file size (bytes) |
+| `postgres_locking_transactions` | gauge | Number of granted locks |
+| `postgres_locked_transactions` | gauge | Number of waiting/blocked locks |
+| `server_version` | gauge | Postgres version as an integer (e.g., 180003 = 18.0.3) |
+
+#### CPU
+
+| Metric | Type | Unit | Dimensions |
+|---|---|---|---|
+| `system.cpu.time` | sum | seconds | state: user, system, wait, idle, nice, interrupt, softirq, steal |
+| `system.cpu.load_average.1m` | gauge | threads | — |
+| `system.cpu.load_average.5m` | gauge | threads | — |
+| `system.cpu.load_average.15m` | gauge | threads | — |
+
+> `system.cpu.time` is a cumulative counter. To get a percentage, compute the delta between consecutive samples and divide by the elapsed interval.
+
+#### Memory
+
+| Metric | Type | Unit | Dimensions |
+|---|---|---|---|
+| `system.memory.usage` | sum | bytes | state: used, free, cached, buffered, slab_reclaimable, slab_unreclaimable |
+
+#### Disk
+
+| Metric | Type | Unit | Dimensions |
+|---|---|---|---|
+| `system.filesystem.usage` | sum | bytes | mountpoint, device, state (used, free), type, mode |
+
+#### Network
+
+| Metric | Type | Unit | Dimensions |
+|---|---|---|---|
+| `system.network.io` | sum | bytes | device, direction (transmit, receive) |
+
+#### Paging
+
+| Metric | Type | Unit | Dimensions |
+|---|---|---|---|
+| `system.paging.usage` | sum | bytes | device, state (used, free) |
+
+#### Resource attributes
+
+Every metric row includes the following in `RESOURCE_ATTRIBUTES`:
+
+| Attribute | Description | Example |
+|---|---|---|
+| `instance_id` | Postgres instance identifier | `4jypgsndvzd5ta6ufaryx6owja` |
+| `host.id` | EC2 instance ID | `i-0f6724aef472706a3` |
+| `host.type` | Instance family | `m8g.medium` |
+| `cloud.region` | AWS region | `us-west-2` |
+| `cloud.availability_zone` | Availability zone | `us-west-2b` |
+| `application` | Always `postgres` | `postgres` |
+| `os.type` | Always `linux` | `linux` |
+
+Here's a query to check that metrics are being collected as expected.
+
+```sql
+    SELECT metric, state, time, value
+    FROM (
+        SELECT
+            RECORD['metric']['name']::VARCHAR AS metric,
+            RECORD_ATTRIBUTES['state']::VARCHAR AS state,
+            TIMESTAMP AS time,
+            ROUND(VALUE::FLOAT, 2) AS value,
+            ROW_NUMBER() OVER (
+                PARTITION BY metric, state
+                ORDER BY TIMESTAMP DESC
+            ) AS rn
+        FROM SNOWFLAKE.TELEMETRY.EVENTS
+        WHERE RECORD_TYPE = 'METRIC'
+          AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '<your_instance_id>'
+          AND TIMESTAMP > DATEADD('minute', -5, CURRENT_TIMESTAMP())
+    )
+    WHERE rn = 1
+    ORDER BY metric, state;
+```
+
+
 
 <!-- ------------------------ -->
 ## 3. Create the Snowflake Role and Grants
@@ -165,6 +266,8 @@ GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE GRAFANA;
 -- Grant warehouse usage (replace with your warehouse name)
 GRANT USAGE ON WAREHOUSE MY_WAREHOUSE TO ROLE GRAFANA;
 ```
+
+Note that `IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE` grant is `ACCOUNTADMIN` only with no workaround. Some other SQL could be done with lower permissions. 
 
 ### Create a Proxy View for Grafana
 
@@ -351,155 +454,142 @@ ORDER BY TIMESTAMP DESC
 <!-- ------------------------ -->
 ## 8. Build a Postgres Monitoring Dashboard
 
-Create a dedicated dashboard to monitor your Postgres instances. Go to **Dashboards > New dashboard** and add panels using the queries below.
+Create a dedicated dashboard to monitor your Postgres instances. Go to **Dashboards > New dashboard** and add panels using the queries below. Here are a few samples of queries to get started. Please test and refine these for your particular instance and use case. 
 
-### Panel: Log Volume Over Time
-
-Visualization type: **Time series**
+### CPU usage and I/O wait
 
 ```sql
-SELECT
-    TIME_SLICE(TIMESTAMP, 5, 'MINUTE') AS time,
-    COUNT(*) AS log_count
-FROM POSTGRES_LOGS
-WHERE $__timeFilter(TIMESTAMP)
-GROUP BY time
-ORDER BY time;
+    SELECT time, metric, pct FROM (
+        SELECT
+            TIMESTAMP AS time,
+            CASE RECORD_ATTRIBUTES['state']::VARCHAR
+                WHEN 'wait' THEN 'I/O Wait'
+                WHEN 'user' THEN 'User'
+                WHEN 'system' THEN 'System'
+            END AS metric,
+            VALUE::FLOAT AS val,
+            LAG(VALUE::FLOAT) OVER (
+                PARTITION BY RECORD_ATTRIBUTES['state']::VARCHAR
+                ORDER BY TIMESTAMP
+            ) AS prev_val,
+            DATEDIFF('second',
+                LAG(TIMESTAMP) OVER (
+                    PARTITION BY RECORD_ATTRIBUTES['state']::VARCHAR
+                    ORDER BY TIMESTAMP
+                ), TIMESTAMP) AS interval_secs,
+            CASE WHEN interval_secs > 0
+                THEN (val - prev_val) / interval_secs * 100
+                ELSE NULL
+            END AS pct
+        FROM POSTGRES_METRICS
+        WHERE RECORD['metric']['name']::VARCHAR = 'system.cpu.time'
+          AND RECORD_ATTRIBUTES['state']::VARCHAR IN ('user', 'system', 'wait')
+          AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+          AND $__timeFilter(TIMESTAMP)
+    )
+    WHERE pct IS NOT NULL AND pct >= 0
+    ORDER BY time
 ```
 
-### Panel: Log Volume by Severity
-
-Visualization type: **Time series** (stacked)
+### CPU load
 
 ```sql
-SELECT
-    TIME_SLICE(TIMESTAMP, 5, 'MINUTE') AS time,
-    VALUE['SEVERITY_TEXT']::STRING AS level,
-    COUNT(*) AS log_count
-FROM POSTGRES_LOGS
-WHERE $__timeFilter(TIMESTAMP)
-GROUP BY time, level
-ORDER BY time;
+    SELECT
+        TIMESTAMP AS time,
+        RECORD['metric']['name']::VARCHAR AS metric,
+        VALUE::FLOAT AS load_avg
+    FROM POSTGRES_METRICS
+    WHERE RECORD['metric']['name']::VARCHAR IN (
+            'system.cpu.load_average.1m',
+            'system.cpu.load_average.5m',
+            'system.cpu.load_average.15m'
+        )
+      AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+      AND $__timeFilter(TIMESTAMP)
+    ORDER BY time;
 ```
 
-### Panel: Error Log Feed
 
-Visualization type: **Table**
+### Memory Usage by State
 
 ```sql
-SELECT
-    TIMESTAMP AS time,
-    VALUE['SEVERITY_TEXT']::STRING AS level,
-    VALUE['MESSAGE']::STRING AS message,
-    RESOURCE_ATTRIBUTES['instance.id']::STRING AS instance_id
-FROM POSTGRES_LOGS
-WHERE $__timeFilter(TIMESTAMP)
-  AND VALUE['SEVERITY_TEXT']::STRING IN ('ERROR', 'FATAL', 'PANIC')
-ORDER BY TIMESTAMP DESC
-LIMIT 100;
+    SELECT
+        TIMESTAMP AS time,
+        RECORD_ATTRIBUTES['state']::VARCHAR AS metric,
+        VALUE::FLOAT / (1024*1024*1024) AS usage_gb
+    FROM POSTGRES_METRICS
+    WHERE RECORD['metric']['name']::VARCHAR = 'system.memory.usage'
+      AND RECORD_ATTRIBUTES['state']::VARCHAR IN ('used', 'cached', 'buffered', 'free')
+      AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+      AND $__timeFilter(TIMESTAMP)
+    ORDER BY time;
 ```
 
-### Panel: Connections Over Time
-
-If you have `log_connections` enabled, you can track connection activity:
+### Percent of Disk Used
 
 ```sql
-SELECT
-    TIME_SLICE(TIMESTAMP, 5, 'MINUTE') AS time,
-    COUNT(*) AS connections
-FROM POSTGRES_LOGS
-WHERE $__timeFilter(TIMESTAMP)
-  AND VALUE['MESSAGE']::STRING ILIKE '%connection authorized%'
-GROUP BY time
-ORDER BY time;
+    SELECT * FROM (
+        SELECT
+            'Database' AS label,
+            ROUND(VALUE::FLOAT / (1024*1024), 1) AS size_mb
+        FROM POSTGRES_METRICS
+        WHERE RECORD['metric']['name']::VARCHAR = 'postgres_databases_size_bytes'
+          AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+          AND $__timeFilter(TIMESTAMP)
+        ORDER BY TIMESTAMP DESC
+        LIMIT 1
+    )
+
+    UNION ALL
+
+    SELECT * FROM (
+        SELECT
+            'Total Disk' AS label,
+            ROUND(SUM(VALUE::FLOAT) / (1024*1024), 1) AS size_mb
+        FROM POSTGRES_METRICS
+        WHERE RECORD['metric']['name']::VARCHAR = 'system.filesystem.usage'
+          AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+          AND $__timeFilter(TIMESTAMP)
+        GROUP BY TIMESTAMP
+        ORDER BY TIMESTAMP DESC
+        LIMIT 1
+    )
+    ;
 ```
 
-### Panel: Slow Queries
 
-If you have `log_min_duration_statement` set, duration-logged queries appear in the logs:
+### Active connections
 
 ```sql
-SELECT
-    TIMESTAMP AS time,
-    VALUE['MESSAGE']::STRING AS message,
-    RESOURCE_ATTRIBUTES['instance.id']::STRING AS instance_id
-FROM POSTGRES_LOGS
-WHERE $__timeFilter(TIMESTAMP)
-  AND VALUE['MESSAGE']::STRING ILIKE '%duration:%'
-ORDER BY TIMESTAMP DESC
-LIMIT 50;
-```
+    SELECT VALUE::FLOAT AS connections
+    FROM POSTGRES_METRICS
+    WHERE RECORD['metric']['name']::VARCHAR = 'postgres_connections'
+      AND RESOURCE_ATTRIBUTES['instance_id']::VARCHAR = '4jypgsndvzd5ta6ufaryx6owja'
+      AND $__timeFilter(TIMESTAMP)
+    ORDER BY TIMESTAMP DESC
+    LIMIT 1;
+```    
 
-### Dashboard Variable: Instance Picker
+### Sample dashboard view
 
-To make the dashboard work across multiple Postgres instances, add a template variable:
-
-1. Go to **Dashboard settings > Variables > New variable**
-2. Set:
-   - **Name:** `instance_id`
-   - **Type:** Query
-   - **Data source:** Your Snowflake data source
-   - **Query:**
-
-```sql
-SELECT DISTINCT RESOURCE_ATTRIBUTES['instance.id']::STRING AS instance_id
-FROM POSTGRES_LOGS
-WHERE TIMESTAMP > DATEADD('day', -1, CURRENT_TIMESTAMP())
-```
-
-Then replace `'<YOUR_INSTANCE_ID>'` in your panel queries with `'${instance_id}'` to make them dynamic.
-
-<!-- ------------------------ -->
-## 9. Set Up Alerts
-
-Grafana alerting lets you get notified when something goes wrong in your Postgres instances.
-
-### Alert: Error Spike
-
-1. Go to **Alerting > Alert rules > New alert rule**
-2. Select your Snowflake data source
-3. Use this query:
-
-```sql
-SELECT
-    COUNT(*) AS error_count
-FROM POSTGRES_LOGS
-WHERE TIMESTAMP > DATEADD('minute', -5, CURRENT_TIMESTAMP())
-  AND VALUE['SEVERITY_TEXT']::STRING IN ('ERROR', 'FATAL', 'PANIC')
-```
-
-4. Set the condition: `error_count > 10` (adjust the threshold to your environment)
-5. Configure a notification channel (Slack, email, PagerDuty, etc.)
-
-### Alert: FATAL or PANIC Events
-
-For critical events, you may want immediate notification with a lower threshold:
-
-```sql
-SELECT
-    COUNT(*) AS critical_count
-FROM POSTGRES_LOGS
-WHERE TIMESTAMP > DATEADD('minute', -5, CURRENT_TIMESTAMP())
-  AND VALUE['SEVERITY_TEXT']::STRING IN ('FATAL', 'PANIC')
-```
-
-Set the condition to `critical_count > 0` so any FATAL or PANIC event triggers a notification.
-
-> **Evaluation interval:** Grafana evaluates alert rules on a schedule. Set the evaluation interval to match how frequently you want checks to run (e.g., every 1 or 5 minutes). Keep in mind that each evaluation runs a query against your Snowflake warehouse.
+![Grafana sample dashboard](assets/snowflake-postgres-grafana-sample-dashboard.png)
 
 <!-- ------------------------ -->
 ## Conclusion and Resources
 
-You now have a Grafana monitoring setup that queries Postgres logs directly from the Snowflake event table. Because Grafana pulls data on demand rather than requiring a separate ingestion pipeline, you can start exploring logs immediately and iterate on dashboards without any additional infrastructure.
+You now have a Grafana monitoring setup that queries Postgres logs and metrics directly from the Snowflake event table. Because Grafana pulls data on demand rather than requiring a separate ingestion pipeline, you can start exploring logs and metrics immediately and iterate on dashboards without any additional infrastructure.
 
 ### What You Learned
 
 - How to configure Postgres logging parameters on a Snowflake Postgres instance
-- How the Snowflake event table captures and stores Postgres logs
+- How the Snowflake event table captures and stores Postgres logs and metrics
 - How to create a dedicated Snowflake role and service user for Grafana
 - How to install and configure the Grafana Snowflake data source plugin with key-pair auth
-- How to build monitoring dashboards with log volume, error feeds, and slow query panels
-- How to set up Grafana alerts on Postgres log patterns
+- How to build monitoring dashboards from Postgres metrics
+
+### Next Steps
+
+- **Set up Grafana alerts:** Use [Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/) to get notified on error spikes, FATAL/PANIC events, or other Postgres log patterns by querying the same Snowflake data source used in your dashboards.
 
 ### Resources
 
