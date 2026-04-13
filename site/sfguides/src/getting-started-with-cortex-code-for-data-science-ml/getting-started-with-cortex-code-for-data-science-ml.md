@@ -78,8 +78,6 @@ What role am I using and what databases can I access?
 
 **Snowsight:** In your Workspace, open the **Cortex Code** panel on the right. Click **+** and select **CORTEX_CODE_ML_SCHEMA** (in `CORTEX_CODE_ML_DB`).
 
-![Select the schema for this quickstart](assets/snowsight-cortex-code-select-schema.jpg)
-
 **CLI:** Use the `#` prefix to reference objects directly (e.g., `CORTEX_CODE_ML_DB.CORTEX_CODE_ML_SCHEMA.ML_LTV_TRANSACTIONS`). This grounds Cortex Code to the correct schema.
 
 You are now ready to start prompting Cortex Code to build your ML pipeline.
