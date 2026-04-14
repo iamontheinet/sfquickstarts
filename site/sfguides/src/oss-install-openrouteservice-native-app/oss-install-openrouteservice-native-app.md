@@ -377,6 +377,23 @@ To deploy:
 $deploy-fleet-intelligence-food-delivery
 ```
 
+### Fleet Taxis
+
+![Fleet Taxis Overview](assets/fleet_taxis.jpg)
+
+The **Fleet Taxis** demo generates realistic taxi driver location data using Overture Maps and OpenRouteService for actual road routes, then visualizes fleet-wide operations across a configurable city and number of drivers.
+
+**Key features:**
+- KPI tiles: total drivers, trips, average distance and duration
+- Live map of all active taxi routes across the city
+- Trips by Hour histogram showing demand patterns throughout the day
+- Sub-pages: Driver Routes, Heat Map
+
+To deploy:
+```
+$fleet-intelligence-taxis
+```
+
 ### Route Deviation
 
 ![Route Deviation Dashboard](assets/route_deviation.png)
@@ -673,10 +690,10 @@ These settings support complex route optimizations with many vehicles and delive
 ## Customize Your Deployment
 
 All the customization (location, routing profiles) can be managed via the application itself in the region builder section.
-[region_builder](assets/region_builder)
+[region_builder](assets/region_builder.png)
 
 Just use the UI to configure different locations and vehicle. Below example for New York. 
-[region_builder_example](assets/region_builder_example)
+[region_builder_example](assets/region_builder_example.png)
 
 <!-- ------------------------ -->
 ## Uninstall the Route Optimizer
