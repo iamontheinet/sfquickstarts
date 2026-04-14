@@ -15,15 +15,15 @@ fork repo link: https://github.com/Snowflake-Labs/sfguide-create-a-route-optimis
 <!-- ------------------------ -->
 ## Overview 
 
-![alt text](assets/intro)
+![alt text](assets/intro.png)
 
-**Build a complete route optimization platform in minutes using just natural language commands.**
+**Build a complete routing platform in minutes using just natural language commands.**
 
 This solution deploys [OpenRouteService](https://openrouteservice.org/) directly in your Snowflake account using **Cortex Code** — Snowflake's AI-powered CLI. It runs as a set of Snowpark Container Services, callable as plain SQL functions. No complex setup, no external APIs, no data leaving Snowflake.
 
 ### What You'll Build
 
-🔧 **OpenRouteService on SPCS** - A self-contained routing engine running in Snowpark Container Services with SQL-callable functions.
+🔧 **Openrouteservice on SPCS** - A self-contained routing engine running in Snowpark Container Services with SQL-callable functions.
 
 📍 **Four Powerful Routing Functions:**
 - **Directions** - Calculate optimal routes between multiple waypoints
@@ -151,22 +151,23 @@ Skills are structured specifications that instruct Cortex Code how to perform a 
 
 This repository demonstrates how skills can manage the **complete lifecycle** of an end-to-end Snowflake analytical solution - from installation through customization to uninstallation. There are multiple pre-built skills in the `.cortex/skills/skill_name/SKILL.md`:
 
-| Stage | Skills | What They Do |
-|-------|--------|--------------|
-| **📦 Build** | `build-routing-solution` | Deploy routing solution with SPCS container services |
-| **⚙️ Customize** | `routing-customization` | Route customization requests (location and routing profiles) |
-| | ↳ `routing-customization/location` | Change the geographic region (sub-skill, do not invoke separately) |
-| | ↳ `routing-customization/routing-profiles` | Enable/disable vehicle routing profiles (sub-skill, do not invoke separately) |
-| | ↳ `routing-customization/read-ors-configuration` | Read current ORS configuration (sub-skill, do not invoke separately) |
+| Stage | Skill | What It Does |
+|-------|-------|--------------|
+| **✅ Prerequisites** | `routing-prerequisites` | Check and install all build prerequisites (Docker/Podman, Snowflake CLI, Node.js) |
+| **📦 Build** | `build-routing-solution` | Deploy the full routing solution: build container images, push to SPCS, run SQL modules |
+| **⚙️ Customize** | `routing-customization` | Change the map region, city, or enabled vehicle/routing profiles |
+| **🚚 Demo** | `route-optimization` | Deploy the Route Optimization demo with Marketplace data and notebook |
+| **🚕 Demo** | `fleet-intelligence-taxis` | Generate realistic taxi driver location data and deploy fleet intelligence dashboards |
+| **🛵 Demo** | `deploy-fleet-intelligence-food-delivery` | Deploy the Food Delivery fleet intelligence solution with a React Native app and Streamlit dashboard |
+| **🏪 Demo** | `retail-catchment` | Deploy the Retail Catchment Analysis demo using Overture Maps and isochrone analysis |
+| **📍 Demo** | `route-deviation` | Deploy the Route Deviation Analysis demo with ETL pipeline and React dashboard |
+| **⏱️ Demo** | `dwell-analysis` | Deploy the Dwell & Congestion Analysis pipeline with Dynamic Tables and H3 heatmaps |
+| **🤖 Demo** | `routing-agent` | Create a Snowflake Intelligence (Cortex) agent for natural language routing queries |
+| **🗑️ Cleanup** | `routing-solution-cleanup` | Discover and drop all Snowflake objects created by this solution |
 
 To run any skill, simply tell Cortex Code:
 ```
 $<skill-name>
-```
-
-For example:
-```
-$build-routing-solution
 ```
 
 Cortex Code reads the skill's markdown file and executes each step, asking for input when needed and verifying success before moving on.
@@ -186,7 +187,7 @@ To deploy the plain-vanilla app execute command below in Cortex Code:
 
 ```
 $build-routing-solution
-```
+```d
 
 If you are also interested in deploying the demos you can type: 
 
@@ -330,6 +331,104 @@ The Functions page allows you to test all routing functions:
 - Calculate travel time and distance matrices between multiple locations
 
 > **_TIP:_** The Functions page comes pre-configured with San Francisco addresses and default vehicle profiles (car, HGV, electric bicycle). When you customize the deployment, the Functions page is automatically updated with region-specific addresses and your enabled vehicle profiles.
+
+<!-- ------------------------ -->
+## Demos
+
+The routing solution includes several optional demos that showcase real-world use cases built on top of the core routing functions. Each demo is deployed independently using a dedicated skill — run any of them after the base installation is complete.
+
+To deploy a demo, tell Cortex Code:
+```
+$<demo-skill-name>
+```
+
+### Dwell Analysis
+
+![Dwell Analysis Overview](assets/dwell_analysis.png)
+
+The **Dwell Analysis** demo monitors how long fleet vehicles stop at facilities and tracks SLA compliance across the entire operation. It uses a Dynamic Table pipeline to detect vehicle states, sessionize dwell events, and surface H3 congestion heatmaps.
+
+**Key features:**
+- KPI tiles: total trips, average dwell time, SLA compliance rate, active drivers
+- Daily Trends chart showing dwell events over the last 30 days
+- Top 10 Facilities by Visits ranked bar chart
+- Sub-pages: Congestion Map, Facility Utilization, SLA Alerts, Trip Inspector, Driver Performance, Live Operations
+
+To deploy:
+```
+$dwell-analysis
+```
+
+### Fleet Delivery
+
+![Fleet Delivery Dashboard](assets/fleet_delivery.png)
+
+The **Fleet Delivery** demo provides fleet-wide delivery analytics for courier operations. It includes a React Native app on SPCS and a Streamlit dashboard with live courier tracking, delivery statistics, and performance leaderboards.
+
+**Key features:**
+- KPI tiles: total couriers, deliveries, average delivery time and distance
+- Live map of active courier positions across the city
+- Deliveries by Hour histogram showing demand patterns
+- Top Couriers leaderboard by trip volume
+- Sub-pages: Fleet Map, Catchment Panel, Courier Heatmap
+
+To deploy:
+```
+$deploy-fleet-intelligence-food-delivery
+```
+
+### Route Deviation
+
+![Route Deviation Dashboard](assets/route_deviation.png)
+
+The **Route Deviation** demo identifies drivers and routes that deviate from the planned path. It runs a 3-step ETL pipeline to compute deviation percentages and registers analytical dashboard pages directly into the ORS Control App.
+
+**Key features:**
+- KPI tiles: total routes, average deviation %, on-route %, high deviation count
+- Daily Trend chart of deviation events over time
+- Deviation Distribution donut chart
+- Top Deviators table ranked by average deviation percentage
+- Sub-pages: Route Comparison, Route Inspector
+
+To deploy:
+```
+$route-deviation
+```
+
+### Retail Catchment
+
+![Retail Catchment Analysis](assets/retail_catchment.jpg)
+
+The **Retail Catchment** demo uses isochrone analysis with Overture Maps POI data to visualize how many customers, competitors, and addresses fall within a configurable travel-time zone around any retail location.
+
+**Key features:**
+- City and travel mode selectors (Car, Cycling, Walking)
+- Configurable zone count and maximum travel time sliders
+- H3 resolution control for address density overlays
+- Competitor overlay (red markers) and address density heatmap
+- POI table listing nearby points of interest by category
+- Multi-zone isochrone map with overlapping catchment rings
+
+To deploy:
+```
+$retail-catchment
+```
+
+### Routing Agent
+
+![Routing Agent Playground](assets/routing_agent.jpg)
+
+The **Routing Agent** demo creates a Snowflake Intelligence (Cortex) agent that answers natural language routing queries. Users can ask for directions, estimate travel times, or explore isochrones through a conversational interface with the route rendered live on a map.
+
+**Key features:**
+- Natural language chat interface connected to the ORS routing functions
+- Route results visualized on an interactive map alongside the text response
+- Supports directions, isochrones, and time-distance queries in plain English
+
+To deploy:
+```
+$routing-agent
+```
 
 <!-- ------------------------ -->
 ## SQL Function Reference
