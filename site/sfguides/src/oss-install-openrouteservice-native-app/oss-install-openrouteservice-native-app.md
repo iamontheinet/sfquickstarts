@@ -1,6 +1,6 @@
 author: Becky O'Connor, Piotr Paczewski, Oleksii Bielov
 id: oss-install-openrouteservice-native-app
-categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/native-apps, snowflake-site:taxonomy/snowflake-feature/snowpark-container-services, snowflake-site:taxonomy/snowflake-feature/geospatial, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions
+categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/snowpark-container-services, snowflake-site:taxonomy/snowflake-feature/geospatial, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions
 language: en
 summary: Build Routing Solution in Snowflake using Cortex Code AI-powered skills. Deploy routing functions (Directions, Optimization, Isochrones, Time-Distance Matrix) via Snowpark Container Services with no external APIs - customize for any city worldwide.
 environments: web
@@ -19,11 +19,11 @@ fork repo link: https://github.com/Snowflake-Labs/sfguide-create-a-route-optimis
 
 **Build a complete route optimization platform in minutes using just natural language commands.**
 
-This solution builds an [Open Route Service](https://openrouteservice.org/) Native App directly in your Snowflake account using **Cortex Code** - Snowflake's AI-powered CLI. No complex setup, no external APIs, no data leaving Snowflake.
+This solution deploys [OpenRouteService](https://openrouteservice.org/) directly in your Snowflake account using **Cortex Code** — Snowflake's AI-powered CLI. It runs as a set of Snowpark Container Services, callable as plain SQL functions. No complex setup, no external APIs, no data leaving Snowflake.
 
 ### What You'll Build
 
-🔧 **OpenRouteService Native App** - A self-contained routing engine running in Snowpark Container Services with SQL-callable functions.
+🔧 **OpenRouteService on SPCS** - A self-contained routing engine running in Snowpark Container Services with SQL-callable functions.
 
 📍 **Four Powerful Routing Functions:**
 - **Directions** - Calculate optimal routes between multiple waypoints
@@ -35,13 +35,13 @@ This solution builds an [Open Route Service](https://openrouteservice.org/) Nati
 
 🗺️ **Any Location** - Customize to Paris, London, New York, or anywhere in the world with downloadable OpenStreetMap data.
 
-🧪 **Function Tester** - An interactive Streamlit app to test the routing functions with sample addresses.
+🧪 **Function Tester** - An interactive web UI (ORS Control App) to test the routing functions with sample addresses.
 
 ### Why This Matters
 
 | Traditional Approach | This Solution |
 |---------------------|---------------|
-| External API dependencies | Self-contained Native App |
+| External API dependencies | Self-contained SPCS deployment |
 | Data leaves your environment | Everything stays in Snowflake |
 | Complex integration work | Deploy with natural language commands |
 | Pay-per-call API limits | Unlimited calls, you control compute |
@@ -51,7 +51,7 @@ This solution builds an [Open Route Service](https://openrouteservice.org/) Nati
 
 **This is what you will need**:
 
--   **ACCOUNTADMIN** access to your Snowflake account
+-   **ACCOUNTADMIN** access to your Snowflake account (or a custom role with CREATE DATABASE, CREATE WAREHOUSE, CREATE COMPUTE POOL, and IMPORT SHARE privileges)
     
 -   [Snowpark Container Services Activated](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview)
 
@@ -68,11 +68,15 @@ This solution builds an [Open Route Service](https://openrouteservice.org/) Nati
     - [Podman](https://podman.io/) (recommended): `brew install podman` (macOS) 
     - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
+-   **Node.js >= 20** and npm - Required to build the ORS Control App
+    - macOS: `brew install node`
+    - Verify: `node --version`
+
 -   [VSCode](https://code.visualstudio.com/download) recommended for running Cortex Code commands
 
 ### Route Planning And Optimization Architecture
 
-The architecture below shows the solution which uses a native app and container services to power sophisticated routing and optimisation functions. 
+The architecture below shows the solution which uses Snowpark Container Services to power sophisticated routing and optimisation functions. 
 
 ![alt text](assets/architecture-diagram.png)
 
@@ -81,10 +85,10 @@ This is a self-contained service which is managed by you. There are no API calls
 
 ### What You'll Learn 
 
-- Build a Snowflake Native App using **Cortex Code** AI-powered CLI with natural language commands
+- Deploy a self-managed routing solution using **Cortex Code** AI-powered CLI with natural language commands
 - Use **Snowpark Container Services** to run OpenRouteService as a self-managed routing engine
 - Understand **Geospatial** data in Snowflake and how it integrates with routing functions
-- Work with 4 routing functions deployed via the Native App:
+- Work with 4 routing functions deployed as SQL-callable SPCS services:
   - **Directions** - Simple and multi-waypoint routing based on road network and vehicle profile
   - **Optimization** - Route optimization matching demands with vehicle availability
   - **Isochrones** - Catchment area analysis based on travel time
@@ -97,7 +101,7 @@ This is a self-contained service which is managed by you. There are no API calls
 
 ![Cortex Code Deployment](assets/architecture-diagram.png)
 
-Use Cortex Code, Snowflake's AI-powered CLI, to deploy the Native App using natural language commands and automated skills.
+Use Cortex Code, Snowflake's AI-powered CLI, to deploy the routing solution using natural language commands and automated skills.
 
 ### Setup Cortex Code
 
@@ -151,11 +155,11 @@ This repository demonstrates how skills can manage the **complete lifecycle** of
 
 | Stage | Skills | What They Do |
 |-------|--------|--------------|
-| **📦 Build** | `build-routing-solution` | Deploy Routing Solution based on Native App and container services |
-| **⚙️ Customize** | `customize-main` | Route customization requests (location and routing profiles) |
-| | ↳ `customize-main/location` | Change the geographic region (sub-skill, do not invoke separately) |
-| | ↳ `customize-main/routing-profiles` | Enable/disable vehicle routing profiles (sub-skill, do not invoke separately) |
-| | ↳ `customize-main/read-ors-configuration` | Read current ORS configuration (sub-skill, do not invoke separately) |
+| **📦 Build** | `build-routing-solution` | Deploy routing solution with SPCS container services |
+| **⚙️ Customize** | `routing-customization` | Route customization requests (location and routing profiles) |
+| | ↳ `routing-customization/location` | Change the geographic region (sub-skill, do not invoke separately) |
+| | ↳ `routing-customization/routing-profiles` | Enable/disable vehicle routing profiles (sub-skill, do not invoke separately) |
+| | ↳ `routing-customization/read-ors-configuration` | Read current ORS configuration (sub-skill, do not invoke separately) |
 
 To run any skill, simply tell Cortex Code:
 ```
@@ -175,7 +179,7 @@ Cortex Code reads the skill's markdown file and executes each step, asking for i
 
 Run the prerequisites check skill to ensure all dependencies are installed:
    ```
-   $prerequisites-build-routing-solution
+   $routing-prerequisites
    ```
 
 ### Build the Routing Solution
@@ -187,11 +191,11 @@ $build-routing-solution
 ```
 
 Cortex Code will automatically:
-- Create the required database, stages, and image repository
-- Upload configuration files
+- Create the required databases (`OPENROUTESERVICE_APP`, `SYNTHETIC_DATASETS`, `FLEET_INTELLIGENCE`), stages, and image repository
+- Upload configuration files and service specs
 - Detect your container runtime (Docker or Podman)
-- Build and push all 4 container images
-- Deploy the Native App
+- Build and push all 5 container images
+- Run 6 SQL modules to deploy the routing services
 
 The skill will guide you through any required steps, including:
 - Selecting your preferred container runtime if both are available
@@ -208,76 +212,85 @@ The skill uses interactive prompting to gather required information:
 
 | Component | Name | Description |
 |-----------|------|-------------|
-| Database | `OPENROUTESERVICE_SETUP` | Setup database with stages and image repository |
-| Stage | `ORS_SPCS_STAGE` | Configuration files and map data |
+| Database | `OPENROUTESERVICE_APP` | Main database with stages, functions, and SPCS services |
+| Database | `SYNTHETIC_DATASETS` | Seed telemetry and trip data for demos |
+| Database | `FLEET_INTELLIGENCE` | Fleet demo configuration and region registry |
+| Warehouse | `ROUTING_ANALYTICS` | Warehouse for ORS operations |
+| Stage | `ORS_SPCS_STAGE` | Configuration files, map data, and service specs |
 | Stage | `ORS_GRAPHS_SPCS_STAGE` | Generated routing graphs |
 | Stage | `ORS_ELEVATION_CACHE_SPCS_STAGE` | Elevation data cache |
-| Image Repository | `IMAGE_REPOSITORY` | Container images for services |
-| Application Package | `OPENROUTESERVICE_NATIVE_APP_PKG` | Native App package |
-| Application | `OPENROUTESERVICE_NATIVE_APP` | Deployed Native App with routing functions |
+| Image Repository | `IMAGE_REPOSITORY` | 5 container images for SPCS services |
+| SPCS Service | `ORS_SERVICE` | OpenRouteService routing engine |
+| SPCS Service | `DOWNLOADER` | Downloads OSM map data on demand |
+| SPCS Service | `VROOM_SERVICE` | Vehicle Route Problem optimizer |
+| SPCS Service | `ROUTING_GATEWAY_SERVICE` | Reverse proxy / concurrency layer |
+| SPCS Service | `ORS_CONTROL_APP` | React-based web UI (service manager, function tester, city provisioning) |
 
-Simply confirm each prompt as the skill progresses. The skill handles all the complex setup automatically - creating databases, uploading files, building containers, and deploying the Native App.
+Simply confirm each prompt as the skill progresses. The skill handles all the complex setup automatically — creating databases, uploading files, building containers, and deploying all 5 services.
 
-Once complete, you'll see a success message with a direct link to your app:
+The skill also:
+- Loads seed datasets (500 intro routes, 472K telemetry points, 29K travel-time matrix pairs, 460 region catalog entries)
+- Installs Overture Maps datasets from Snowflake Marketplace (required for taxi and retail demos)
+- Lets you select which demo skills to deploy on top of the base installation
+
+Once complete, the skill prints the ORS Control App URL:
+
+```sql
+SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP;
+SELECT 'https://' || ingress_url AS control_app_url
+FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()))
+WHERE name = 'ors-control-app';
+```
 
 ![Route Optimizer Installed Successfully](assets/install-successful.png)
 
 <!-- ------------------------ -->
-## Activate the App
+## Access the ORS Control App
 
-Once deployment completes, Cortex Code will provide a link to your app. You need to:
+Once deployment completes, the build skill prints the ORS Control App URL. You can also retrieve it at any time by running:
 
-1. Navigate to **Data Products > Apps > OPENROUTESERVICE_NATIVE_APP** in Snowsight
+```sql
+SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP;
+SELECT 'https://' || ingress_url AS control_app_url
+FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()))
+WHERE name = 'ors-control-app';
+```
 
-![Navigate to Apps](assets/navigate-to-apps.png)
+Open the URL in your browser to access the **ORS Control App** — a React-based web dashboard that manages all aspects of the routing solution.
 
-2. Click on the **OPENROUTESERVICE_NATIVE_APP** to open it
+> **_NOTE:_** The ORS Control App is secured by Snowflake authentication. You will be prompted to log in with your Snowflake credentials on first access.
 
-![App Icon](assets/app-icon.png)
+### ORS Control App
 
-3. Grant the required privileges and review external access
+The ORS Control App is the central management interface for the routing solution. It provides:
 
-![Grant Privileges](assets/grant-privileges.png)
-
-The app requires these permissions to function:
-- **CREATE COMPUTE POOL**: Allows the app to create compute pools for running the OpenRouteService containers via Snowpark Container Services
-- **External access integration**: Required to download OpenStreetMap (OSM) data files from external sources during the initial setup
-
-Click **Grant** for Step 1. For Step 2, click **Review** to see the external endpoints, then click **Connect** to allow the connection.
-
-4. Once all privileges are granted, click **Activate** and wait a few minutes for the routing functions to install and the graphs to build
-
-> **_NOTE:_** The activation time depends on your configuration:
-> - **Map size**: Larger country or state maps take longer than city maps
-> - **Vehicle profiles**: Each enabled profile (driving-car, cycling, walking, etc.) generates its own routing graph
-> - **Resource scaling**: The compute pool size affects build speed
->
-> The combination of map size and vehicle options determines the total number of graphs to build. A city map with 2 profiles will complete quickly, while a country map with 5+ profiles will take significantly longer.
-
-Once activated, you'll see a **Launch app** button appear. Click it to open the Service Manager.
-
-### Service Manager
-
-The Launch app button takes you to the **Service Manager** dashboard, which displays the status of each of the four services running:
-
-![Service Manager](assets/service-manager.png)
-
-The Service Manager shows:
-- **Service Status Dashboard** - Overview of all running, stopped, and error states
-- **Individual Service Management** - Start/Stop controls for each service:
+- **Service Manager** - Start/Stop controls for all 5 running SPCS services:
   - **Data Downloader** - Downloads and updates map data
   - **Open Route Service** - Core routing and directions engine
   - **Routing Gateway** - API gateway for routing requests
   - **VROOM Service** - Route optimization engine
+  - **ORS Control App** - This web UI itself
 
-Use the **Start All** / **Stop All** buttons for bulk operations, or manage services individually. Click **Refresh Status** to update the dashboard.
+![Service Manager](assets/service-manager.png)
 
-> **_TIP:_** All 4 services should show ✅ RUNNING status before using the routing functions.
+- **Function Tester** - Test all four routing functions interactively with sample addresses
+- **City Provisioning** - Browse the region catalog and provision new map regions
+- **Matrix Builder** - Build and view travel-time matrix datasets
+
+Use the **Start All** / **Stop All** buttons for bulk service operations, or manage services individually. Click **Refresh Status** to update the dashboard.
+
+> **_TIP:_** All 5 services should show ✅ RUNNING status before using the routing functions.
+
+> **_NOTE:_** Graph build time depends on your configuration:
+> - **Map size**: Larger country or state maps take longer than city maps
+> - **Vehicle profiles**: Each enabled profile (driving-car, cycling, walking, etc.) generates its own routing graph
+>
+> A city map with 2 profiles will complete in minutes; a country map with 5+ profiles can take several hours.
 
 <!-- ------------------------ -->
 ## ORS Configuration
 
-The Native App is configured via the `ors-config.yml` file which controls:
+The routing solution is configured via the `ors-config.yml` file which controls:
 
 **Map Source File**
 ```yml
@@ -320,12 +333,12 @@ These settings support complex route optimizations with many vehicles and delive
 <!-- ------------------------ -->
 ## Function Tester
 
-The Native App includes a built-in **Function Tester** Streamlit application for testing the routing functions interactively.
+The ORS Control App includes a built-in **Function Tester** page for testing the routing functions interactively.
 
 ![Function Tester](assets/function-tester.png)
 
 To access the Function Tester:
-1. Open **Data Products > Apps > OPENROUTESERVICE_NATIVE_APP** in Snowsight
+1. Open the ORS Control App URL (printed at the end of the build skill, or retrieved via `SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP`)
 2. Navigate to the **Function Tester** page in the app
 
 The Function Tester allows you to test all four routing functions:
@@ -362,7 +375,7 @@ The Function Tester allows you to test all four routing functions:
 <!-- ------------------------ -->
 ## SQL Function Reference
 
-All routing functions are deployed as SQL functions inside the Native App and can be called directly from any Snowflake worksheet, notebook, or application. The functions live under `OPENROUTESERVICE_NATIVE_APP.CORE`.
+All routing functions are deployed as SQL functions inside the `OPENROUTESERVICE_APP` database and can be called directly from any Snowflake worksheet, notebook, or application. The functions live under `OPENROUTESERVICE_APP.CORE`.
 
 ### Function Overview
 
@@ -389,7 +402,7 @@ All routing functions are deployed as SQL functions inside the Native App and ca
 Calculate a driving route between two coordinates (longitude, latitude):
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS(
+SELECT OPENROUTESERVICE_APP.CORE.DIRECTIONS(
     'driving-car',
     [-122.4194, 37.7749],   -- start: [lon, lat]
     [-122.4783, 37.8199]    -- end:   [lon, lat]
@@ -401,7 +414,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS(
 Route through multiple stops by passing a `locations` object:
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS(
+SELECT OPENROUTESERVICE_APP.CORE.DIRECTIONS(
     'driving-car',
     OBJECT_CONSTRUCT('coordinates', 
         ARRAY_CONSTRUCT(
@@ -418,7 +431,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS(
 Generate a polygon showing the area reachable within 10 minutes of driving:
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES(
+SELECT OPENROUTESERVICE_APP.CORE.ISOCHRONES(
     'driving-car',
     -122.4194,   -- longitude
     37.7749,     -- latitude
@@ -431,7 +444,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES(
 Match delivery jobs to vehicles using arrays of jobs and vehicles:
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION(
+SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
     -- jobs: array of delivery tasks
     [
         {'id': 1, 'location': [-122.4194, 37.7749], 'service': 300},
@@ -453,7 +466,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION(
 Pass a full VROOM-compatible JSON challenge:
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION(
+SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
     PARSE_JSON('{
         "jobs": [
             {"id": 1, "location": [-122.4194, 37.7749], "service": 300},
@@ -471,7 +484,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION(
 Calculate the time and distance matrix between multiple locations:
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.MATRIX(
+SELECT OPENROUTESERVICE_APP.CORE.MATRIX(
     'driving-car',
     ARRAY_CONSTRUCT(
         ARRAY_CONSTRUCT(-122.4194, 37.7749),
@@ -486,7 +499,7 @@ SELECT OPENROUTESERVICE_NATIVE_APP.CORE.MATRIX(
 Pass full matrix options for advanced control (sources, destinations, metrics):
 
 ```sql
-SELECT OPENROUTESERVICE_NATIVE_APP.CORE.MATRIX(
+SELECT OPENROUTESERVICE_APP.CORE.MATRIX(
     'driving-car',
     PARSE_JSON('{
         "locations": [[-122.4194, 37.7749], [-122.4078, 37.7941], [-122.4783, 37.8199]],
@@ -511,7 +524,7 @@ The `_GEO` functions are **SQL wrappers** around the base functions above. All t
 **DIRECTIONS_GEO: Point-to-Point**
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
     'driving-car',
     [-122.4194, 37.7749],
     [-122.4783, 37.8199]
@@ -522,7 +535,7 @@ SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
 **DIRECTIONS_GEO: Multi-Waypoint**
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
     'driving-car',
     OBJECT_CONSTRUCT('coordinates',
         ARRAY_CONSTRUCT(
@@ -538,7 +551,7 @@ SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
 **ISOCHRONES_GEO**
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES_GEO(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
     'driving-car',
     -122.4194,
     37.7749,
@@ -552,7 +565,7 @@ SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES_GEO(
 Returns one row per vehicle route with the route geometry as a `GEOGRAPHY` LineString:
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION_GEO(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION_GEO(
     [
         {'id': 1, 'location': [-122.4194, 37.7749], 'service': 300},
         {'id': 2, 'location': [-122.4078, 37.7941], 'service': 300},
@@ -570,7 +583,7 @@ SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION_GEO(
 **OPTIMIZATION_GEO: Raw Variant**
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.OPTIMIZATION_GEO(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION_GEO(
     PARSE_JSON('{
         "jobs": [
             {"id": 1, "location": [-122.4194, 37.7749], "service": 300},
@@ -595,7 +608,7 @@ SELECT
     ST_LENGTH(GEOJSON) / 1000 AS route_length_km,
     DISTANCE / 1000 AS ors_distance_km,
     DURATION / 60 AS duration_minutes
-FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
+FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
     'driving-car', [-122.4194, 37.7749], [-122.4783, 37.8199]
 ));
 ```
@@ -605,7 +618,7 @@ FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.DIRECTIONS_GEO(
 ```sql
 SELECT
     ST_AREA(GEOJSON) / 1000000 AS catchment_area_sq_km
-FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES_GEO(
+FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
     'driving-car', -122.4194, 37.7749, 15
 ));
 ```
@@ -618,7 +631,7 @@ SELECT
         ST_MAKEPOINT(-122.4078, 37.7941),
         GEOJSON
     ) AS is_reachable
-FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES_GEO(
+FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
     'driving-car', -122.4194, 37.7749, 10
 ));
 ```
@@ -626,40 +639,39 @@ FROM TABLE(OPENROUTESERVICE_NATIVE_APP.CORE.ISOCHRONES_GEO(
 <!-- ------------------------ -->
 ## Customize Your Deployment
 
-The default deployment uses San Francisco with standard routing profiles. You can customize **two key areas** for the ORS Native App:
+The default deployment uses San Francisco with standard routing profiles. You can customize **two key areas** for the routing solution:
 
 | Customization | Default | Example Custom |
 |---------------|---------|----------------|
 | 🗺️ **Map Region** | San Francisco | Paris, London, Tokyo, etc. |
 | 🚚 **Routing Profiles** | Car, HGV, Electric Bicycle | Add walking, wheelchair, road bicycle |
 
-> **_NOTE:_** This step is optional. If you skip customization, the Native App will use the San Francisco defaults.
+> **_NOTE:_** This step is optional. If you skip customization, the routing solution will use the San Francisco defaults.
 
 ### ORS Customization Skills
 
 ```
-.cortex/skills/customize-main/
-├── location.md           ← Customize map
-└── routing-profiles.md   ← Customize routing profile
-...  
+.cortex/skills/routing-customization/
+├── location/SKILL.md           ← Customize map
+└── routing-profiles/SKILL.md   ← Customize routing profiles
 ```
 
 To customize, run:
 
 ```
-$customize-main
+$routing-customization
 ```
 
 ### How the Customization Works
 
-The main `$customize-main` skill orchestrates the process by asking **two questions**, then runs only the relevant sub-skills:
+The main `$routing-customization` skill orchestrates the process by asking **two questions**, then runs only the relevant sub-skills:
 
 1. **"Do you want to customize the LOCATION (map region)?"**
-   - If YES → Runs `$customize-main/location` `
+   - If YES → Runs `routing-customization/location`
    - If NO → Skips map download entirely
 
 2. **"Do you want to customize ROUTING PROFILES (vehicle types)?"**
-   - If YES → Runs `$customize-main/routing-profiles`
+   - If YES → Runs `routing-customization/routing-profiles`
    - If NO → Keeps default profiles (car, HGV, electric bicycle)
 
 ### Example: Customizing to Paris
@@ -667,7 +679,7 @@ The main `$customize-main` skill orchestrates the process by asking **two questi
 Let's try changing the location to Paris. In Cortex Code, simply type:
 
 ```
-$customize-main
+$routing-customization
 ```
 
 then select location: Paris as part of the workflow.
@@ -687,13 +699,10 @@ Cortex Code will find the appropriate skill and guide you through the process:
   - `foot-walking` - Pedestrian (optional)
   - `wheelchair` - Wheelchair accessible (optional)
 
-**Step 3: Function Tester Update**
-- Updates Function Tester with Paris addresses
-- Updates available vehicle profiles dropdown to match your configuration
-
-**Step 4: Build Graphs**
+**Step 3: Build Graphs**
 - Services restart to update routing graphs for Paris
-- Changes are applied directly to your local files
+- `MAP_CONFIG` table is updated with Paris bounds for the Function Tester
+- Changes are applied directly to your Snowflake objects
 
 Once the customization completes, Cortex Code shows a summary of everything that was updated:
 
@@ -704,14 +713,14 @@ The summary confirms:
 2. ✅ **Config updated** - `ors-config.yml` now points to the new map file
 3. ✅ **Service spec updated** - Volume paths configured for Paris
 4. ✅ **Services resumed** - ORS_SERVICE is rebuilding routing graphs (this takes 15-30 minutes depending on map size)
-5. ✅ **Streamlit updated** - Default location changed to "Eiffel Tower, Paris"
+5. ✅ **MAP_CONFIG updated** - Function Tester will generate Paris addresses automatically
 
 **⏳ Wait for Services to Restart**
 
-After the map is uploaded (if location was changed) or profiles were modified (if vehicles were changed), the services need to update the routing graphs. You can monitor progress in the Service Manager:
+After the map is uploaded (if location was changed) or profiles were modified (if vehicles were changed), the services need to update the routing graphs. You can monitor progress in the ORS Control App:
 
-1. Navigate to **Data Products > Apps > OPENROUTESERVICE_NATIVE_APP**
-2. Check the **Service Manager** - all 4 services should show ✅ RUNNING
+1. Open the ORS Control App URL (run `SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP` to retrieve it)
+2. Check the **Service Manager** — all 5 services should show ✅ RUNNING
 3. The **Open Route Service** will take the longest as it builds the graph files
 
 Once services are running, the Function Tester will show **Paris addresses** instead of San Francisco!
@@ -774,20 +783,19 @@ The skill presents available routing profiles and lets you enable/disable them:
 
 **Function Tester Customization**
 
-The skill automatically updates the **Function Tester Streamlit** with:
+The skill automatically updates the **Function Tester** in the ORS Control App by writing to the `OPENROUTESERVICE_APP.CORE.MAP_CONFIG` table:
 
 **Region-specific sample addresses:**
-   - Start locations (5 landmarks/city centers)
-   - End locations (5 different destinations)
-   - Waypoints (20 locations across the region)
+   - The Function Tester dynamically generates addresses within the bounds stored in `MAP_CONFIG`
+   - No manual address updates needed — just update the table and the UI picks it up automatically
 
 **Vehicle profiles dropdown:**
 - Updated to show only your enabled profiles
-- Matches the profiles configured in `ors-config.yml`
+- Profiles are loaded dynamically from `ORS_STATUS` — no hardcoded list to maintain
 
 This ensures test addresses are valid for your map region and vehicle options match your configuration.
 
-> **_TIP:_** Customizations modify your local files directly. If you want to preserve the original San Francisco configuration, make a backup before customizing.
+> **_TIP:_** Customizations modify your Snowflake configuration directly. To revert, re-run the location or routing-profiles sub-skill to restore the original settings.
 
 Once your services are running with the new map (or if you skipped customization), you're ready to deploy the demo!
 
@@ -816,14 +824,24 @@ Cortex Code makes uninstallation simple with natural language commands.
 To remove the Snowflake objects installed as part of the demo you can type in Cortex Code CLI:
 
 ```
-uninstall all Snowflake objects created as part of skill $build-routing-solution
+$routing-solution-cleanup
 ```
 
-This will:
-- Remove the Native App (`OPENROUTESERVICE_NATIVE_APP`)
-- Drop the Application Package (`OPENROUTESERVICE_NATIVE_APP_PKG`)
-- Delete the setup database (`OPENROUTESERVICE_SETUP`) including all stages and image repository
-- Optionally remove local container images
+Or drop the objects manually:
+
+```sql
+DROP DATABASE IF EXISTS OPENROUTESERVICE_APP;
+DROP DATABASE IF EXISTS SYNTHETIC_DATASETS;
+DROP DATABASE IF EXISTS FLEET_INTELLIGENCE;
+DROP WAREHOUSE IF EXISTS ROUTING_ANALYTICS;
+```
+
+This will remove:
+- The `OPENROUTESERVICE_APP` database (including all stages, functions, and SPCS services)
+- The `SYNTHETIC_DATASETS` and `FLEET_INTELLIGENCE` databases (seed data and fleet demos)
+- The `ROUTING_ANALYTICS` warehouse
+
+> **_NOTE:_** The `routing-solution-cleanup` skill auto-discovers all objects created by the skills via COMMENT tracking tags, so it will also clean up any demo objects (fleet intelligence, route deviation, retail catchment, etc.).
 
 <!-- ------------------------ -->
 ## Conclusion and Resources
@@ -833,14 +851,14 @@ You've just deployed a **self-contained routing solution** in Snowflake using na
 
 This solution demonstrates the power of combining:
 - **Cortex Code** - AI-powered CLI that turns natural language into automated workflows
-- **Snowpark Container Services** - Running OpenRouteService as a self-managed Native App
-- **Native App Functions** - SQL-callable routing functions for directions, optimization, isochrones, and time-distance matrix
+- **Snowpark Container Services** - Running OpenRouteService as a self-managed routing engine
+- **SQL-Callable Functions** - Routing functions for directions, optimization, isochrones, and time-distance matrix
 
 The key advantage of this approach is **flexibility without complexity**. Want to switch from San Francisco to Paris? Just run the location customization skill. Need to add walking or cycling routes? Enable additional routing profiles. The skill-based approach means you only run the steps you need.
 
 ### What You Learned
 
-- **Deploy Native Apps with Cortex Code** - Use natural language skills to automate complex Snowflake deployments including container services, stages, and compute pools
+- **Deploy with Cortex Code** - Use natural language skills to automate complex Snowflake deployments including container services, stages, and compute pools
 
 - **Self-Managed Route Optimization** - Run OpenRouteService entirely within Snowflake with no external API calls, giving you unlimited routing requests and complete data privacy
 
@@ -881,7 +899,7 @@ Deploy the demo to see the routing functions in action with real-world POI data:
 #### Cortex Code
 
 - [Cortex Code](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code) - Snowflake's AI-powered CLI and agentic interface
-- [Snowflake Native Apps](https://docs.snowflake.com/en/developer-guide/native-apps/native-apps-about) - Build and distribute applications within Snowflake
+- [Snowpark Container Services](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview) - Run containerized workloads natively in Snowflake
 
 #### Map Data Sources
 
