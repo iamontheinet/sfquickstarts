@@ -15,7 +15,7 @@ fork repo link: https://github.com/Snowflake-Labs/sfguide-create-a-route-optimis
 <!-- ------------------------ -->
 ## Overview 
 
-![alt text](assets/overview-map.png)
+![alt text](assets/intro)
 
 **Build a complete route optimization platform in minutes using just natural language commands.**
 
@@ -57,7 +57,7 @@ This solution deploys [OpenRouteService](https://openrouteservice.org/) directly
 
 > **_NOTE:_** This is enabled by default with the exception of Free Trials where you would need to contact your snowflake representative to activate it.  
 
--   [External Access Integration Activated](https://docs.snowflake.com/en/sql-reference/sql/create-external-access-integration) - Required to download map files from provider account
+-   [External Access Integration Activated](https://docs.snowflake.com/en/sql-reference/sql/create-external-access-integration) - Required to download map files from the internet
 
 -   **Cortex Code CLI** installed and configured
     - Installation: See the [Cortex Code documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code) for setup instructions
@@ -99,9 +99,7 @@ This is a self-contained service which is managed by you. There are no API calls
 <!-- ------------------------ -->
 ## Build the Routing Solution
 
-![Cortex Code Deployment](assets/architecture-diagram.png)
-
-Use Cortex Code, Snowflake's AI-powered CLI, to deploy the routing solution using natural language commands and automated skills.
+Use Cortex Code, Snowflake's AI-powered coding assistant, to deploy the routing solution using natural language commands and automated skills.
 
 ### Setup Cortex Code
 
@@ -184,11 +182,19 @@ Run the prerequisites check skill to ensure all dependencies are installed:
 
 ### Build the Routing Solution
 
-Simply type the following command in Cortex Code:
+To deploy the plain-vanilla app execute command below in Cortex Code:
 
 ```
 $build-routing-solution
 ```
+
+If you are also interested in deploying the demos you can type: 
+
+```
+$build-routing-solution and deploy all available demoes
+```
+
+You can also choose to only deploy specific demoes, just specify them using natural language.
 
 Cortex Code will automatically:
 - Create the required databases (`OPENROUTESERVICE_APP`, `SYNTHETIC_DATASETS`, `FLEET_INTELLIGENCE`), stages, and image repository
@@ -202,11 +208,7 @@ The skill will guide you through any required steps, including:
 - Authenticating with the Snowflake image registry
 - Monitoring the build progress
 
-The skill uses interactive prompting to gather required information:
-
-![Interactive Skill Prompting](assets/prompt-setup-database.png)
-
-> **_TIP:_** Use your keyboard arrow keys to toggle through the options, then press **Enter** to confirm your selection.
+The skill uses interactive prompting to gather required information.
 
 **What gets installed:**
 
@@ -286,49 +288,6 @@ Use the **Start All** / **Stop All** buttons for bulk service operations, or man
 > - **Vehicle profiles**: Each enabled profile (driving-car, cycling, walking, etc.) generates its own routing graph
 >
 > A city map with 2 profiles will complete in minutes; a country map with 5+ profiles can take several hours.
-
-<!-- ------------------------ -->
-## ORS Configuration
-
-The routing solution is configured via the `ors-config.yml` file which controls:
-
-**Map Source File**
-```yml
-ors:
-  engine:
-    profile_default:
-      build:  
-        source_file: /home/ors/files/SanFrancisco.osm.pbf
-```
-The default deployment uses San Francisco. When you customize the map region, this path is updated automatically.
-
-**Routing Profiles**
-
-The configuration defines which routing profiles are available for routing:
-
-| Profile | Description | Default |
-|---------|-------------|---------|
-| `driving-car` | Standard passenger vehicle | ✅ Enabled |
-| `driving-hgv` | Heavy goods vehicle (trucks) | ✅ Enabled |
-| `cycling-road` | Road bicycle | ❌ Disabled |
-| `cycling-regular` | Regular bicycle | ❌ Disabled |
-| `cycling-mountain` | Mountain bicycle | ❌ Disabled |
-| `cycling-electric` | Electric bicycle | ✅ Enabled |
-| `foot-walking` | Pedestrian walking | ❌ Disabled |
-| `foot-hiking` | Hiking trails | ❌ Disabled |
-| `wheelchair` | Wheelchair accessible | ❌ Disabled |
-
-> **_NOTE:_** Enabling more profiles increases graph build time and compute resource usage. The default configuration covers most delivery and logistics use cases.
-
-**Optimization Limits**
-
-The config also controls route optimization capacity:
-```yml
-    matrix:
-      maximum_visited_nodes: 100000000
-      maximum_routes: 250000
-```
-These settings support complex route optimizations with many vehicles and delivery points.
 
 <!-- ------------------------ -->
 ## Function Tester
@@ -569,182 +528,56 @@ FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES(
 ```
 
 <!-- ------------------------ -->
-## Customize Your Deployment
+## ORS Configuration
 
-The default deployment uses San Francisco with standard routing profiles. You can customize **two key areas** for the routing solution:
+The routing solution is configured via the `ors-config.yml` file which controls:
 
-| Customization | Default | Example Custom |
-|---------------|---------|----------------|
-| 🗺️ **Map Region** | San Francisco | Paris, London, Tokyo, etc. |
-| 🚚 **Routing Profiles** | Car, HGV, Electric Bicycle | Add walking, wheelchair, road bicycle |
-
-> **_NOTE:_** This step is optional. If you skip customization, the routing solution will use the San Francisco defaults.
-
-### ORS Customization Skills
-
+**Map Source File**
+```yml
+ors:
+  engine:
+    profile_default:
+      build:  
+        source_file: /home/ors/files/SanFrancisco.osm.pbf
 ```
-.cortex/skills/routing-customization/
-├── location/SKILL.md           ← Customize map
-└── routing-profiles/SKILL.md   ← Customize routing profiles
+The default deployment uses San Francisco. When you customize the map region, this path is updated automatically.
+
+**Routing Profiles**
+
+The configuration defines which routing profiles are available for routing:
+
+| Profile | Description | Default |
+|---------|-------------|---------|
+| `driving-car` | Standard passenger vehicle | ✅ Enabled |
+| `driving-hgv` | Heavy goods vehicle (trucks) | ✅ Enabled |
+| `cycling-road` | Road bicycle | ❌ Disabled |
+| `cycling-regular` | Regular bicycle | ❌ Disabled |
+| `cycling-mountain` | Mountain bicycle | ❌ Disabled |
+| `cycling-electric` | Electric bicycle | ✅ Enabled |
+| `foot-walking` | Pedestrian walking | ❌ Disabled |
+| `foot-hiking` | Hiking trails | ❌ Disabled |
+| `wheelchair` | Wheelchair accessible | ❌ Disabled |
+
+> **_NOTE:_** Enabling more profiles increases graph build time and compute resource usage. The default configuration covers most delivery and logistics use cases.
+
+**Optimization Limits**
+
+The config also controls route optimization capacity:
+```yml
+    matrix:
+      maximum_visited_nodes: 100000000
+      maximum_routes: 250000
 ```
-
-To customize, run:
-
-```
-$routing-customization
-```
-
-### How the Customization Works
-
-The main `$routing-customization` skill orchestrates the process by asking **two questions**, then runs only the relevant sub-skills:
-
-1. **"Do you want to customize the LOCATION (map region)?"**
-   - If YES → Runs `routing-customization/location`
-   - If NO → Skips map download entirely
-
-2. **"Do you want to customize ROUTING PROFILES (vehicle types)?"**
-   - If YES → Runs `routing-customization/routing-profiles`
-   - If NO → Keeps default profiles (car, HGV, electric bicycle)
-
-### Example: Customizing to Paris
-
-Let's try changing the location to Paris. In Cortex Code, simply type:
-
-```
-$routing-customization
-```
-
-then select location: Paris as part of the workflow.
-
-Cortex Code will find the appropriate skill and guide you through the process:
-
-**Step 1: Location Change**
-- Cortex Code downloads the Paris (or Île-de-France) map from Geofabrik
-- Uploads the OpenStreetMap data to Snowflake
-- Updates `ors-config.yml` with the new map path
-
-**Step 2: Routing Profiles**
-- Choose which routing profiles to enable for Paris:
-  - `driving-car` - Standard passenger vehicle ✅
-  - `driving-hgv` - Heavy goods vehicle (trucks) ✅
-  - `cycling-electric` - Electric bicycles ✅
-  - `foot-walking` - Pedestrian (optional)
-  - `wheelchair` - Wheelchair accessible (optional)
-
-**Step 3: Build Graphs**
-- Services restart to update routing graphs for Paris
-- `MAP_CONFIG` table is updated with Paris bounds for the Function Tester
-- Changes are applied directly to your Snowflake objects
-
-Once the customization completes, Cortex Code shows a summary of everything that was updated:
-
-![Location Customization Complete](assets/location-customization-complete.png)
-
-The summary confirms:
-1. ✅ **Map downloaded** - The Île-de-France map for the Paris region
-2. ✅ **Config updated** - `ors-config.yml` now points to the new map file
-3. ✅ **Service spec updated** - Volume paths configured for Paris
-4. ✅ **Services resumed** - ORS_SERVICE is rebuilding routing graphs (this takes 15-30 minutes depending on map size)
-5. ✅ **MAP_CONFIG updated** - Function Tester will generate Paris addresses automatically
-
-**⏳ Wait for Services to Restart**
-
-After the map is uploaded (if location was changed) or profiles were modified (if vehicles were changed), the services need to update the routing graphs. You can monitor progress in the ORS Control App:
-
-1. Open the ORS Control App URL (run `SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP` to retrieve it)
-2. Check the **Service Manager** — all 5 services should show ✅ RUNNING
-3. The **Open Route Service** will take the longest as it builds the graph files
-
-Once services are running, the Function Tester will show **Paris addresses** instead of San Francisco!
-
-![New Location Complete](assets/new-location-complete.png)
-
-You can now test the routing functions with Paris addresses. Here's an example of testing the **ISOCHRONES** function to calculate a 15-minute driving catchment area from the Eiffel Tower:
-
-![Test Isochrones Paris](assets/test-isochrones-paris.png)
-
-> **_TIP:_** If you only want to enable additional vehicle profiles (and keep San Francisco), answer NO to location. This skips map download entirely - making it much faster!
-
-### Map Download & Resource Scaling (Location Changes Only)
-
-If you selected YES to location customization, the skill downloads OpenStreetMap data from Geofabrik or BBBike. The bigger the map file, the longer it takes to:
-- **Download** the OSM data from the source
-- **Upload** to the Snowflake stage
-- **Generate graph files** for route calculations
-
-| Map Size | Example Regions | Download Time | Graph Build Time | 
-|----------|-----------------|---------------|------------------|
-| < 100MB | San Francisco, Zurich | Minutes | 5-15 minutes |
-| 100MB - 1GB | New York State, Switzerland | 10-30 minutes | 30-60 minutes |
-| 1-5GB | Germany, France, California | 30-60 minutes | 1-3 hours |
-| > 5GB | Great Britain, entire countries | 1-2 hours | 3-8+ hours |
-
-> **_IMPORTANT:_** For country-wide or large region maps, graph generation can take **several hours**. The services will show as "running" while building graphs in the background.
-
-**Automatic Compute Scaling**
-
-Cortex Code will detect the map size after download and offer to **resize the compute pool** to speed up graph generation:
-
-| Map Size | Suggested Compute | Auto-Suspend Extension |
-|----------|-------------------|------------------------|
-| < 1GB | CPU_X64_S (default) | 1 hour |
-| 1-5GB | HIGHMEM_X64_M | 8 hours |
-| > 5GB | HIGHMEM_X64_M | 24 hours |
-
-When prompted, you can accept the scaling recommendation to ensure graphs are computed as quickly as possible. The extended auto-suspend time prevents the service from shutting down mid-build.
-
-> **_TIP:_** For quickest results, use the smallest map that covers your use case. A city-level map (e.g., New York) builds much faster than a country map (e.g., USA).
-
-**Routing Profile Configuration**
-
-The skill presents available routing profiles and lets you enable/disable them:
-
-| Profile | Category | Description |
-|---------|----------|-------------|
-| `driving-car` | Driving | Standard passenger vehicle |
-| `driving-hgv` | Driving | Heavy goods vehicles (trucks) |
-| `cycling-regular` | Cycling | Standard bicycles |
-| `cycling-road` | Cycling | Road bicycles |
-| `cycling-mountain` | Cycling | Mountain bicycles |
-| `cycling-electric` | Cycling | Electric bicycles |
-| `foot-walking` | Foot | Pedestrian walking |
-| `foot-hiking` | Foot | Hiking trails |
-| `wheelchair` | Wheelchair | Wheelchair accessible routes |
-
-> **_NOTE:_** Enabling more profiles increases graph build time. The default (driving-car, driving-hgv, cycling-electric) covers most logistics use cases.
-
-**Function Tester Customization**
-
-The skill automatically updates the **Function Tester** in the ORS Control App by writing to the `OPENROUTESERVICE_APP.CORE.MAP_CONFIG` table:
-
-**Region-specific sample addresses:**
-   - The Function Tester dynamically generates addresses within the bounds stored in `MAP_CONFIG`
-   - No manual address updates needed — just update the table and the UI picks it up automatically
-
-**Vehicle profiles dropdown:**
-- Updated to show only your enabled profiles
-- Profiles are loaded dynamically from `ORS_STATUS` — no hardcoded list to maintain
-
-This ensures test addresses are valid for your map region and vehicle options match your configuration.
-
-> **_TIP:_** Customizations modify your Snowflake configuration directly. To revert, re-run the location or routing-profiles sub-skill to restore the original settings.
-
-Once your services are running with the new map (or if you skipped customization), you're ready to deploy the demo!
+These settings support complex route optimizations with many vehicles and delivery points.
 
 <!-- ------------------------ -->
-## Next Steps
+## Customize Your Deployment
 
-🎉 **Congratulations!** Your Routing Solution is now installed and configured.
+All the customization (location, routing profiles) can be managed via the application itself in the region builder section.
+[region_builder](assets/region_builder)
 
-To deploy the Route Optimization demo with real-world POI data and interactive notebooks, continue to the next quickstart:
-👉 **[Deploy Route Optimization Demo](../oss-deploy-route-optimization-demo/)**
-
-The demo quickstart will:
-- Acquire the **Carto Overture Maps Places** dataset with 50+ million POIs worldwide
-- Deploy interactive **AISQL notebooks** to explore routing functions
-- Create the **Route Optimization Simulator** Streamlit app
-
-All demo content will use your configured map region (San Francisco by default, or your customized region like Paris).
+Just use the UI to configure different locations and vehicle. Below example for New York. 
+[region_builder_example](assets/region_builder_example)
 
 <!-- ------------------------ -->
 ## Uninstall the Route Optimizer
