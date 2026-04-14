@@ -31,7 +31,7 @@ This solution deploys [OpenRouteService](https://openrouteservice.org/) directly
 - **Isochrones** - Generate catchment polygons showing reachable areas within a given drive time
 - **Time-Distance Matrix** - Calculate travel time and distance matrices between multiple locations
 
-📐 **GeoFunctions** — Each routing function also has a `_GEO` variant (e.g. `DIRECTIONS_GEO`, `ISOCHRONES_GEO`, `OPTIMIZATION_GEO`) that wraps the base function and returns the route/polygon geometry as a native Snowflake `GEOGRAPHY` column — ready for geospatial analysis with `ST_LENGTH`, `ST_AREA`, `ST_WITHIN`, and more.
+📐 **Native GEOGRAPHY Output** — `DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` return route and polygon geometry as a native Snowflake `GEOGRAPHY` column directly — ready for geospatial analysis with `ST_LENGTH`, `ST_AREA`, `ST_WITHIN`, and more.
 
 🗺️ **Any Location** - Customize to Paris, London, New York, or anywhere in the world with downloadable OpenStreetMap data.
 
@@ -271,7 +271,7 @@ The ORS Control App is the central management interface for the routing solution
   - **VROOM Service** - Route optimization engine
   - **ORS Control App** - This web UI itself
 
-![Service Manager](assets/service-manager.png)
+![Status Page](assets/status.png)
 
 - **Function Tester** - Test all four routing functions interactively with sample addresses
 - **City Provisioning** - Browse the region catalog and provision new map regions
@@ -333,15 +333,15 @@ These settings support complex route optimizations with many vehicles and delive
 <!-- ------------------------ -->
 ## Function Tester
 
-The ORS Control App includes a built-in **Function Tester** page for testing the routing functions interactively.
+The ORS Control App includes a **Functions** page for testing all routing functions interactively with a live map preview.
 
-![Function Tester](assets/function-tester.png)
+![Functions Page](assets/functions.jpg)
 
-To access the Function Tester:
+To access the Functions page:
 1. Open the ORS Control App URL (printed at the end of the build skill, or retrieved via `SHOW ENDPOINTS IN SERVICE OPENROUTESERVICE_APP.CORE.ORS_CONTROL_APP`)
-2. Navigate to the **Function Tester** page in the app
+2. Navigate to the **Functions** page in the app
 
-The Function Tester allows you to test all four routing functions:
+The Functions page allows you to test all routing functions:
 
 **🗺️ DIRECTIONS**
 - Select start and end locations from preset addresses
@@ -370,7 +370,7 @@ The Function Tester allows you to test all four routing functions:
 **🗺️ TIME-DISTANCE MATRIX**
 - Calculate travel time and distance matrices between multiple locations
 
-> **_TIP:_** The Function Tester comes pre-configured with San Francisco addresses and default vehicle profiles (car, HGV, electric bicycle). When you customize the deployment, the Function Tester is automatically updated with region-specific addresses and your enabled vehicle profiles.
+> **_TIP:_** The Functions page comes pre-configured with San Francisco addresses and default vehicle profiles (car, HGV, electric bicycle). When you customize the deployment, the Functions page is automatically updated with region-specific addresses and your enabled vehicle profiles.
 
 <!-- ------------------------ -->
 ## SQL Function Reference
@@ -381,62 +381,60 @@ All routing functions are deployed as SQL functions inside the `OPENROUTESERVICE
 
 | Function | Signature | Returns | Description |
 |----------|-----------|---------|-------------|
-| `DIRECTIONS` | `(method VARCHAR, jstart ARRAY, jend ARRAY)` | `VARIANT` | Point-to-point directions |
-| `DIRECTIONS` | `(method VARCHAR, locations VARIANT)` | `VARIANT` | Multi-waypoint directions |
-| `ISOCHRONES` | `(method TEXT, lon FLOAT, lat FLOAT, range INT)` | `VARIANT` | Catchment area polygon |
-| `OPTIMIZATION` | `(jobs ARRAY, vehicles ARRAY, matrices ARRAY)` | `VARIANT` | Route optimization (tabular) |
-| `OPTIMIZATION` | `(challenge VARIANT)` | `VARIANT` | Route optimization (raw) |
-| `MATRIX` | `(method VARCHAR, locations ARRAY)` | `VARIANT` | Time-distance matrix (tabular) |
-| `MATRIX` | `(method VARCHAR, options VARIANT)` | `VARIANT` | Time-distance matrix (raw) |
-| `ORS_STATUS` | `()` | `VARIANT` | Service health and graph info |
-| `DIRECTIONS_GEO` | `(method VARCHAR, jstart ARRAY, jend ARRAY)` | `TABLE(RESPONSE, GEOJSON, DISTANCE, DURATION)` | Directions with GEOGRAPHY |
-| `DIRECTIONS_GEO` | `(method VARCHAR, locations VARIANT)` | `TABLE(RESPONSE, GEOJSON, DISTANCE, DURATION)` | Multi-waypoint with GEOGRAPHY |
-| `ISOCHRONES_GEO` | `(method TEXT, lon FLOAT, lat FLOAT, range INT)` | `TABLE(RESPONSE, GEOJSON)` | Isochrone with GEOGRAPHY |
-| `OPTIMIZATION_GEO` | `(jobs ARRAY, vehicles ARRAY, matrices ARRAY)` | `TABLE(RESPONSE, GEOJSON, VEHICLE, DURATION, STEPS)` | Optimization with GEOGRAPHY |
-| `OPTIMIZATION_GEO` | `(challenge VARIANT)` | `TABLE(RESPONSE, GEOJSON, VEHICLE, DURATION, STEPS)` | Optimization (raw) with GEOGRAPHY |
+| `DIRECTIONS` | `(method VARCHAR, jstart ARRAY, jend ARRAY [, region VARCHAR])` | `TABLE(RESPONSE VARIANT, GEOJSON GEOGRAPHY, DISTANCE FLOAT, DURATION FLOAT)` | Point-to-point directions with route geometry |
+| `DIRECTIONS` | `(method VARCHAR, locations VARIANT [, region VARCHAR])` | `TABLE(RESPONSE VARIANT, GEOJSON GEOGRAPHY, DISTANCE FLOAT, DURATION FLOAT)` | Multi-waypoint directions with route geometry |
+| `ISOCHRONES` | `(method VARCHAR, lon FLOAT, lat FLOAT, range NUMBER [, region VARCHAR])` | `TABLE(RESPONSE VARIANT, GEOJSON GEOGRAPHY)` | Catchment area polygon |
+| `OPTIMIZATION` | `(jobs ARRAY, vehicles ARRAY, matrices ARRAY [, region VARCHAR])` | `TABLE(RESPONSE VARIANT, GEOJSON GEOGRAPHY, VEHICLE NUMBER, DURATION NUMBER, STEPS VARIANT)` | Route optimization (tabular) |
+| `OPTIMIZATION` | `(challenge VARIANT [, region VARCHAR])` | `TABLE(RESPONSE VARIANT, GEOJSON GEOGRAPHY, VEHICLE NUMBER, DURATION NUMBER, STEPS VARIANT)` | Route optimization (raw) |
+| `MATRIX` | `(method VARCHAR, locations ARRAY [, region VARCHAR])` | `VARIANT` | Time-distance matrix (tabular) |
+| `MATRIX` | `(method VARCHAR, options VARIANT [, region VARCHAR])` | `VARIANT` | Time-distance matrix (raw) |
+| `ORS_STATUS` | `([region VARCHAR])` | `VARIANT` | Service health and graph info |
 
-### Base Functions — SQL Examples
+### SQL Examples
+
+> **_NOTE:_** All functions accept an optional `REGION VARCHAR` parameter (defaults to `NULL` = current region). `DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` are table functions — call them with `SELECT * FROM TABLE(func(...))`. `MATRIX` and `ORS_STATUS` are scalar functions — call them with `SELECT func(...)`.
 
 **Directions: Point-to-Point**
 
 Calculate a driving route between two coordinates (longitude, latitude):
 
 ```sql
-SELECT OPENROUTESERVICE_APP.CORE.DIRECTIONS(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS(
     'driving-car',
     [-122.4194, 37.7749],   -- start: [lon, lat]
     [-122.4783, 37.8199]    -- end:   [lon, lat]
-) AS route;
+));
+-- Returns: RESPONSE (variant), GEOJSON (geography), DISTANCE (float, meters), DURATION (float, seconds)
 ```
 
 **Directions: Multi-Waypoint**
 
-Route through multiple stops by passing a `locations` object:
+Route through multiple stops by passing a `locations` object as VARIANT using `PARSE_JSON`:
 
 ```sql
-SELECT OPENROUTESERVICE_APP.CORE.DIRECTIONS(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS(
     'driving-car',
-    OBJECT_CONSTRUCT('coordinates', 
-        ARRAY_CONSTRUCT(
-            ARRAY_CONSTRUCT(-122.4194, 37.7749),   -- stop 1
-            ARRAY_CONSTRUCT(-122.4078, 37.7941),   -- stop 2
-            ARRAY_CONSTRUCT(-122.4783, 37.8199)    -- stop 3
-        )
-    )
-) AS route;
+    PARSE_JSON('{"coordinates": [
+        [-122.4194, 37.7749],
+        [-122.4078, 37.7941],
+        [-122.4783, 37.8199]
+    ]}')
+));
+-- Returns: RESPONSE (variant), GEOJSON (geography), DISTANCE (float, meters), DURATION (float, seconds)
 ```
 
 **Isochrones**
 
-Generate a polygon showing the area reachable within 10 minutes of driving:
+Generate a polygon showing the area reachable within 10 minutes of driving. Cast `lon` and `lat` to `FLOAT`:
 
 ```sql
-SELECT OPENROUTESERVICE_APP.CORE.ISOCHRONES(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES(
     'driving-car',
-    -122.4194,   -- longitude
-    37.7749,     -- latitude
-    10           -- range in minutes
-) AS isochrone;
+    -122.4194::FLOAT,   -- longitude
+    37.7749::FLOAT,     -- latitude
+    10                  -- range in minutes
+));
+-- Returns: RESPONSE (variant), GEOJSON (geography)
 ```
 
 **Optimization: Tabular**
@@ -444,7 +442,7 @@ SELECT OPENROUTESERVICE_APP.CORE.ISOCHRONES(
 Match delivery jobs to vehicles using arrays of jobs and vehicles:
 
 ```sql
-SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
     -- jobs: array of delivery tasks
     [
         {'id': 1, 'location': [-122.4194, 37.7749], 'service': 300},
@@ -458,7 +456,8 @@ SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
     ],
     -- matrices (optional, empty array uses ORS to calculate)
     []
-) AS optimized_routes;
+));
+-- Returns: RESPONSE (variant), GEOJSON (geography), VEHICLE (int), DURATION (int), STEPS (variant)
 ```
 
 **Optimization: Raw Variant**
@@ -466,7 +465,7 @@ SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
 Pass a full VROOM-compatible JSON challenge:
 
 ```sql
-SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
+SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
     PARSE_JSON('{
         "jobs": [
             {"id": 1, "location": [-122.4194, 37.7749], "service": 300},
@@ -476,7 +475,8 @@ SELECT OPENROUTESERVICE_APP.CORE.OPTIMIZATION(
             {"id": 1, "profile": "driving-car", "start": [-122.4177, 37.8080], "end": [-122.4177, 37.8080], "capacity": [4]}
         ]
     }')
-) AS optimized_routes;
+));
+-- Returns: RESPONSE (variant), GEOJSON (geography), VEHICLE (int), DURATION (int), STEPS (variant)
 ```
 
 **Matrix: Tabular**
@@ -511,95 +511,27 @@ SELECT OPENROUTESERVICE_APP.CORE.MATRIX(
 ) AS matrix;
 ```
 
-### GeoFunctions — Native GEOGRAPHY Output
+**ORS Status**
 
-The `_GEO` functions are **SQL wrappers** around the base functions above. All they do is:
-
-1. Call the base function (e.g. `DIRECTIONS`)
-2. Use `TO_GEOGRAPHY()` to parse the GeoJSON geometry from the VARIANT response into a native Snowflake `GEOGRAPHY` column
-3. Extract key summary fields (distance, duration, vehicle ID, etc.) into their own columns
-
-**Why this matters:** The base functions return a single `VARIANT` column where the route geometry is buried inside `response:features[0]:geometry`. The GeoFunctions extract that geometry into a dedicated `GEOJSON GEOGRAPHY` column for user convenience.
-
-**DIRECTIONS_GEO: Point-to-Point**
+Check service health and available routing profiles:
 
 ```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
-    'driving-car',
-    [-122.4194, 37.7749],
-    [-122.4783, 37.8199]
-));
--- Returns: RESPONSE (variant), GEOJSON (geography), DISTANCE (float, meters), DURATION (float, seconds)
+SELECT OPENROUTESERVICE_APP.CORE.ORS_STATUS() AS status;
 ```
 
-**DIRECTIONS_GEO: Multi-Waypoint**
+### Native GEOGRAPHY Output
 
-```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
-    'driving-car',
-    OBJECT_CONSTRUCT('coordinates',
-        ARRAY_CONSTRUCT(
-            ARRAY_CONSTRUCT(-122.4194, 37.7749),
-            ARRAY_CONSTRUCT(-122.4078, 37.7941),
-            ARRAY_CONSTRUCT(-122.4783, 37.8199)
-        )
-    )
-));
--- Returns: RESPONSE (variant), GEOJSON (geography), DISTANCE (float, meters), DURATION (float, seconds)
-```
+`DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` are table functions that return a `GEOJSON GEOGRAPHY` column directly alongside the full `RESPONSE VARIANT`. There are no separate `_GEO` wrapper functions — geography output is built in.
 
-**ISOCHRONES_GEO**
-
-```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
-    'driving-car',
-    -122.4194,
-    37.7749,
-    10
-));
--- Returns: RESPONSE (variant), GEOJSON (geography)
-```
-
-**OPTIMIZATION_GEO: Tabular**
-
-Returns one row per vehicle route with the route geometry as a `GEOGRAPHY` LineString:
-
-```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION_GEO(
-    [
-        {'id': 1, 'location': [-122.4194, 37.7749], 'service': 300},
-        {'id': 2, 'location': [-122.4078, 37.7941], 'service': 300},
-        {'id': 3, 'location': [-122.4350, 37.7609], 'service': 300}
-    ],
-    [
-        {'id': 1, 'profile': 'driving-car', 'start': [-122.4177, 37.8080], 'end': [-122.4177, 37.8080], 'capacity': [4], 'time_window': [28800, 43200]},
-        {'id': 2, 'profile': 'driving-car', 'start': [-122.3950, 37.7785], 'end': [-122.3950, 37.7785], 'capacity': [4], 'time_window': [28800, 43200]}
-    ],
-    []
-));
--- Returns: RESPONSE (variant), GEOJSON (geography), VEHICLE (int), DURATION (int), STEPS (variant)
-```
-
-**OPTIMIZATION_GEO: Raw Variant**
-
-```sql
-SELECT * FROM TABLE(OPENROUTESERVICE_APP.CORE.OPTIMIZATION_GEO(
-    PARSE_JSON('{
-        "jobs": [
-            {"id": 1, "location": [-122.4194, 37.7749], "service": 300},
-            {"id": 2, "location": [-122.4078, 37.7941], "service": 300}
-        ],
-        "vehicles": [
-            {"id": 1, "profile": "driving-car", "start": [-122.4177, 37.8080], "end": [-122.4177, 37.8080], "capacity": [4]}
-        ]
-    }')
-));
--- Returns: RESPONSE (variant), GEOJSON (geography), VEHICLE (int), DURATION (int), STEPS (variant)
-```
+| Function | GEOGRAPHY column | Additional columns |
+|----------|------------------|--------------------|
+| `DIRECTIONS` | `GEOJSON` — route LineString | `DISTANCE` (meters), `DURATION` (seconds) |
+| `ISOCHRONES` | `GEOJSON` — catchment Polygon | — |
+| `OPTIMIZATION` | `GEOJSON` — vehicle route LineString | `VEHICLE` (id), `DURATION` (seconds), `STEPS` (variant) |
 
 ### Geospatial Integration Patterns
 
-Once you have `GEOGRAPHY` columns from the Geofunctions, you can chain them with Snowflake's built-in geospatial functions:
+The `GEOJSON GEOGRAPHY` column returned by `DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` can be chained directly with Snowflake's built-in geospatial functions:
 
 **Route length in kilometers:**
 
@@ -608,7 +540,7 @@ SELECT
     ST_LENGTH(GEOJSON) / 1000 AS route_length_km,
     DISTANCE / 1000 AS ors_distance_km,
     DURATION / 60 AS duration_minutes
-FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
+FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS(
     'driving-car', [-122.4194, 37.7749], [-122.4783, 37.8199]
 ));
 ```
@@ -618,8 +550,8 @@ FROM TABLE(OPENROUTESERVICE_APP.CORE.DIRECTIONS_GEO(
 ```sql
 SELECT
     ST_AREA(GEOJSON) / 1000000 AS catchment_area_sq_km
-FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
-    'driving-car', -122.4194, 37.7749, 15
+FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES(
+    'driving-car', -122.4194::FLOAT, 37.7749::FLOAT, 15
 ));
 ```
 
@@ -631,8 +563,8 @@ SELECT
         ST_MAKEPOINT(-122.4078, 37.7941),
         GEOJSON
     ) AS is_reachable
-FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES_GEO(
-    'driving-car', -122.4194, 37.7749, 10
+FROM TABLE(OPENROUTESERVICE_APP.CORE.ISOCHRONES(
+    'driving-car', -122.4194::FLOAT, 37.7749::FLOAT, 10
 ));
 ```
 
@@ -870,7 +802,7 @@ The key advantage of this approach is **flexibility without complexity**. Want t
     - **Isochrones** - Generate catchment polygons showing reachable areas
     - **Time-Distance Matrix** - Calculate travel time and distance matrices between multiple locations
 
-- **GeoFunctions for Geospatial Analysis** - Use `_GEO` variants (`DIRECTIONS_GEO`, `ISOCHRONES_GEO`, `OPTIMIZATION_GEO`) that wrap the base functions and return native `GEOGRAPHY` columns — no manual JSON parsing needed
+- **Native GEOGRAPHY Output** — `DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` return route and polygon geometry as a native `GEOGRAPHY` column directly — no JSON parsing or wrapper functions needed
 
 ### Next Steps
 
