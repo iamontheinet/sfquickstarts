@@ -187,7 +187,7 @@ To deploy the plain-vanilla app execute command below in Cortex Code:
 
 ```
 $build-routing-solution
-```d
+```
 
 If you are also interested in deploying the demos you can type: 
 
@@ -337,7 +337,7 @@ The Functions page allows you to test all routing functions:
 
 The routing solution includes several optional demos that showcase real-world use cases built on top of the core routing functions. Each demo is deployed independently using a dedicated skill — run any of them after the base installation is complete.
 
-To deploy a demo, tell Cortex Code:
+In case you have not done this before, to deploy a demo, tell Cortex Code:
 ```
 $<demo-skill-name>
 ```
@@ -363,7 +363,7 @@ $dwell-analysis
 
 ![Fleet Delivery Dashboard](assets/fleet_delivery.png)
 
-The **Fleet Delivery** demo provides fleet-wide delivery analytics for courier operations. It includes a React Native app on SPCS and a Streamlit dashboard with live courier tracking, delivery statistics, and performance leaderboards.
+The **Fleet Delivery** demo provides fleet-wide delivery analytics for courier operations. 
 
 **Key features:**
 - KPI tiles: total couriers, deliveries, average delivery time and distance
@@ -747,12 +747,6 @@ Deploy the demo to see the routing functions in action with real-world POI data:
 #### Source code
 
 - [Source Code on Github](https://github.com/Snowflake-Labs/sfguide-Create-a-Route-Optimisation-and-Vehicle-Route-Plan-Simulator)
-
-### Related Quickstarts
-- [Deploy Route Optimization Demo](https://www.snowflake.com/en/developers/guides/oss-deploy-route-optimization-demo/) - Build a visual route optimization simulator
-- [Retail Catchment Analysis with Overture Maps](https://www.snowflake.com/en/developers/guides/oss-retail-catchment-overture-maps/) - Build an interactive retail catchment analysis tool using real-world POI data - powered by OpenRouteService in Snowflake
-- [Deploy Fleet Intelligence Solution for Taxis](https://www.snowflake.com/en/developers/guides/oss-deploy-a-fleet-intelligence-solution-for-taxis/) - Track and analyze taxi fleet operations
-- [Deploy Snowflake Intelligence Routing Agent](https://www.snowflake.com/en/developers/guides/oss-deploy-snowflake-intelligence-routing-agent/) - Build an AI-powered route planning assistant that understands natural language locations - powered by OpenRouteService and Snowflake Intelligence
 
 #### OpenRouteService Resources
 
