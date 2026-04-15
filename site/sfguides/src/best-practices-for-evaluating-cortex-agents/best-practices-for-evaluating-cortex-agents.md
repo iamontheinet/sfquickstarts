@@ -277,32 +277,130 @@ Then, add these queries to your evaluation dataset and improve your agent by ite
 
 ### Setting up alerts
 
-Use alerts to monitor metrics of interest from observability event logs. Example latency alert for agent evaluation threshold:
+Alerts can monitor metrics of interest from Snowflake agent observability event logs. Below are examples for evaluation accuracy, latency, reliability, and user feedback thresholds.
+
+First, create a notification integration (one-time setup):
 
 ```sql
 CREATE OR REPLACE NOTIFICATION INTEGRATION my_email_int
   TYPE = EMAIL
   ENABLED = TRUE
   ALLOWED_RECIPIENTS = ('admin@example.com');
+```
 
-CREATE OR REPLACE ALERT ai_eval_score_alert
+**Agent evaluation threshold alert**
+
+```sql
+CREATE OR REPLACE ALERT agent_eval_threshold_alert
+  WAREHOUSE = my_warehouse
   SCHEDULE = '1 HOUR'
   IF (EXISTS (
-    SELECT * FROM TABLE(SNOWFLAKE.LOCAL.GET_AI_EVALUATION_DATA(
-      'my_db', 'my_schema', 'my_agent', 'CORTEX AGENT', 'my_run'
+    SELECT *
+    FROM TABLE(SNOWFLAKE.LOCAL.GET_AI_EVALUATION_DATA(
+      'my_db',        -- database
+      'my_schema',    -- schema
+      'my_agent',     -- agent name
+      'CORTEX AGENT', -- agent type
+      'my_run'        -- evaluation run name
     ))
     WHERE METRIC_NAME = 'answer_correctness'
-      AND EVAL_AGG_SCORE < 0.7
+      AND EVAL_AGG_SCORE < 0.7  -- threshold: 70% accuracy
   ))
   THEN
     CALL SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
       SNOWFLAKE.NOTIFICATION.TEXT_PLAIN(
-        'AI evaluation accuracy dropped below 70%.'
+        'Agent evaluation accuracy dropped below 70% threshold.'
       ),
       '{"my_email_int": {"toAddress": ["admin@example.com"]}}'
     );
+```
 
-ALTER ALERT ai_eval_score_alert RESUME;
+**Agent latency threshold alert**
+
+```sql
+CREATE OR REPLACE ALERT agent_latency_alert
+  WAREHOUSE = my_warehouse
+  SCHEDULE = '1 HOUR'
+  IF (EXISTS (
+    SELECT *
+    FROM my_db.my_schema.my_event_table
+    WHERE TIMESTAMP > DATEADD('HOUR', -1, CURRENT_TIMESTAMP())
+      AND RESOURCE_ATTRIBUTES['snow.executable.type'] = 'AGENT'
+      AND RECORD_TYPE = 'SPAN'
+      AND RECORD['status']['code'] = 'STATUS_CODE_OK'
+      AND TIMESTAMPDIFF('MILLISECOND',
+            TIMESTAMP,
+            RECORD['end_time']::TIMESTAMP_NTZ
+          ) > 5000  -- latency threshold: 5000ms (5 seconds)
+  ))
+  THEN
+    CALL SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
+      SNOWFLAKE.NOTIFICATION.TEXT_PLAIN(
+        'Agent latency exceeded 5s threshold in the last hour.'
+      ),
+      '{"my_email_int": {"toAddress": ["admin@example.com"]}}'
+    );
+```
+
+**Agent reliability threshold alert**
+
+```sql
+CREATE OR REPLACE ALERT agent_reliability_alert
+  WAREHOUSE = my_warehouse
+  SCHEDULE = '1 HOUR'
+  IF (EXISTS (
+    SELECT *
+    FROM (
+      SELECT
+        COUNT_IF(RECORD['status']['code'] = 'STATUS_CODE_ERROR') AS error_count,
+        COUNT(*) AS total_count,
+        ROUND(1 - (error_count / NULLIF(total_count, 0)), 4) AS reliability_score
+      FROM my_db.my_schema.my_event_table
+      WHERE TIMESTAMP > DATEADD('HOUR', -1, CURRENT_TIMESTAMP())
+        AND RESOURCE_ATTRIBUTES['snow.executable.type'] = 'AGENT'
+        AND RECORD_TYPE = 'SPAN'
+    )
+    WHERE reliability_score < 0.95  -- threshold: 95% reliability
+  ))
+  THEN
+    CALL SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
+      SNOWFLAKE.NOTIFICATION.TEXT_PLAIN(
+        'Agent reliability dropped below 95% threshold in the last hour.'
+      ),
+      '{"my_email_int": {"toAddress": ["admin@example.com"]}}'
+    );
+```
+
+**User feedback threshold alert**
+
+```sql
+CREATE OR REPLACE ALERT agent_user_feedback_alert
+  WAREHOUSE = my_warehouse
+  SCHEDULE = '1 HOUR'
+  IF (EXISTS (
+    SELECT *
+    FROM (
+      SELECT
+        COUNT_IF(FEEDBACK = 'negative') AS negative_count,
+        COUNT_IF(FEEDBACK = 'positive') AS positive_count,
+        COUNT(*) AS total_count,
+        ROUND(positive_count / NULLIF(total_count, 0), 4) AS satisfaction_score
+      FROM my_db.my_schema.my_event_table
+      WHERE TIMESTAMP > DATEADD('HOUR', -24, CURRENT_TIMESTAMP())
+        AND RESOURCE_ATTRIBUTES['snow.executable.type'] = 'AGENT'
+        AND RECORD_TYPE = 'SPAN'
+        AND RECORD['name'] = 'user_feedback'
+    )
+    WHERE satisfaction_score < 0.80  -- threshold: 80% positive feedback
+      AND total_count >= 5           -- minimum sample size to avoid false alarms
+  ))
+  THEN
+    CALL SYSTEM$SEND_SNOWFLAKE_NOTIFICATION(
+      SNOWFLAKE.NOTIFICATION.TEXT_PLAIN(
+        'Agent user satisfaction dropped below 80% in the last 24 hours.'
+      ),
+      '{"my_email_int": {"toAddress": ["admin@example.com"]}}'
+    );
 ```
 
 <!-- ------------------------ -->
@@ -324,6 +422,7 @@ Congratulations! You now have a comprehensive understanding of how to evaluate, 
 3. Make one change at a time and evaluate after each change to isolate impact
 4. Combine CI/CD evaluations with scheduled cadence-based testing for comprehensive coverage
 5. Pin your orchestration LLM to ensure reproducible results
+6. Set up production alerts for evaluation accuracy, latency, reliability, and user feedback to catch issues before users do
 
 ### Related resources
 - [Best Practices for Building Cortex Agents](https://quickstarts.snowflake.com/guide/best-practices-to-building-cortex-agents)
