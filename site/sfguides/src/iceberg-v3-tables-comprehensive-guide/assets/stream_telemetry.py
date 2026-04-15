@@ -372,7 +372,7 @@ def create_connection():
     
     # Check for authenticator and password in config
     authenticator = os.getenv('SNOWFLAKE_AUTHENTICATOR', 'externalbrowser')
-    password = os.getenv('SNOWFLAKE_ACCOUNTADMIN_TOKEN')
+    password = os.getenv('SNOWFLAKE_ACCOUNTADMIN_TOKEN') or os.getenv('SNOWFLAKE_PASSWORD')
     
     conn_params = {
         'account': SNOWFLAKE_ACCOUNT,
