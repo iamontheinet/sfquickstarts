@@ -735,8 +735,6 @@ This solution demonstrates the power of combining:
 - **Snowpark Container Services** - Running OpenRouteService as a self-managed routing engine
 - **SQL-Callable Functions** - Routing functions for directions, optimization, isochrones, and time-distance matrix
 
-The key advantage of this approach is **flexibility without complexity**. Want to switch from San Francisco to Paris? Just run the location customization skill. Need to add walking or cycling routes? Enable additional routing profiles. The skill-based approach means you only run the steps you need.
-
 ### What You Learned
 
 - **Deploy with Cortex Code** - Use natural language skills to automate complex Snowflake deployments including container services, stages, and compute pools
