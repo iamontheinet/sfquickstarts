@@ -753,12 +753,6 @@ The key advantage of this approach is **flexibility without complexity**. Want t
 
 - **Native GEOGRAPHY Output** — `DIRECTIONS`, `ISOCHRONES`, and `OPTIMIZATION` return route and polygon geometry as a native `GEOGRAPHY` column directly — no JSON parsing or wrapper functions needed
 
-### Next Steps
-
-Deploy the demo to see the routing functions in action with real-world POI data:
-
-👉 **[Deploy Route Optimization Demo](../oss-deploy-route-optimization-demo/)**
-
 ### Related Resources
 
 #### Source code
