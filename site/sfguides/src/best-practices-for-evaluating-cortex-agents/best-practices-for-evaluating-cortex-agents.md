@@ -53,6 +53,14 @@ If you can't find willing users to test your agent, you can still use Cortex Cod
 
 Once you have created your evaluation dataset, validate that the responses are what you expect.
 
+
+### Ground Truth Considerations
+
+Ground truth responses should be specific enough to meaningfully validate your agent's answers, but not so specific that non-determinism in LLM-generated responses causes false negatives. For example, for an input query like "How can I decrease my support time to resolution?", a ground truth of "Follow known best practices related to technical support" may be too generic and match partially correct answers. On the other hand, a ground truth that names specific entities, ticket counts, or resolution time targets risks penalizing correct answers that surface different but equally valid details from the underlying data. Aim for ground truth that captures the key facts and constraints of a correct answer without over-indexing on specific entities or figures that may vary between valid responses.
+
+Be mindful of ground truth staleness - questions tied to real-time or frequently changing data (e.g., "what is the current stock price of Snowflake?") will produce ground truth that becomes incorrect over time. To avoid this, consider using input queries anchored to fixed points in time ("what was the closing price of Snowflake stock on January 31st, 2025?"), use ground truth that validates qualitative behavior rather than specific numeric values, or generate ground truth programmatically at evaluation run time so it reflects the current state of the data immediately before the eval executes.
+
+
 <!-- ------------------------ -->
 ## Choosing Metrics
 
