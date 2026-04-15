@@ -690,10 +690,10 @@ These settings support complex route optimizations with many vehicles and delive
 ## Customize Your Deployment
 
 All the customization (location, routing profiles) can be managed via the application itself in the region builder section.
-[region_builder](assets/region_builder.png)
+![region_builder](assets/region_builder.png)
 
 Just use the UI to configure different locations and vehicle. Below example for New York. 
-[region_builder_example](assets/region_builder_example.png)
+![region_builder_example](assets/region_builder_example.png)
 
 <!-- ------------------------ -->
 ## Uninstall the Route Optimizer
