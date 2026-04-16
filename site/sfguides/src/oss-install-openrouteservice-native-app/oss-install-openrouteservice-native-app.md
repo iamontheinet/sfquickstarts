@@ -49,6 +49,8 @@ This solution deploys [OpenRouteService](https://openrouteservice.org/) directly
 
 ### Prerequisites
 
+> **Platform note:** Today, this solution is primarily developed and tested on macOS. Windows users may encounter friction during installation and build steps around container image builds but Cortex Code should be able to resolve it.
+
 **This is what you will need**:
 
 -   **ACCOUNTADMIN** access to your Snowflake account (or a custom role with CREATE DATABASE, CREATE WAREHOUSE, CREATE COMPUTE POOL, and IMPORT SHARE privileges)
