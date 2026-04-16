@@ -2,10 +2,11 @@ author: Matt Barreiro
 id: getting-started-with-snowflake-trail-for-observability
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: Learn how to enable and use Snowflake Trail for comprehensive observability across your Snowflake workloads, including logs, traces, metrics, and monitoring capabilities.
+summary: Learn how to enable and use Snowflake Trail for comprehensive observability across your Snowflake workloads, including logs, traces, metrics, and monitoring capabilities. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with Snowflake Trail for Observability
 <!-- ------------------------ -->
@@ -30,7 +31,7 @@ This quickstart is intended to help tie together all the components of Snowflake
 
 ### What You'll Need:
 
-- A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_cta=quickstarts).
+- A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 - A Snowflake account login with the `ACCOUNTADMIN` role, or a custom role with privileges to:
   - Set account-level parameters (`ALTER ACCOUNT`)
   - View and query event tables (`SELECT` on `SNOWFLAKE.TELEMETRY.*`)
@@ -95,7 +96,7 @@ You can see the **Set Event Level** dialog box below.
 
 ### (Option 2): Setting Telemetry Levels via SQL
 
-1. Open a new SQL worksheet or a [workspace](https://app.snowflake.com/_deeplink/#/workspaces?utm_medium=developer-guides).
+1. Open a new SQL worksheet or a <a href="https://app.snowflake.com/_deeplink/#/workspaces?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_content=getting-started-with-snowflake-trail-for-observability&utm_cta=developer-guides-deeplink" class="_deeplink">workspace</a>.
 1. Run the following:
 
 ```sql
@@ -567,11 +568,8 @@ Now that you have explored the basics of Snowflake Trail, consider these possibl
 
 #### Quickstart Guides
 
-- [Observability Quickstarts Category](/en/developers/guides/)
-
 - [Getting Started with AI Observability](/en/developers/guides/getting-started-with-ai-observability/)
 - [Getting Started with Event Tables and Alerts](/en/developers/guides/alert-on-events/)
-- [Getting Started with Logging](https://docs.snowflake.com/en/developer-guide/logging-tracing/logging-log-messages)
 - [Getting Started with Snowflake Dynamic Tables](/en/developers/guides/getting-started-with-dynamic-tables/)
 - [Getting Started with Snowflake Task Graphs](/en/developers/guides/getting-started-with-task-graphs/)
 - [Getting Started with Snowpipe Streaming and Azure Event Hubs](/en/developers/guides/getting-started-with-snowpipe-streaming-azure-eventhubs/)

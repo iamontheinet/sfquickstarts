@@ -1,12 +1,15 @@
-
 id: getting-started-with-ocr-and-rag-with-snowflake-notebooks
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/platform
 language: en
-summary: Getting Started with OCR and RAG with Snowflake Notebooks
+summary: Getting Started with OCR and RAG with Snowflake Notebooks 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 author: James Cha Earley
+
+fork repo link: https://github.com/Snowflake-Labs/sfguide-getting-started-with-ocr-rag-with-snowflake-notebooks
+
+
 
 # Getting Started with OCR and RAG with Snowflake Notebooks
 <!-- ------------------------ -->
@@ -73,7 +76,7 @@ ls @images_to_ocr;
 
 You should see your uploaded files listed with their sizes.
 
-> aside positive
+> 
 > TIP: For best OCR results, ensure your images are:
 > - Clear and well-lit
 > - Text is oriented correctly
@@ -214,7 +217,7 @@ FROM
     TABLE(IMAGE_TEXT(build_scoped_file_url(@ocr_rag.images_to_ocr, relative_path))) AS ocr_result;
 ```
 
-> aside positive
+> 
 > TROUBLESHOOTING: If OCR results are poor, check:
 > - Image quality and resolution
 > - Text orientation

@@ -2,7 +2,7 @@ author: Vino Duraisamy, Kamesh Sampath
 id: data-engineering-with-snowpark-python-intro
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/transformation
 language: en
-summary: This guide will provide step-by-step details for building data engineering pipelines with Snowpark Python
+summary: Introduction to data engineering with Snowpark Python covering DataFrames, UDFs, transformations, pipeline patterns, and best practices.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -101,7 +101,7 @@ This will open a new tab and begin setting up your codespace. It will take a few
 
 Once the codepsace has been created and started you should see a hosted web-based version of VS Code with your forked repository set up! Just a couple more things and we're ready to start.
 
-> aside positive
+> 
 > **NOTE**:
 > Going forward references to `VS Code` means the VS Code editor on the Codespaces
 
@@ -146,7 +146,7 @@ You can now open the sql file `steps/03_setup_snowflake.sql` in VS Code. You can
 
 ---
 
-> aside positive
+> 
 > IMPORTANT:
 >
 > - If you use different names for objects created in this section, be sure to update scripts and code in the following sections accordingly.
@@ -199,7 +199,7 @@ CREATE OR REPLACE STAGE FROSTBYTE_RAW_STAGE
 ;
 ```
 
-> aside positive
+> 
 > IMPORTANT:
 >
 > - If you use different names for objects created in this section, be sure to update scripts and code in the following sections accordingly.
@@ -257,7 +257,7 @@ SELECT * FROM FROSTBYTE_WEATHERSOURCE.ONPOINT_ID.POSTAL_CODES LIMIT 100;
 
 You can also view the shared database `FROSTBYTE_WEATHERSOURCE.ONPOINT_ID.POSTAL_CODE` by navigating to the Snowsight UI -> Data -> Databases.  
 
-> aside positive
+> 
 > IMPORTANT:
 >
 > - If you used a different name for the database while getting weather data from the marketplace, be sure to update scripts and code in the following sections accordingly.

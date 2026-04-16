@@ -1,11 +1,12 @@
 id: getting-started-with-llamaparse-and-cortex-search
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/build
 language: en
-summary: Parse Documents with LlamaParse and Search with Cortex
+summary: Parse Documents with LlamaParse and Search with Cortex 
 environments: web
 status: Published
 feedback link: <https://github.com/Snowflake-Labs/sfguides/issues>
 authors: Josh Reini
+
 
 # Getting Started with LlamaParse and Cortex Search
 <!-- ------------------------ -->
@@ -50,7 +51,7 @@ LlamaParse comes equipped with the following features:
 ### What You Will Need
 
 * A LlamaCloud API key ([get one here](https://docs.cloud.llamaindex.ai/api_key))
-* A Snowflake account ([sign up here](https://signup.snowflake.com/))
+* A Snowflake account ([sign up here](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides))
 * Python **3.10+**
 * Required Python packages: `llama-cloud`, `snowflake-snowpark-python`, `snowflake-ml-python`, `pandas`
 
@@ -59,7 +60,7 @@ LlamaParse comes equipped with the following features:
 ## Setup
 
 
-Set up your environment and credentials for LlamaParse and Snowflake. You'll need a [LlamaCloud API key](https://docs.cloud.llamaindex.ai/api_key) and a [Snowflake account](https://signup.snowflake.com/).
+Set up your environment and credentials for LlamaParse and Snowflake. You'll need a [LlamaCloud API key](https://docs.cloud.llamaindex.ai/api_key) and a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 
 Once you have signed up for a Snowflake account, create database and warehouse using the following SQL statements:
 
@@ -326,6 +327,6 @@ Congratulations! You have parsed a PDF with LlamaParse, loaded it into Snowflake
 * [LlamaParse (LlamaIndex)](https://docs.llamaindex.ai/en/stable/llama_cloud/llama_parse/)
 * [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview)
 * [Snowflake Python API](https://docs.snowflake.com/en/developer-guide/snowpark/python/index)
-* [Fork the Repo](https://github.com/sfc-gh-jreini/llama-parse-cortex-search/blob/main/llama-cloud-snowflake.ipynb)
+* [Fork the Repo](https://github.com/Snowflake-Labs/sfguide-getting-started-with-llamaparse-and-cortex-search/blob/main/llama-parse-cortex-search.ipynb)
 * [Watch the Demo](https://youtu.be/D1rw57cuwm8?list=TLGG75AAIM6FkzoyNDA5MjAyNQ)
 

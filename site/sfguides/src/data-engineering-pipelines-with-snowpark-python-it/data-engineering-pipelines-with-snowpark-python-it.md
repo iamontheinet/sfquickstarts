@@ -22,10 +22,6 @@ Questo quickstart tratterà molti argomenti e al termine avrai creato una solida
 
 Allaccia le cinture e preparati a partire!
 
-> aside negative
-> 
-> **Nota**: al 1 febbraio 2023, sia l’[estensione Visual Studio Code di Snowflake](https://marketplace.visualstudio.com/items?itemName=snowflake.snowflake-vsc) che lo [strumento SnowCLI](https://github.com/Snowflake-Labs/snowcli) sono ancora in preview.
-
 
 ### Prerequisiti
 * Familiarità con Python
@@ -47,8 +43,8 @@ Nel corso di questo quickstart esplorerai le seguenti caratteristiche di Snowfla
 * Snowpark DataFrame API
 * Programmabilità di Snowpark Python
 * Elasticità dei warehouse (scalabilità dinamica)
-* Estensione nativa Visual Studio Code di Snowflake (public preview, integrazione Git)
-* SnowCLI (public preview)
+* Estensione nativa Visual Studio Code di Snowflake
+* SnowCLI
 * Task (con attivazione tramite stream)
 * Osservabilità dei task
 * Integrazione delle GitHub Actions (CI/CD)
@@ -373,7 +369,7 @@ Così facendo, lo strumento SnowCLI genera la query SQL riportata sopra e la ese
 ### Panoramica dello strumento SnowCLI
 [SnowCLI](https://github.com/Snowflake-Labs/snowcli) è uno strumento della riga di comando per sviluppatori e viene eseguito come `snow` dalla riga di comando. 
 
-> aside negative
+> 
 **Nota**: non confondere SnowCLI con lo strumento della riga di comando [SnowSQL](https://docs.snowflake.com/en/user-guide/snowsql.html), che è un client che consente di effettuare la connessione a Snowflake per eseguire query SQL e tutte le operazioni DDL e DML e viene eseguito come `snowsql` dalla riga di comando.
 
 SnowCLI semplifica lo sviluppo e la distribuzione dei seguenti oggetti Snowflake:
@@ -392,10 +388,6 @@ Per questo quickstart ci concentreremo sui primi due. Nel caso delle UDF e delle
 * Creare l’oggetto funzione o stored procedure di Snowflake
 
 Questo ti consente anche di sviluppare e testare l’applicazione Python senza preoccuparti di incapsularla in un oggetto di database Snowflake corrispondente.
-
-> aside negative
-> 
-> **Nota**: al 1 febbraio 2023 lo strumento SnowCLI è ancora in preview.
 
 ### Altre informazioni sulle UDF di Snowpark Python
 In questo passaggio abbiamo distribuito un’UDF Python molto semplice su Snowflake. In un passaggio futuro la aggiorneremo per utilizzare un pacchetto di terze parti. Inoltre, poiché l’hai distribuita su Snowflake con il comando SnowCLI, non hai dovuto preoccuparti della sintassi DDL SQL per creare l’oggetto in Snowflake. A scopo di riferimento, tuttavia, consulta la nostra guida per sviluppatori [Creare UDF Python](https://docs.snowflake.com/en/developer-guide/udf/python/udf-python.html).
@@ -755,7 +747,7 @@ Dal repository, fai clic sulla scheda `Settings` nella parte superiore della pag
 | SNOWSQL_WAREHOUSE | HOL_WH |
 | SNOWSQL_DATABASE | HOL_DB |
 
-> aside positive
+> 
 > 
 >  **Suggerimento**: per maggiori informazioni su come strutturare il nome dell’account in SNOWSQL_ACCOUNT, vedi la discussione del nome dell’account nella [Guida all’installazione del connettore Snowflake per Python](https://docs.snowflake.com/en/user-guide/python-connector-install.html#step-2-verify-your-installation).
 
@@ -763,7 +755,7 @@ Dopo avere aggiunto tutti i segreti, la pagina dovrebbe essere simile alla segue
 
 ![assets/github-actions-secrets.png](assets/github-actions-secrets.png)
 
-> aside positive
+> 
 > 
 >  **Suggerimento**: per gestire in modo ancora migliore i segreti, puoi utilizzare gli [ambienti GitHub Actions](https://docs.github.com/en/actions/reference/environments), che ti consentono di raggruppare i segreti e definire regole di protezione per ciascuno dei tuoi ambienti.
 
@@ -823,8 +815,8 @@ In questo quickstart abbiamo trattato molti argomenti, in particolare:
 * Snowpark DataFrame API
 * Programmabilità di Snowpark Python
 * Elasticità dei warehouse (scalabilità dinamica)
-* Estensione nativa Visual Studio Code di Snowflake (public preview, integrazione Git)
-* SnowCLI (public preview)
+* Estensione nativa Visual Studio Code di Snowflake
+* SnowCLI
 * Task (con attivazione tramite stream)
 * Osservabilità dei task
 * Integrazione delle GitHub Actions (CI/CD)

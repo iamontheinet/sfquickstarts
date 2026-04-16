@@ -2,10 +2,11 @@ author: Chanin Nantasenamat
 id: table-size-growth
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform, snowflake-site:taxonomy/snowflake-feature/storage
 language: en
-summary: Learn how to monitor and analyze table storage growth trends in Snowflake Notebooks.
+summary: Learn how to monitor and analyze table storage growth trends in Snowflake Notebooks. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Monitor Table Size Growth in Snowflake Notebooks
 <!-- ------------------------ -->
@@ -25,7 +26,7 @@ This article will show you how to identify large tables, analyze query patterns,
 An interactive notebook that helps monitor table storage growth and analyze query patterns using Snowflake's account usage views and Streamlit widgets.
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Basic knowledge of SQL and Python
 - Familiarity with Snowflake Notebooks
 

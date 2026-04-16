@@ -2,7 +2,7 @@ author: Daniel Myers
 id: getting-started-with-native-apps
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/build, snowflake-site:taxonomy/snowflake-feature/native-apps
 language: en
-summary: Follow this tutorial to get up and running with your first Snowflake Native Application
+summary: Follow this tutorial to get up and running with your first Snowflake Native Application 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -404,7 +404,7 @@ To create an application package you can go through the manual UI process or you
 snow app run
 ```
 
->aside negative
+> 
 >
 > This code is going to actually create the entire application, not only the application package.
 <!-- ------------------------ -->
@@ -430,7 +430,7 @@ def cal_lead_time(i,j,k):
 
 ```
 
-> aside positive
+> 
 > 
 > You can import any package in the `https://repo.anaconda.com/pkgs/snowflake` channel from [Anaconda](https://docs.conda.io/en/latest/miniconda.html)
 

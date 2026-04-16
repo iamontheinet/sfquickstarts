@@ -2,10 +2,11 @@ author: James Cha-Earley
 id: getting-started-with-tool-use-on-cortex-and-anthropic-claude
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/external-collaboration, snowflake-site:taxonomy/snowflake-feature/ml-functions
 language: en
-summary: This guide demonstrates how Snowflake Cortex integrates with Claude to enable external API interactions through tools.
+summary: This guide demonstrates how Snowflake Cortex integrates with Claude to enable external API interactions through tools. 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with Tool Use on Cortex and Anthropic Claude
 
@@ -27,7 +28,7 @@ In this quickstart, you'll learn how to leverage Snowflake Cortex's AI capabilit
 - How to implement the complete tool use lifecycle from request to response
 
 ### Prerequisites
-- A [Snowflake account](https://signup.snowflake.com/)
+- A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - A [WeatherAPI account](https://www.weatherapi.com/signup.aspx) and API key
 - Account must have these features enabled:
   - [Streamlit in Snowflake](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)

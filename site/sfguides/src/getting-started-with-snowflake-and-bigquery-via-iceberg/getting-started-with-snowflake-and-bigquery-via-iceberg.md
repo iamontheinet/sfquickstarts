@@ -2,10 +2,11 @@ author: Matt Marzillo
 id: getting-started-with-snowflake-and-bigquery-via-iceberg
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/transformation, snowflake-site:taxonomy/snowflake-feature/apache-iceberg
 language: en
-summary: This is a quickstart showing users how use iceberg with Snowflake and Big Query
+summary: This is a quickstart showing users how use iceberg with Snowflake and Big Query 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with Snowflake and BigQuery via Iceberg
 <!-- ------------------------ -->
@@ -34,7 +35,7 @@ There is often no one-size-fits-all approach to tackling complex business challe
 ![](assets/gcpicebergarch.png)
 
 ### What You’ll Need
-- [Snowflake account](https://signup.snowflake.com/) 
+- [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) 
 - [Google Cloud account](https://cloud.google.com/free)
 
 ### What You'll Build

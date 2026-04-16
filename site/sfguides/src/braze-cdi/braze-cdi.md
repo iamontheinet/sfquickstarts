@@ -2,10 +2,11 @@ author: Luke Ambrosetti
 id: braze-cdi
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/ingestion, snowflake-site:taxonomy/snowflake-feature/external-collaboration
 language: en
-summary: Braze Cloud Data Ingestion
+summary: Sync Snowflake customer data with Braze Cloud Data Ingestion for personalized marketing campaigns.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Braze Cloud Data Ingestion
 <!-- ------------------------ -->
@@ -30,7 +31,7 @@ Braze CDI allows you to set up a direct connection from your data storage soluti
 - how to use the Braze CDI UI to create a connection to Snowflake 
 
 ### What You’ll Need 
-- A [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) Account 
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) Account 
 - A [Braze](https://www.braze.com/get-started) Account
 
 ### What You’ll Build 

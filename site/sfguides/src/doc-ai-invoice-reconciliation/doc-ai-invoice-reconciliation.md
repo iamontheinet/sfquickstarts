@@ -2,13 +2,18 @@ author: Anthony Melatti
 id: doc-ai-invoice-reconciliation
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/transformation, snowflake-site:taxonomy/snowflake-feature/document-ai
 language: en
-summary: Snowflake Document AI for Automated Invoice Reconciliation
+summary: Automate invoice reconciliation with Snowflake Document AI for accounts payable processing, matching, validation, and financial automation.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
+
 # Document AI Invoice Reconciliation
 <!-- ------------------------ -->
+
+>**Note:
+>The Document AI feature referenced in this guide has been deprecated. Please see [this guide](https://www.snowflake.com/en/developers/guides/create-a-document-processing-pipeline-with-ai-extract/) to learn more about the successor feature AI_EXTRACT.**<br> 
+
 ## Overview 
 
 This QuickStart is designed to help you build out an automated invoice reconciliation pipeline in Snowflake using Document AI, which is designed for seamless and reusable document processing. The pipeline enables users to load their invoice files into a Snowflake stage and leverages streams, tasks, and Document AI's Table Extraction feature for efficient data extraction, validation, and downstream integration.
@@ -30,7 +35,7 @@ Additionally, you can create your own customized, fine-tuned Document AI model t
 
 ### Prerequisites
 - Familiarity with SQL and Python
-- A <a href=https://signup.snowflake.com/>Snowflake account</a>. If you do not have a Snowflake account, you can register for a free trial account.
+- A <a href=https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides>Snowflake account</a>. If you do not have a Snowflake account, you can register for a free trial account.
 - A Snowflake account login with a role that has the ability to create role, database, schema, tables, stages and assign permissions. If not, you will need to register for a free trial or use a different role.
 
 ### What You’ll Learn 

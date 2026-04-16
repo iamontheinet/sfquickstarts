@@ -2,10 +2,11 @@ author: Chanin Nantasenamat
 id: bioinformatics-dashboard
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/applied-analytics
 language: en
-summary: Learn how to build a bioinformatics solubility dashboard in Snowflake using Python, Pandas, and Streamlit to analyze molecular properties important for drug discovery.
+summary: Build bioinformatics dashboards in Snowflake for genomics data analysis, variant tracking, and research visualization.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build a Bioinformatics Solubility Dashboard in Snowflake
 <!-- ------------------------ -->
@@ -29,7 +30,7 @@ Here's an illustration of the overview of this bioinformatics project that you'l
 ![image](assets/diagram.png)
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Basic familiarity with SQL and Python
 - Understanding of fundamental data analysis concepts
 

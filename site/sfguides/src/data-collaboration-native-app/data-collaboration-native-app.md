@@ -2,10 +2,11 @@ author: Tim Buchhorn
 id: data-collaboration-native-app
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/native-apps
 language: en
-summary: This Quickstart will take you through how to build an ML Model in Snowlfake, and then share it via the Snowflake Native App Framework.
+summary: Turn ML models into Snowflake Native Apps for secure data collaboration and sharing with customers, partners, and third-party data consumers.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started With Model Sharing Using Native Apps
 <!-- ------------------------ -->
@@ -50,7 +51,7 @@ The architecture of what we will build is shown below
 - [Anaconda](https://www.anaconda.com/) installed
 - [Python 3.10](https://www.python.org/downloads/) installed
     - Note that you will be creating a Python environment with 3.10 in the **Consumer Account - Create Model** step
-- Snowflake accounts with [Anaconda Packages enabled by ORGADMIN](https://docs.snowflake.com/en/developer-guide/udf/python/udf-python-packages.html#using-third-party-packages-from-anaconda). If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_cta=quickstarts_).
+- Snowflake accounts with [Anaconda Packages enabled by ORGADMIN](https://docs.snowflake.com/en/developer-guide/udf/python/udf-python-packages.html#using-third-party-packages-from-anaconda). If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 - Snowflake accounts with the Snowflake Marketplace T&C's accepted. This will allow you to create Listings.
 - A Snowflake account login with a role that has the ability to create Listings, Databases, Schemas, Tables, Stages, User-Defined Functions, and Stored Procedures. If not, you will need to register for free trials or use a different role.
 - The [Snowpark ML](https://docs.snowflake.com/developer-guide/snowpark-ml/index#installing-snowpark-ml-from-the-snowflake-conda-channel) package installed
@@ -93,7 +94,7 @@ Addison Howard, AritraAmex, Di Xu, Hossein Vashani, inversion, Negin, Sohier Dan
 <!-- ------------------------ -->
 ## Setup
 
-Navigate to the [Snowflake Trial Landing Page](https://signup.snowflake.com/?utm_cta=quickstarts_). Follow the prompts to create a Snowflake Account. You should receive an email to activate your trial account.
+Navigate to the [Snowflake Trial Landing Page](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides). Follow the prompts to create a Snowflake Account. You should receive an email to activate your trial account.
 
 Navigate to a new worksheet and execute the following commands to create a second account in the Organisation. The second account will be the account we share the model to (Snowbank). In trial accounts we cannot share the Native App externally, although the same process can be followed to share the app externally if you have a non-trial account.
 

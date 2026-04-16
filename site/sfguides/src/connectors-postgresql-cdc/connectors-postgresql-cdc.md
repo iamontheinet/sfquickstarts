@@ -2,10 +2,11 @@ author: Joviane Bellegarde
 id: connectors-postgresql-cdc
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/industry/financial-services, snowflake-site:taxonomy/product/platform, snowflake-site:taxonomy/solution-center/certification/community-sourced
 language: en
-summary: CDC Data from PostgreSQL to Snowflake
+summary: Build real-time financial dashboards using Change Data Capture from PostgreSQL to Snowflake with Dynamic Tables and Streamlit.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Real-Time Financial Insights Using Change Data Capture (CDC) with the Snowflake Connector for PostgreSQL and Dynamic Tables
 <!-- ------------------------ -->
@@ -26,7 +27,7 @@ In this Quickstart, we will investigate how a financial company builds a BI dash
   - This can be a database-specific tool or a general-purpose tool such as Visual Studio Code or PyCharm
 - Familiarity with basic Python and SQL
 - Familiarity with data science notebooks
-- Go to the [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
+- Go to the [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
 
 <!-- ------------------------ -->
 ## Snowflake Environment

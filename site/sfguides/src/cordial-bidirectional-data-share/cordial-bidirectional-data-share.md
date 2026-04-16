@@ -2,10 +2,11 @@ author: J.J. Mason-Anselmi
 id: cordial-bidirectional-data-share
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/platform, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/transformation, snowflake-site:taxonomy/snowflake-feature/external-collaboration
 language: en
-summary: Set up a secure bidirectional data share with Cordial.
+summary: Enable secure bidirectional data sharing between Cordial and Snowflake for unified marketing activation.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Create a Bidirectional Data Share with Cordial
 <!-- ------------------------ -->
@@ -20,7 +21,7 @@ In this Quickstart, Cordial and Snowflake walk you through how to set up a bidir
 ![Snowflake to Cordial architecture](assets/SnowflakeArchitecture.png)
 
 ### Prerequisites
-- A [Snowflake account](https://signup.snowflake.com/?utm_cta=quickstarts_)
+- A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - A [Cordial account](https://cordial.com/)
 
 ### What You’ll Learn

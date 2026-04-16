@@ -1,11 +1,12 @@
 id: apache-iceberg-snowflake-open-catalog-snowpipe-streaming
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/lakehouse-analytics, snowflake-site:taxonomy/snowflake-feature/apache-iceberg
 language: en
-summary: Learn how Apache Iceberg integrates with Snowflake Open Catalog, a managed service for Apache Polaris, to enhance data lake interoperability and analytics performance. Discover key benefits and use cases for modern data architectures.
+summary: Stream real-time data to Apache Iceberg™ tables with Snowpipe Streaming and Snowflake Open Catalog for governed lakehouse ingestion.
 environments: web
 status: Published
 feedback link: <https://github.com/Snowflake-Labs/sfguides/issues>
 authors: Dash Desai
+
 
 # Apache Iceberg and Snowflake Open Catalog: Unlock Data Lake Interoperability with Apache Polaris
 <!-- ------------------------ -->
@@ -34,7 +35,7 @@ You will learn how to stream data directly into Apache Iceberg tables for real-t
 * Ability to create AWS IAM roles, policies, and trust relationships
 * Ability to create or access an existing Snowflake Open Catalog account
 * Ability to create Iceberg and Dynamic tables in Snowflake
-* Access to a [Snowflake account](https://signup.snowflake.com/) in the **same AWS region as your S3 bucket**
+* Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) in the **same AWS region as your S3 bucket**
 
 <!-- ------------------------ -->
 ## Setup

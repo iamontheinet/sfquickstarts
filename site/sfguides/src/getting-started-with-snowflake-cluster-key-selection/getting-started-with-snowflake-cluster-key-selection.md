@@ -2,10 +2,11 @@ author: Ember Crooks
 id: getting-started-with-snowflake-cluster-key-selection
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: This is a hands-on guide to choosing a Snowflake clustering key
+summary: This is a hands-on guide to choosing a Snowflake clustering key 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # A Data-Driven Methodology for Choosing a Snowflake Clustering Key
 <!-- ------------------------ -->
@@ -31,7 +32,7 @@ The primary goal of clustering is to enable better micro-partition pruning when 
 
 ### Prerequisites
 
-- A [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) account. Sign up for a [30-day free trial](https://signup.snowflake.com/?utm_cta=quickstarts_) account, if required.
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account. Sign up for a [30-day free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account, if required.
 
 <!-- ------------------------ -->
 ## Clustering Key Selection Concepts

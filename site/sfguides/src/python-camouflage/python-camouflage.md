@@ -2,10 +2,11 @@ author: Kevin Keller (kkellersnow)
 id: python-camouflage
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: Project Python Camouflage aims to give a working MVP for tokenization in Snowflake using Python.
+summary: Project Python Camouflage aims to give a working MVP for tokenization in Snowflake using Python. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Tokenization in Snowflake Using Python UDFs (Python Camouflage)
 <!-- ------------------------ -->
@@ -26,7 +27,7 @@ Project Python Camouflage provides a basic framework for tokenization in Snowfla
 - How to install and use the Python Camouflage Python UDFs to run FF3 format-preserving encryption in a test setup in your Snowflake account
 
 ### What You’ll Need
-- A [Snowflake Enterprise Edition (or better) account](https://signup.snowflake.com/?utm_cta=quickstarts_)
+- A [Snowflake Enterprise Edition (or better) account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - SnowSQL installed on your machine
 
 ### What You’ll Build

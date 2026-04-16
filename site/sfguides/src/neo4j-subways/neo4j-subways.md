@@ -1,11 +1,12 @@
 author: corydon baylor
 id: neo4j-subways
 categories: snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/business-intelligence, snowflake-site:taxonomy/industry/public-sector
-summary: How to model subway disruptions using dijsktra in Neo4j Graph Analytics for Snowflake
+summary: How to model subway disruptions using dijsktra in Neo4j Graph Analytics for Snowflake 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 language: en
+
 
 # Identify Bottlenecks and Model Disruptions using Neo4j Graph Analytics 
 
@@ -29,7 +30,7 @@ Using Graph Analytics for Snowflake, we can easily model what would happen if a 
 
 ### What You Will Need
 
-- A [Snowflake account](https://signup.snowflake.com/?utm_cta=quickstarts) with appropriate access to databases and schemas.
+- A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with appropriate access to databases and schemas.
 - Neo4j Graph Analytics application installed from the Snowflake marketplace. Access the marketplace via the menu bar on the left hand side of your screen, as seen below:
   ![image](assets/marketplace.png)
 
@@ -69,50 +70,43 @@ Follow the steps found [here](https://docs.snowflake.com/en/user-guide/data-load
 Before we run our algorithms, we need to set the proper permissions. But before we get started granting different roles, we need to ensure that you are using `accountadmin` to grant and create roles. Lets do that now:
 
 
-```
-USE ROLE accountadmin;
-```
+```sql
+-- Use a role with the required privileges
+USE ROLE ACCOUNTADMIN;
 
-Next let's set up the necessary roles, permissions, and resource access to enable Graph Analytics to operate on data within the `mta.public schema`. It creates a consumer role (gds_user_role) for users and administrators, grants the Neo4j Graph Analytics application access to read from and write to tables and views, and ensures that future tables are accessible. 
+-- Create a consumer role for users of the Graph Analytics application
+CREATE ROLE IF NOT EXISTS MY_CONSUMER_ROLE;
+GRANT APPLICATION ROLE Neo4j_Graph_Analytics.app_user TO ROLE MY_CONSUMER_ROLE;
+SET MY_USER = (SELECT CURRENT_USER());
+GRANT ROLE MY_CONSUMER_ROLE TO USER IDENTIFIER($MY_USER);
 
-It also provides the application with access to the required compute pool and warehouse resources needed to run graph algorithms at scale.
+USE SCHEMA MTA.PUBLIC;
+CREATE TABLE NODES (nodeId Number);
+INSERT INTO NODES VALUES (1), (2), (3), (4), (5), (6);
+CREATE TABLE RELATIONSHIPS (sourceNodeId Number, targetNodeId Number);
+INSERT INTO RELATIONSHIPS VALUES (1, 2), (2, 3), (4, 5), (5, 6);
 
+-- Grants needed for the app to read consumer data stored in tables and views, using a database role
+USE DATABASE MTA;
+CREATE DATABASE ROLE IF NOT EXISTS MY_DB_ROLE;
+GRANT USAGE ON DATABASE MTA TO DATABASE ROLE MY_DB_ROLE;
+GRANT USAGE ON SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+GRANT SELECT ON ALL TABLES IN SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+GRANT SELECT ON ALL VIEWS IN SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+-- Future tables also include tables that are created by the application itself.
+-- This is useful as many use-cases require running algorithms in a sequence and using the output of a prior algorithm as input.
+GRANT SELECT ON FUTURE TABLES IN SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+GRANT CREATE TABLE ON SCHEMA MTA.PUBLIC TO DATABASE ROLE MY_DB_ROLE;
+GRANT DATABASE ROLE MY_DB_ROLE TO APPLICATION Neo4j_Graph_Analytics;
 
-```
--- Create a consumer role for users and admins of the GDS application
-CREATE ROLE IF NOT EXISTS gds_user_role;
-CREATE ROLE IF NOT EXISTS gds_admin_role;
-GRANT APPLICATION ROLE neo4j_graph_analytics.app_user TO ROLE gds_user_role;
-GRANT APPLICATION ROLE neo4j_graph_analytics.app_admin TO ROLE gds_admin_role;
+-- Ensure the consumer role has access to tables created by the application
+GRANT USAGE ON DATABASE MTA TO ROLE MY_CONSUMER_ROLE;
+GRANT USAGE ON SCHEMA MTA.PUBLIC TO ROLE MY_CONSUMER_ROLE;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA MTA.PUBLIC TO ROLE MY_CONSUMER_ROLE;
 
-CREATE DATABASE ROLE IF NOT EXISTS gds_db_role;
-GRANT DATABASE ROLE gds_db_role TO ROLE gds_user_role;
-GRANT DATABASE ROLE gds_db_role TO APPLICATION neo4j_graph_analytics;
-
--- Grant access to consumer data
-GRANT USAGE ON DATABASE MTA TO ROLE gds_user_role;
-GRANT USAGE ON SCHEMA MTA.PUBLIC TO ROLE gds_user_role;
-
--- Required to read tabular data into a graph
-GRANT SELECT ON ALL TABLES IN DATABASE MTA TO DATABASE ROLE gds_db_role;
-
--- Ensure the consumer role has access to created tables/views
-GRANT ALL PRIVILEGES ON FUTURE TABLES IN SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-GRANT CREATE TABLE ON SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-GRANT CREATE VIEW ON SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-GRANT ALL PRIVILEGES ON FUTURE VIEWS IN SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-GRANT ALL PRIVILEGES ON ALL VIEWS IN SCHEMA MTA.PUBLIC TO DATABASE ROLE gds_db_role;
-
--- Compute and warehouse access
-GRANT USAGE ON WAREHOUSE NEO4J_GRAPH_ANALYTICS_APP_WAREHOUSE TO APPLICATION neo4j_graph_analytics;
-```
-
-Then we need to switch the role we created:
-
-
-```
-USE ROLE gds_user_role;
+-- Use the consumer role to run the algorithm and inspect the output
+USE ROLE MY_CONSUMER_ROLE;
 ```
 
 ## Cleaning Our Data

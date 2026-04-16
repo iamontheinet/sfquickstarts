@@ -2,10 +2,11 @@ author: Josh Hall
 id: building-snowflake-llm-based-functions-using-coalesce-and-iceberg
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: Learn to build Cortex based data pipelines in Coalesce using Iceberg tables
+summary: Build LLM-powered functions with Coalesce and Apache Iceberg™ for AI-enhanced data transformations and intelligent processing.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Building Snowflake LLM Based Functions using Coalesce and Iceberg
 <!-- ------------------------ -->
@@ -27,7 +28,7 @@ This Hands-On Lab exercise is designed to help you learn how to build and manage
 
 
 ### What You’ll Need 
-- [A Snowflake trial account](https://signup.snowflake.com/)
+- [A Snowflake trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - A Coalesce trial account created via Snowflake Partner Connect
 - Basic knowledge of SQL, database concepts, and objects
 - The Google Chrome browser
@@ -47,7 +48,7 @@ We recommend using Google Chrome as your browser for the best experience.
 
 ### Step 1: Create a Snowflake Trial Account  
 
-1. Fill out the Snowflake trial account form [here](https://signup.snowflake.com/?utm_source=google&utm_medium=paidsearch&utm_campaign=na-us-en-brand-trial-exact&utm_content=go-eta-evg-ss-free-trial&utm_term=c-g-snowflake%20trial-e&_bt=579123129595&_bk=snowflake%20trial&_bm=e&_bn=g&_bg=136172947348&gclsrc=aw.ds&gclid=Cj0KCQiAtvSdBhD0ARIsAPf8oNm6YH7UeRqFRkVeQQ-3Akuyx2Ijzy8Yi5Om-mWMjm6dY4IpR1eGvqAaAg3MEALw_wcB). Use an email address that is not associated with an existing Snowflake account.   
+1. Fill out the Snowflake trial account form [here](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_campaign=na-us-en-brand-trial-exact&utm_content=go-eta-evg-ss-free-trial&utm_term=c-g-snowflake%20trial-e&_bt=579123129595&_bk=snowflake%20trial&_bm=e&_bn=g&_bg=136172947348&gclsrc=aw.ds&gclid=Cj0KCQiAtvSdBhD0ARIsAPf8oNm6YH7UeRqFRkVeQQ-3Akuyx2Ijzy8Yi5Om-mWMjm6dY4IpR1eGvqAaAg3MEALw_wcB&utm_cta=developer-guides). Use an email address that is not associated with an existing Snowflake account.   
      
 2. When signing up for your Snowflake account, select AWS as the cloud provider and either Oregon (us-west-2) or Ohio (us-east-2) and choose Enterprise as your Snowflake edition. ***Remember which region you set up your trial account in***.   
   

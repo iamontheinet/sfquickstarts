@@ -2,7 +2,7 @@ author: Dash Desai
 id: build-genai-inpainting-and-hybridtable-app-in-snowpark-container-services
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/community-sourced, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai
 language: en
-summary: Through this quickstart guide, you will explore GenAI inpainting and Hybrid tables with everything running within a Streamlit app in Snowpark Container Services
+summary: Build GenAI image inpainting applications with Snowflake Hybrid Tables and Streamlit on Snowpark Container Services for real-time AI image editing.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -163,7 +163,7 @@ docker push your-org-name-your-account-name.registry.snowflakecomputing.com/dash
 
 For example, `docker push sfsenorthamerica-build-spcs.registry.snowflakecomputing.com/dash_db/dash_schema/dash_repo/genai-spcs:latest`
 
-> aside positive
+> 
 > NOTE: This may take ~30mins or more depending on your network connection so you may move on to the next step **Upload Spec YAML** while the image is being pushed.
 
 ### Upload Spec YAML
@@ -235,7 +235,7 @@ If the compute pool DASH_GPU3 is **not** in IDLE or ACTIVE state, run the follow
 alter compute pool DASH_GPU3 resume;
 ```
 
-> aside positive
+> 
 > NOTE: Before proceeding, make sure the compute pool DASH_GPU3 is in IDLE or ACTIVE state.
 
 To create the service, run the following commands in a SQL worksheet:
@@ -262,7 +262,7 @@ from (select parse_json(system$get_service_status('genai_service'))) t,
 lateral flatten(input => t.$1) v;
 ```
 
-> aside positive
+> 
 > NOTE: Before proceeding, make sure the service is in READY state.
 
 <!-- ------------------------ -->
@@ -278,7 +278,7 @@ If everything has gone well so far, you should see a service named **streamlit**
 
 In a new browser window, copy-paste the **ingress_url** URL from above and you should see the login screen. To launch the application, enter your Snowflake credentials and you should see the application up and running.
 
-> aside positive
+> 
 > NOTE: To access the app, the user logging in must have `DASH_SPCS` role AND their user default role **cannot** be `ACCOUNTADMIN`, `SECURITYADMIN`, or `ORGADMIN`.
 
 ### Gen AI Inpainting
@@ -300,7 +300,7 @@ In a new browser window, copy-paste the **ingress_url** URL from above and you s
 
 To cleanup resources and remove all of the objects you created during this QuickStart, run the following commands in a SQL worksheet. This will ensure that you don't incur any unnecessary costs specifically associated with this QuickStart guide. 
 
-> aside positive
+> 
 > NOTE: Snowpark Container Services bills credits/second based on the compute pool's uptime, similar to Virtual Warehouse billing.
 
 ```sql

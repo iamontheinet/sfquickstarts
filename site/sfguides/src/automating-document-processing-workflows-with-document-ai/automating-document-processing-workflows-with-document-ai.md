@@ -2,13 +2,18 @@ author: Mats Stellwall
 id: automating-document-processing-workflows-with-document-ai
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/ingestion, snowflake-site:taxonomy/snowflake-feature/document-ai
 language: en
-summary: This guide will provide step-by-step details for automating document processing workflows with Document AI
+summary: Automate document processing with Snowflake Document AI for invoice extraction, form digitization, OCR, and data validation workflows.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
+
 # Automating Document Processing Workflows With Document AI
 <!-- ------------------------ -->
+
+>**Note:
+>The Document AI feature referenced in this guide has been deprecated. Please see [this guide](https://www.snowflake.com/en/developers/guides/create-a-document-processing-pipeline-with-ai-extract/) to learn more about the successor feature AI_EXTRACT.**<br> 
+
 ## Overview 
 
 Through this quickstart guide, you will explore Document AI. You will set up your Snowflake environment, use Document AI to create a model to extract values from documents, create a document extraction pipline using the model and use streamlit to build a application to verify the extracted values.  
@@ -27,16 +32,15 @@ Additionally, you can create your own customized, fine-tuned Document AI model t
 
 ### Prerequisites
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed
-    > aside positive
     >
     >Clone or download the [git repo](https://github.com/Snowflake-Labs/sfguide-getting-started-with-document-ai)
-* A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_cta=quickstarts_).
+* A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 * A Snowflake account login with a role that has the ability to create role, database, schema, tables, stages and assign permissions. If not, you will need to register for a free trial or use a different role.
 
 ### What You’ll Build 
 You will use documents from the [Contract Understanding Atticus Dataset (CUAD) v1.](https://doi.org/10.5281/zenodo.4595826) in order to extract values and verifying that clauses exists in co-branding agreements. The QuickStart [git repo](https://github.com/Snowflake-Labs/sfguide-getting-started-with-document-ai) includes the documents we are going to use.
 
-> aside positive
+> 
 >
 > **Citation**  
 > The Atticus Project. (2021). Contract Understanding Atticus Dataset (CUAD) v1. https://doi.org/10.5281/zenodo.4595826
@@ -137,7 +141,7 @@ In Snowsight make sure you have changed the role to DOC_AI_QS_ROLE, you can see 
 
 ### Step 2: Upload documents
 In this step we wil upload example documents that we will use to ask value extraction questions against, so we can verify that the questionswork.  
-> aside positive
+> 
     >
     >The recommendation is to use at least 20 documents, but in this qucikstart we will only use 5 to speed up the review step.  
 1. Click on **Upload documents** to start the process of uploading documents  
@@ -169,7 +173,7 @@ In this step we will define the questions for extracting values and the name of 
 5. If a value is missing or for example it is a **No** for a value, you can verify if it is correct by searching for the term in the document  
 ![Search Icon](assets/search_icon.png)  
 ![Search term](assets/term_search.png)  
-> aside positive
+> 
     >
     >For some of the questions multiple answers might be correct.
 6. Step through all documents and verify the values and for the document **EdietsComInc_20001030_10QSB_EX-10.4_2606646_EX-10.4_Co-Branding Agreement.pdf** the **payment_terms** is not correct since it is a schedule, so it should be cleared which is done by clicking on **...** next to the value and choose **Clear answer**  

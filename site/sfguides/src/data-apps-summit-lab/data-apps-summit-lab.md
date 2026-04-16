@@ -2,10 +2,11 @@ author: Gilberto Hernandez
 id: data-apps-summit-lab
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/marketplace-and-integrations
 language: en
-summary: Build a data app un Snowflake
+summary: Build a weather prediction app using Snowflake Marketplace data, Snowflake Notebooks for ML training, and Streamlit.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 
 # Build a Data Application with Snowflake Marketplace, Snowflake Notebooks, and Streamlit in Snowflake
@@ -27,7 +28,7 @@ You will process NOAA weather data with SQL, Snowpark, and develop a simple ML m
 
 ### Prerequisites
 
-* **ACCOUNTADMIN** role access in Snowflake or a Snowflake trial account: [https://signup.snowflake.com/](https://signup.snowflake.com/?utm_cta=quickstarts_)
+* **ACCOUNTADMIN** role access in Snowflake or a Snowflake trial account: [https://signup.snowflake.com/](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 * You'll need the companion repo for this lab: [sfguide-data-apps-summit-lab](https://github.com/Snowflake-Labs/sfguide-data-apps-summit-lab/)
 * Basic knowledge of SQL, database concepts, and objects
 * Familiarity with Python (all code is provided)
@@ -52,7 +53,7 @@ You will process NOAA weather data with SQL, Snowpark, and develop a simple ML m
 
 To complete this lab, you'll need a Snowflake account. A free Snowflake trial account will work just fine. To open one:
 
-1. Navigate to [https://signup.snowflake.com/](https://signup.snowflake.com/?trial=student&cloud=aws&region=us-west-2&utm_source=coursera&utm_campaign=introtosnowflake)
+1. Navigate to [https://signup.snowflake.com/](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&trial=student&cloud=aws&region=us-west-2&utm_campaign=introtosnowflake&utm_cta=developer-guides)
 
 2. Start the account creation by completing the first page of the form on the page.
 
@@ -78,9 +79,9 @@ Snowflake Marketplace also removes the need to integrate and model data by provi
 
  1. Log into your Snowflake account.
 
-2. Click on "Data Products".
+2. Click on "Marketplace".
 
-3. Click on "Marketplace".
+3. Click on "Snowflake Marketplace".
 
 4. In the search bar, search for "Snowflake Public Data (Free)".
 
@@ -122,15 +123,11 @@ The last line of SQL creates a stage that will be used when we deploy our user-d
 
 3. Next, [download the notebook from the companion repo for this guide](https://github.com/Snowflake-Labs/sfguide-data-apps-summit-lab/blob/main/EXPLORE_WEATHER_ENVIRONMENT.ipynb). On the GitHub page, click on the "Download raw file" button at the top right.
 
-4. Next, navigate back to Snowflake. Click on "Projects", then click on "Notebooks". 
+4. Next, navigate back to Snowflake. Click on "Add new", then click on "Upload Files". Upload the EXPLORE_WEATHER_ENVIRONMENT.ipynb file
 
-5. Create a new Notebook using the button at the top right. Click the drop-down menu, and select "Import .ipynb file". Select the notebook file that you downloaded in the previous step.
+5. If you do not have a container runtime set up yet, follow the prompts to create this. This step will create a new runtime with the required python packaged in containers. It may take a minute to complete.
 
-6. In the ensuing modal, name the notebook "WEATHER_ENVIRONMENT_APP". Set the location to the `weather_lab` database and `weather_schema` schema.
-
-7. Select **COMPUTE_WH** as the query warehouse. 
-
-8. Leave everything else as-is and click "Create". The notebook session will be created for you with the notebook loaded and ready to run.
+6. When the runtime isready, you should see a "Connected" label at the top of the UI.
 
 
 ![notebook](./assets/load_nb.png)
@@ -160,13 +157,7 @@ We'll use this data to build an application that lets us predict weather for the
 
 Let's begin.
 
-1. Let's make sure our notebook has the correct packages that our code will use. Click the "Packages" drop-down at the top of the notebook and type in "snowflake". Click on the relevant result. This will instantly install this package into the notebook environment. That was easy!
-
-2. Let's do it again, only this time, type in "scikit-learn". Click on the relevant result. Your notebook should have the following installed:
-
-![packages](./assets/packages.png)
-
-3. Now run the first cell that sets our context:
+1. Now run the first cell that sets our context:
 
 ```sql
 USE ROLE accountadmin;
@@ -175,7 +166,7 @@ USE DATABASE weather_lab;
 USE SCHEMA weather_schema;
 ```
 
-4. We are interested in the NOAA weather data, so let's explore temperature data. Run the next SQL cell that contains the code below. It'll return the average temperature by state, in Celsius.
+2. We are interested in the NOAA weather data, so let's explore temperature data. Run the next SQL cell that contains the code below. It'll return the average temperature by state, in Celsius.
 
 ```sql
 -- Average temperature by state, in Celsius
@@ -185,14 +176,14 @@ SELECT
 FROM SNOWFLAKE_PUBLIC_DATA_FREE.PUBLIC_DATA_FREE.NOAA_WEATHER_METRICS_TIMESERIES ts
 JOIN SNOWFLAKE_PUBLIC_DATA_FREE.PUBLIC_DATA_FREE.NOAA_WEATHER_STATION_INDEX idx 
     ON ts.noaa_weather_station_id = idx.noaa_weather_station_id
-WHERE ts.variable_name = 'Average Temperature'
+WHERE ts.variable_name LIKE 'Average daily temperature%'
     AND ts.date >= '2020-01-01'
     AND idx.country_geo_id = 'country/USA'
 GROUP BY idx.state_name
 ORDER BY avg_temperature DESC;
 ```
 
-5. Let's drill down a little more. Since we're going to be predicting weather for a zip code in California, let's take a look at the average temperature in California zip codes where there is a weather station present. Run the next SQL cell that contains the following code:
+3. Let's drill down a little more. Since we're going to be predicting weather for a zip code in California, let's take a look at the average temperature in California zip codes where there is a weather station present. Run the next SQL cell that contains the following code:
 
 ```sql
 -- Sample temperature data for zip codes for weather stations in California
@@ -205,7 +196,7 @@ SELECT
 FROM SNOWFLAKE_PUBLIC_DATA_FREE.PUBLIC_DATA_FREE.NOAA_WEATHER_METRICS_TIMESERIES ts
 JOIN SNOWFLAKE_PUBLIC_DATA_FREE.PUBLIC_DATA_FREE.NOAA_WEATHER_STATION_INDEX idx 
     ON ts.noaa_weather_station_id = idx.noaa_weather_station_id
-WHERE ts.variable_name = 'Average Temperature'
+WHERE ts.variable_name LIKE 'Average daily temperature%'
     AND idx.state_name = 'California'
     AND ts.date >= '2023-01-01'
     AND idx.zip_name IS NOT NULL
@@ -213,9 +204,9 @@ ORDER BY ts.date DESC
 LIMIT 20;
 ```
 
-6. OK, great! We've become a little more familiar with the data by exploring it with SQL. Now let's perform an equivalent exploratory query, but this time in Python. We'll use Snowpark for Python to do this. Since we're going to be training an ML model in Python, using the scikit-learn Python package, it's important to become familiar with how to use the Snowpark DataFrame API to build the data frames we'll use to train the model. 
+4. OK, great! We've become a little more familiar with the data by exploring it with SQL. Now let's perform an equivalent exploratory query, but this time in Python. We'll use Snowpark for Python to do this. Since we're going to be training an ML model in Python, using the scikit-learn Python package, it's important to become familiar with how to use the Snowpark DataFrame API to build the data frames we'll use to train the model. 
 
-7. Run the next cell containing the Python code below. The code below is the Snowpark for Python equivalent of the prior SQL query. It uses `session.table()` to create a Snowpark DataFrame that we can easily manipulate. Don't worry about the other package imports at the top, we'll use them later on in the notebook.
+5. Run the next cell containing the Python code below. The code below is the Snowpark for Python equivalent of the prior SQL query. It uses `session.table()` to create a Snowpark DataFrame that we can easily manipulate. Don't worry about the other package imports at the top, we'll use them later on in the notebook.
 
 ```py
 from snowflake.snowpark import Session
@@ -237,7 +228,7 @@ idx = session.table("SNOWFLAKE_PUBLIC_DATA_FREE.PUBLIC_DATA_FREE.NOAA_WEATHER_ST
 
 sample_weather_df = (
     ts.join(idx, ts.col("NOAA_WEATHER_STATION_ID") == idx.col("NOAA_WEATHER_STATION_ID"))
-    .filter(ts.col('VARIABLE_NAME') == 'Average Temperature')
+    .filter(ts.col('VARIABLE_NAME').like('Average daily temperature%'))
     .filter(idx.col('STATE_NAME') == 'California')
     .filter(ts.col('DATE') >= '2023-01-01')
     .filter(idx.col('ZIP_NAME').isNotNull())

@@ -2,7 +2,7 @@ author: Adrian Benavides, Mrinal Wadhwa, Brad Culberson
 id: build-a-private-custom-api-in-python
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/build
 language: en
-summary: A guide to building and running a custom private API Powered by Snowflake, Ockam, and Python/Flask
+summary: Use Ockam and Python/Flask to create private Python APIs for Snowflake with VPC connectivity for secure internal application access and integrations.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -79,9 +79,9 @@ GRANT ROLE DATA_API_ROLE TO ROLE ACCOUNTADMIN;
 <!-- ------------------------ -->
 ## Setting up your Development Environment
 
-The code used in this guide is hosted in GitHub. You will need a new codespace from [this GitHub repository](https://github.com/sfc-gh-bculberson/lab_data_api_python).
+The code used in this guide is hosted in GitHub. You will need a new codespace from [this GitHub repository](https://github.com/Snowflake-Labs/lab_data_api_python).
 
-To create a new codespace, browse to this GitHub [repository](https://github.com/sfc-gh-bculberson/lab_data_api_python) in a browser. You will need to login to GitHub if you are not already logged in to access codespaces. After logging in, click on the green "<> Code" button and "create codespace on main" button.
+To create a new codespace, browse to this GitHub [repository](https://github.com/Snowflake-Labs/lab_data_api_python) in a browser. You will need to login to GitHub if you are not already logged in to access codespaces. After logging in, click on the green "<> Code" button and "create codespace on main" button.
 
 You will then be redirected into codespaces where your development environment will load and all code from the GitHub repository will be loaded in the project.
 
@@ -138,9 +138,9 @@ def customers_top10():
         abort(500, "Error reading from Snowflake. Check the logs for details.")
 ```
 
-You can also review the other endpoints in [connector.py](https://github.com/sfc-gh-bculberson/lab_data_api_python/blob/main/src/connector.py) to see how simple it is to host multiple endpoints.
+You can also review the other endpoints in [connector.py](https://github.com/Snowflake-Labs/lab_data_api_python/blob/main/src/connector.py) to see how simple it is to host multiple endpoints.
 
-If you would also like to see how to build endpoints using the Snowflake Snowpark API, review [snowpark.py](https://github.com/sfc-gh-bculberson/lab_data_api_python/blob/main/src/snowpark.py).
+If you would also like to see how to build endpoints using the Snowflake Snowpark API, review [snowpark.py](https://github.com/Snowflake-Labs/lab_data_api_python/blob/main/src/snowpark.py).
 
 <!-- ------------------------ -->
 ## Building the Application Container
@@ -171,7 +171,7 @@ GRANT READ ON IMAGE REPOSITORY API TO ROLE DATA_API_ROLE;
 SHOW IMAGE REPOSITORIES;
 ```
 
-> aside positive
+> 
 > Note the `repository_url` in the response as that will be needed in the next step.
 
 <!-- ------------------------ -->
@@ -257,7 +257,7 @@ To verify, check that the DNS name of the API is an internal domain:
 SHOW SERVICES;
 ```
 
-> aside positive
+> 
 > Note the service's DNS name from the `dns_name`. You will need this in the next step when creating the Ockam service.
 
 <!-- ------------------------ -->
@@ -282,7 +282,7 @@ ockam project ticket --usage-count 1 --expires-in 1h \
 ockam project show --jq '.egress_allow_list[]'
 ```
 
-> aside positive
+> 
 > Note the `egress_allow_list` in the response as that will be needed in the next step.
 
 #### Create an Ockam node in Snowpark Container Services
@@ -297,7 +297,7 @@ docker push <repository_url>/ockam
 
 Next, create a new service in Snowflake to run the Ockam node. Run the following command in the Snowflake console or SnowSQL:
 
-> aside positive
+> 
 > IMPORTANT:
 >
 > - Replace `<EGRESS_ALLOW_LIST>` values in `VALUE_LIST` with the `egress_allow_list` you just noted.
@@ -459,7 +459,7 @@ Finally, you learned how to manage and clean up the deployed services.
 
 ### Related Resources
 
-- [Code for the project on GitHub](https://github.com/sfc-gh-bculberson/lab_data_api_python)
+- [Code for the project on GitHub](https://github.com/Snowflake-Labs/lab_data_api_python)
 - [Snowpark for Python Developer Guide](https://docs.snowflake.com/en/developer-guide/snowpark/python/index.html)
 - [Ockam Documentation](https://docs.ockam.io/)
 - [Snowpark for Python API Reference](https://docs.snowflake.com/en/developer-guide/snowpark/reference/python/index.html)

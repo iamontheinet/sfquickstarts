@@ -2,10 +2,11 @@ author: Caleb Baechtold
 id: machine-learning-with-snowpark-python
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: This is a sample Snowflake Guide
+summary: This is a sample Snowflake Guide 
 environments: web
 status: Archived
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Machine Learning with Snowpark Python
 <!-- ------------------------ -->
@@ -38,7 +39,7 @@ The source code for this quickstart is available on [GitHub](https://github.com/
 - How to implement end-to-end machine learning workflows in Snowflake with Python (no SQL needed) which can be orchestrated with dbt, Airflow, or any other python-capable orchestration framework.
 
 ### What You’ll Need 
-- A Snowflake Account with Anaconda Integration enabled by ORGADMIN - if you do not already have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_cta=quickstarts_)
+- A Snowflake Account with Anaconda Integration enabled by ORGADMIN - if you do not already have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - An [Amazon SageMaker Studio Lab](https://studiolab.sagemaker.aws/) Account OR a local Jupyter Notebook runtime with Miniconda
 - ***Optionally*** [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 

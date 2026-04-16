@@ -2,10 +2,11 @@ author: Ali Alladin (ali.alladin@thoughtspot.com)
 id: ai-powered-embedded-analytics-using-thoughtspot
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/build
 language: en
-summary: Guide to create your own embedded analytics application using ThoughtSpot
+summary: Embed AI-powered analytics with ThoughtSpot and Snowflake for natural language search and self-service business intelligence.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # AI Powered Embedded Analytics using ThoughtSpot
 <!-- ------------------------ -->
@@ -52,7 +53,7 @@ To get started, we are going to need a few cloud environments, one for Snowflake
 ![Snowflake Partner Connect](assets/PartnerConnect.png)
 
 - Sign up for a Snowflake Free Trial: 
-  - Jump over to the [Snowflake Free Trial signup page](https://signup.snowflake.com/), enter the details required, and tap continue. Follow the steps required and check your email for an Activation link. Keep the credentials handy as you will need them to connect.
+  - Jump over to the [Snowflake Free Trial signup page](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides), enter the details required, and tap continue. Follow the steps required and check your email for an Activation link. Keep the credentials handy as you will need them to connect.
 
 
 <!-- ------------------------ -->
@@ -239,7 +240,7 @@ Feel free to customize the application to suit your needs.
 - [ThoughtSpot Codespot - code samples, visualizations and more](https://developers.thoughtspot.com/codespot)
 - [Developer Playground](https://try-everywhere.thoughtspot.cloud/v2/#/everywhere)
 - [Getting Started with Snowflake Quickstarts](/en/developers/guides/)
-- [Sign up for a Snowflake Free Trial](https://signup.snowflake.com/)
+- [Sign up for a Snowflake Free Trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - [Download Reference Architecture](/content/dam/snowflake-site/developers/2024/10/ThoughtSpot-Solution-Architecture.pdf)
 - [Read the Blog](https://medium.com/snowflake/supercharge-your-data-analytics-with-thoughtspot-and-snowflake-c29aeca474d0)
 - [Watch the Demo](https://youtu.be/Zvzz86Usw_E?list=TLGGH5mY5yGmEhMyNDA5MjAyNQ)

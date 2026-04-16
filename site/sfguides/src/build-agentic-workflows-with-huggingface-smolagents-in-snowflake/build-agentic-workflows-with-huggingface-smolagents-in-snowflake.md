@@ -1,11 +1,12 @@
 id: build-agentic-workflows-with-huggingface-smolagents-in-snowflake
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/build
 language: en
-summary: This guide outlines the process for creating agentic workflow in Snowflake Notebook on Container Runtime.
+summary: Build agentic workflows with Hugging Face SmolAgents in Snowflake for AI task automation and intelligent processing.
 environments: web
 status: Published
 feedback link: <https://github.com/Snowflake-Labs/sfguides/issues>
 authors: Dash Desai
+
 
 # Build Agentic Workflows with Hugging Face Smolagents in Snowflake
 <!-- ------------------------ -->
@@ -35,7 +36,7 @@ Learn more about [Smolagents](https://github.com/huggingface/Smolagents).
 
 ### Prerequisites
 
-* Access to a [Snowflake account](https://signup.snowflake.com/) with ACCOUNTADMIN role
+* Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with ACCOUNTADMIN role
 * Access to a [Hugging Face account and HF token](https://huggingface.co/)
     * Log into your Hugging Face account and access your Hugging Face token by browsing to ***Settings -> Access Tokens -> New token***. Make note of this token – you will need to copy-paste it later on.
 
@@ -77,14 +78,14 @@ Agentic workflow using Smolagents library and Snowflake Cortex AI in Snowflake N
 * Click on **Save** button
 * Click on **Start** button on top right
 
-> aside positive
+> 
 > NOTE: At this point, the container service will take about 5-7 minutes to start. You will not be able to proceed unless the status changes from **Starting** to **Active**.
 
 <!-- ------------------------ -->
 ## Run Notebook
 
 
-> aside negative
+> 
 > PREREQUISITE: Successful completion of steps outlined under **Setup**.
 
 Here's the code walkthrough of the [huggingface_smolagents_notebook_app.ipynb](https://github.com/Snowflake-Labs/sfguide-build-agentic-workflows-with-huggingface-smolagents-in-snowflake/blob/main/huggingface_smolagents_notebook_app.ipynb) notebook that you downloaded and imported into your Snowflake account.
@@ -97,7 +98,7 @@ Install **Smolagents** library
 
 Here we create instances of **HfApiModel**, **ToolCallingAgent**, and **CodeAgent** to perform web search using built-in **DuckDuckGoSearchTool**. 
 
-> aside positive
+> 
 > NOTE: Replace `hf_ZkEXVwIXXXXXXXXXXXXXXX` with your Hugging Face token before proceeding.
 
 **Cell 3**
@@ -126,7 +127,7 @@ If all goes well, you should see the output similar to the following:
 
 ---
 
-> aside positive
+> 
 > NOTES:
 > In all of the cases, notice the Python and other code snippets being generated to perform the task(s).
 >

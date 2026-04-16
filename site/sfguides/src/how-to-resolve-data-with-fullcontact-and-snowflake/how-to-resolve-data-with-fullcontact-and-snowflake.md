@@ -2,10 +2,11 @@ author: Dan Lee, Alix Thoi
 id: how-to-resolve-data-with-fullcontact-and-snowflake
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: This is a sample Snowflake Guide
+summary: This is a sample Snowflake Guide 
 environments: web
 status: Published
 feedback link: <https://github.com/Snowflake-Labs/sfguides/issues>
+
 
 # How To Resolve Data with FullContact and Snowflake
 <!---------------------------->
@@ -25,7 +26,7 @@ To see a more in depth example with other sample datasets, make sure to check ou
 ### What You’ll Need
 - Familiarity with Snowflake SQL
 - Agreed to the [Snowflake Consumer Terms of Service](<https://other-docs.snowflake.com/en/collaboration/consumer-becoming>) for the Marketplace
-- [Snowflake Account](https://signup.snowflake.com/?utm_cta=quickstarts_) with `ACCOUNTADMIN` role
+- [Snowflake Account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with `ACCOUNTADMIN` role
 - [FullContact Trial Account](https://platform.fullcontact.com/register/offer/snowresolve)
 
 ### What You’ll Build

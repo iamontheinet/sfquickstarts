@@ -2,10 +2,11 @@ author: Shreya Sisodia
 id: data-engineering-with-datastage
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/ingestion
 language: en
-summary: Lab to demonstrate ease of loading enterprise data into Snowflake through DataStage.
+summary: Transform and integrate enterprise data with IBM DataStage pipelines connected to Snowflake for high-volume batch processing and CDC.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # A Data Integration Guide: Load Banking Data into Snowflake with IBM DataStage
 
@@ -19,7 +20,7 @@ IBM DataStage is a world-class data integration tool that helps users build trus
 
 ### Prerequisites
 - Access to an [IBM CP4DaaS account](https://dataplatform.cloud.ibm.com/registration/stepone?utm_medium=Exinfluencer&utm_source=Exinfluencer&utm_content=CPDWW&utm_term=30AE5&utm_id=PRODUCT1ENCTA1&context=cpdaas&apps=cos%2Cdatastage&regions=us-south%2Ceu-de&S_PKG=ov80049&cm_mmca1=10000665&cm_mmca2=000000TF) (or free trial)
-- Access to a [Snowflake account](https://signup.snowflake.com/?utm_cta=quickstarts_) (or free trial)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) (or free trial)
 
 ### What You'll Learn
 - How to start working with DataStage 

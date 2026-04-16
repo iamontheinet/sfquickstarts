@@ -2,10 +2,11 @@ author: Mats Stellwall, Doris Lee
 id: data-engineering-pipelines-with-snowpark-pandas
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/transformation
 language: en
-summary: This guide will provide step-by-step details for building a data engineering pipeline with pandas on Snowflake
+summary: Build data engineering pipelines with Snowpark pandas for familiar DataFrame transformations at Snowflake scale.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Data Engineering Pipeline with pandas on Snowflake
 <!-- ------------------------ -->
@@ -38,10 +39,9 @@ Learn more about [Snowpark Pandas API](https://docs.snowflake.com/en/developer-g
 
 ### Prerequisites
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed
-    > aside positive
     >
     >Clone or download the [git repo](https://github.com/Snowflake-Labs/sfguide-data-engineering-pipelines-with-pandas-on-snowflake)
-* A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/).
+* A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 * A Snowflake account login with a role that has the ability to create database, schema and tables. If not, you will need to register for a free trial or use a different role.
 
 ### What You’ll Build 

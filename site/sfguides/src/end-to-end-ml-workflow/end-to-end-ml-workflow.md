@@ -2,10 +2,11 @@ author: Elliott Botwick
 id: end-to-end-ml-workflow
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/model-development
 language: en
-summary: Learn how to build an end-to-end machine learning workflow in Snowflake, from feature engineering to model deployment and monitoring.
+summary: Build complete ML workflows in Snowflake from data preparation through training, evaluation, deployment, monitoring, and iteration.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build an End-to-End ML Workflow in Snowflake
 
@@ -34,13 +35,13 @@ You'll build a complete mortgage lending prediction system that:
 5. Provides model explanations using SHAP values
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/) with ACCOUNTADMIN access.  Sign up for a 30-day free trial account, if required.
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with ACCOUNTADMIN access.  Sign up for a 30-day free trial account, if required.
 - Basic understanding of Python and machine learning concepts
 
 <!-- ------------------------ -->
 ## Setup
 
-Firstly, run this SQL setup script to create the notebook:
+Firstly, run this SQL setup script to create the necessary objects:
 ```sql
 -- Using ACCOUNTADMIN, create a new role for this exercise 
 USE ROLE ACCOUNTADMIN;
@@ -70,7 +71,7 @@ CREATE OR REPLACE SCHEMA MLOPS_SCHEMA;
 -- Create compute pool
 CREATE COMPUTE POOL IF NOT EXISTS MLOPS_COMPUTE_POOL 
  MIN_NODES = 1
- MAX_NODES = 1
+ MAX_NODES = 3
  INSTANCE_FAMILY = CPU_X64_M;
 
 -- Using accountadmin, grant privilege to create network rules and integrations on newly created db
@@ -83,44 +84,30 @@ USE ROLE E2E_SNOW_MLOPS_ROLE;
 CREATE OR REPLACE API INTEGRATION GITHUB_INTEGRATION_E2E_SNOW_MLOPS
    api_provider = git_https_api
    api_allowed_prefixes = ('https://github.com/Snowflake-Labs')
+   API_USER_AUTHENTICATION = (TYPE = SNOWFLAKE_GITHUB_APP)
    enabled = true
    comment='Git integration with Snowflake Demo Github Repository.';
 
--- Create the integration with the Github demo repository
-CREATE OR REPLACE GIT REPOSITORY GITHUB_REPO_E2E_SNOW_MLOPS
-   ORIGIN = 'https://github.com/Snowflake-Labs/sfguide-build-end-to-end-ml-workflow-in-snowflake' 
-   API_INTEGRATION = 'GITHUB_INTEGRATION_E2E_SNOW_MLOPS' 
-   COMMENT = 'Github Repository ';
-
--- Fetch most recent files from Github repository
-ALTER GIT REPOSITORY GITHUB_REPO_E2E_SNOW_MLOPS FETCH;
-
--- Copy notebook into snowflake configure runtime settings
-CREATE OR REPLACE NOTEBOOK E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.TRAIN_DEPLOY_MONITOR_ML
-FROM '@E2E_SNOW_MLOPS_DB.MLOPS_SCHEMA.GITHUB_REPO_E2E_SNOW_MLOPS/branches/main/' 
-MAIN_FILE = 'train_deploy_monitor_ML_in_snowflake.ipynb' QUERY_WAREHOUSE = E2E_SNOW_MLOPS_WH
-RUNTIME_NAME = 'SYSTEM$BASIC_RUNTIME' 
-COMPUTE_POOL = 'MLOPS_COMPUTE_POOL'
-IDLE_AUTO_SHUTDOWN_TIME_SECONDS = 3600;
-
---DONE! Now you can access your newly created notebook with your E2E_SNOW_MLOPS_ROLE and run through the end-to-end workflow!
 ```
 
-### Open Notebook
-Now we can navigate to the Notebooks tab in Snowsight to open up the newly created notebook called **TRAIN_DEPLOY_MONITOR_ML** 
+### Create workspace
+Now we can navigate to the Workspaces tab in Snowsight to create a git based workspace! 
 
-Be sure to run this with the newly created **E2E_SNOW_MLOPS_ROLE**!
+From the workspace drop down, choose create from Git repository:
 
-The notebook is also hosted in this [GitHub Repo](https://github.com/Snowflake-Labs/sfguide-build-end-to-end-ml-workflow-in-snowflake/blob/main/train_deploy_monitor_ML_in_snowflake.ipynb) for reference. 
+![git-workspace1](assets/workspace_setup1.png)
 
+Create the workspace based on the repository url https://github.com/Snowflake-Labs/sfguide-build-end-to-end-ml-workflow-in-snowflake.git
 
-### Environment Configuration
+![git-workspace2](assets/workspace_setup2.png)
 
-We'll be building the model using a Snowflake Notebook. In addition to the ability to pip install any package of choice, Snowflake Notebooks come pre-installed with common Python libraries for data science and machine learning, such as numpy, pandas, matplotlib, and more! For this tutorial, we'll need to install one additional package:
+Next, create a service to run the notebook on the compute pool created by the setup:
 
-```python
-!pip install shap
-```
+![create-service1](assets/create_service1.png)
+
+![create-service2](assets/create_service2.png)
+
+Be sure to run this with the newly created role **E2E_SNOW_MLOPS_ROLE** and warehouse **E2E_SNOW_MLOPS_WH**!
 
 ### Initialize Snowflake Session and Variables
 
@@ -180,7 +167,7 @@ except:
     df.show(5)
 ```
 
-> aside positive
+> 
 > IMPORTANT:
 > - Make sure your Snowflake account has the necessary privileges to create tables and execute ML operations
 > - Ensure your warehouse is properly sized for ML workloads

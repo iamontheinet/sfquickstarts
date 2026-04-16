@@ -2,10 +2,11 @@ author: Vino Duraisamy, Ron Ortloff, Scott Teal
 id: cortex-ai-sentiment-iceberg
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/community-sourced, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/lakehouse-analytics, snowflake-site:taxonomy/snowflake-feature/apache-iceberg
 language: en
-summary: This is a guide for applying artificial intelligence on an Iceberg open data lakehouse
+summary: Analyze sentiment on Apache Iceberg™ tables using Snowflake Cortex AI and an open data lakehouse.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Sentiment Analysis Using Snowflake Cortex AI on Iceberg Tables
 <!-- ------------------------ -->
@@ -13,7 +14,7 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
 This guide is designed to help you learn how to bring artificial intelligence (AI) to open data lakehouses with Snowflake Cortex AI and Iceberg Tables.
 
-> aside positive
+> 
 > 
 >  [Snowflake Cortex AI](https://docs.snowflake.com/en/user-guide/snowflake-cortex/llm-functions) is now generally available.
 >  [Iceberg Tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) are now generally available.
@@ -34,7 +35,7 @@ This guide is designed to help you learn how to bring artificial intelligence (A
 - How to automate CDC pipelines with Streams and Tasks
 
 ### What You’ll Need 
-- A Snowflake account with access to `ACCOUNTADMIN` role. A [free trial](https://signup.snowflake.com/) will suffice. [Standard Edition](https://docs.snowflake.com/en/user-guide/intro-editions#standard-edition) will work for this lab. The account must be in one of these regions:
+- A Snowflake account with access to `ACCOUNTADMIN` role. A [free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) will suffice. [Standard Edition](https://docs.snowflake.com/en/user-guide/intro-editions#standard-edition) will work for this lab. The account must be in one of these regions:
     - AWS US West 2 (Oregon)
     - AWS US East 1 (N. Virginia)
     - AWS Europe Central 1 (Frankfurt)

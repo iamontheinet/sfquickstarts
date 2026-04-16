@@ -1,11 +1,12 @@
 author: Joshua Rauh and Ben Marzec
 id: data-harmonization
 language: en
-summary: Build an end-to-end data harmonization solution using Snowflake Cortex AI, Streamlit, and hybrid matching techniques to reconcile product data between competing retailers
+summary: Harmonize data from multiple sources in Snowflake Cortex AI and Streamlit for consistent analytics, unified schemas, clean models, and integration.
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/product/platform, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions, 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # End-to-End Data Harmonization with Snowflake Cortex AI
 
@@ -39,7 +40,7 @@ This quickstart demonstrates a three-stage approach to data harmonization:
 
 ### What You'll Need
 
-- A [Snowflake](https://signup.snowflake.com/) account. Sign up for a 30-day free trial account, if required.
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account. Sign up for a 30-day free trial account, if required.
 - Access to [Snowflake Cortex AI functions](https://docs.snowflake.com/user-guide/snowflake-cortex/aisql) (available in most commercial regions)
 - Basic understanding of [Snowflake Notebooks](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks) and [Streamlit in Snowflake](https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit)
 
@@ -57,7 +58,7 @@ The solution processes 1,000+ product records from two different retailers and p
 
 ### Download the Source Files
 
-> The 3 source files (2 streamlit apps and 1 notebook) can be found [here](https://github.com/sfc-gh-jrauh/sfdataharmonization).
+> The 3 source files (2 streamlit apps and 1 notebook) can be found [here](https://github.com/Snowflake-Labs/sfquickstarts/tree/master/site/sfguides/src/data-harmonization/assets/streamlit_apps) and [here](https://github.com/Snowflake-Labs/sfquickstarts/tree/master/site/sfguides/src/data-harmonization/assets/notebooks).
 
 ### Note on the Datasets Used
 
@@ -70,7 +71,7 @@ The solution processes 1,000+ product records from two different retailers and p
 
 In this section, you'll prepare your Snowflake environment by creating the necessary database objects and loading the sample datasets. We'll be working with three CSV files containing product data from ABT and Best Buy, plus a ground truth mapping file for validation.
 
-> If you didn't download the source files from the previous step, plese do so [here](https://github.com/sfc-gh-jrauh/sfentityresolution).
+> If you didn't download the source files from the previous step, plese do so [here](https://github.com/Snowflake-Labs/sfquickstarts/tree/master/site/sfguides/src/data-harmonization/assets/streamlit_apps) and [here](https://github.com/Snowflake-Labs/sfquickstarts/tree/master/site/sfguides/src/data-harmonization/assets/notebooks).
 
 ### Step 1: Create Database and Schema
 

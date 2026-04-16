@@ -2,7 +2,7 @@ author: Harsh Patel
 id: ml-forecasting-ad
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/interactive-analytics, snowflake-site:taxonomy/snowflake-feature/ml-functions
 language: en
-summary: Getting started with Anomaly Detection & Forecasting ML Functions
+summary: Getting started with Anomaly Detection & Forecasting ML Functions 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -30,7 +30,7 @@ For further details on ML Functions, please refer to the [snowflake documentatio
 - Use Tasks to retrain models on a regular cadence
 - Use the [email notfication integration](https://docs.snowflake.com/en/user-guide/email-stored-procedures) to send email reports of the model results after completion
 
-> aside positive
+> 
 > Note: You can now run this entire quickstart as a Snowflake Notebook in your Snowsight UI. Download this [ipynb file](https://github.com/Snowflake-Labs/snowflake-demo-notebooks/blob/main/Getting%20Started%20with%20Snowflake%20Cortex%20ML-Based%20Functions/Getting%20Started%20with%20Snowflake%20Cortex%20ML-Based%20Functions.ipynb) and import it to your Snowflake account as shown below.
 
 ![notebook_callout](assets/notebook.png)

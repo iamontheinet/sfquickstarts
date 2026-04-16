@@ -2,10 +2,11 @@ author: Naisha Agarwal, Effy Fang
 id: movie-recommendation-chatbot-powered-by-kumo
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/commercialize, snowflake-site:taxonomy/snowflake-feature/native-apps
 language: en
-summary: This guide will provide step-by-step details for building a personalized movie recommendation chatbot using Kumo in a Snowflake Native App, CortexAI and Streamlit.
+summary: This guide will provide step-by-step details for building a personalized movie recommendation chatbot using Kumo in a Snowflake Native App, CortexAI and Streamlit. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Personalized Movie Recommendation Chatbot Powered by Kumo in Snowflake Native App
 <!-- ------------------------ -->
@@ -42,7 +43,7 @@ You'll create a movie recommendation chatbot built on Snowflake, powered by K
 
 ### Pre-requisites
 
-- Familiarity with [Snowflake](https://signup.snowflake.com/) and a Snowflake account
+- Familiarity with [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) and a Snowflake account
 - A valid Kumo account installed as a [native Snowflake app](https://app.snowflake.com/marketplace/listing/GZTYZBN5P0/kumo-ai-kumo?_fsi=RSY006de&_fsi=RSY006de)
 - Familiarity with Kumo and how to run a batch prediction. For a step-by-step guide on a similar use case, check out [this quickstart tutorial](/en/developers/guides/leveraging-kumo-for-smarter-recommendations/), or refer to [Kumo documentation](https://kumo.ai/docs/examples/predictive-query) for more examples.
 - The [MovieLens 1M dataset](https://grouplens.org/datasets/movielens/) set up on Snowflake

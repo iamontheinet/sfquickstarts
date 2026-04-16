@@ -2,10 +2,11 @@ author: sikha-das
 id: intro-to-machine-learning-with-snowpark-ml-for-python
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/platform, snowflake-site:taxonomy/snowflake-feature/migrations, snowflake-site:taxonomy/snowflake-feature/snowpark
 language: en
-summary: Through this quickstart guide, you will explore Snowflake for Machine Learning.
+summary: Through this quickstart guide, you will explore Snowflake for Machine Learning. 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with ML Development in Snowflake
 <!-- ------------------------ -->
@@ -47,10 +48,9 @@ This quickstart will focus on building a custom ML workflow using the following 
 
 ### Prerequisites
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed
-    > aside positive
     >
     >Download the [git repo](https://github.com/Snowflake-Labs/sfguide-intro-to-machine-learning-with-snowflake-ml-for-python)
-- A Snowflake Account. Sign up for a 30-day [free trial](https://signup.snowflake.com/) account, if required.
+- A Snowflake Account. Sign up for a 30-day [free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account, if required.
 
 ### What You’ll Build 
 - A set of Snowflake Notebook on Container Runtime:
@@ -64,7 +64,7 @@ This quickstart will focus on building a custom ML workflow using the following 
 <!-- ------------------------ -->
 ## Using Snowflake Notebooks
 
-To get started using Snowflake Notebooks, first login to Snowsight and run the following [setup.sql](https://github.com/Snowflake-Labs/sfguide-intro-to-machine-learning-with-snowflake-ml-for-python/blob/main/scripts/setup.sql) in a SQL worksheet. Sign up for a 30-day [free trial](https://signup.snowflake.com/) account, if required. This will connect to the git repo where all the Snowflake Notebooks are stored and create them for you in your Snowflake environment.
+To get started using Snowflake Notebooks, first login to Snowsight and run the following [setup.sql](https://github.com/Snowflake-Labs/sfguide-intro-to-machine-learning-with-snowflake-ml-for-python/blob/main/scripts/setup.sql) in a SQL worksheet. Sign up for a 30-day [free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account, if required. This will connect to the git repo where all the Snowflake Notebooks are stored and create them for you in your Snowflake environment.
 
 ```sql
 USE ROLE ACCOUNTADMIN;

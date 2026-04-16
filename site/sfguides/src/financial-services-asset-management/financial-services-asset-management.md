@@ -2,10 +2,11 @@ author: Allen Wong
 id: financial-services-asset-management
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/industry/financial-services, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/build
 language: en
-summary: Build a Financial Services Asset Management demo in Snowflake that scales to handle 3 billion synthetic trades while providing real-time cash and profit/loss calculations.
+summary: Build asset management real-time analytics on Snowflake for portfolio tracking, risk analysis, regulatory reporting, and investment insights.
 environments: web
 status: Archived
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build a Financial Services Asset Management P&L Dashboard
 
@@ -39,7 +40,7 @@ This is powered by four SQL Worksheets and a Python Function:
 
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/) (a free trial on Standard Edition will suffice)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) (a free trial on Standard Edition will suffice)
 
 <!-- ------------------------ -->
 ## Setup

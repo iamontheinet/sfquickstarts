@@ -2,10 +2,15 @@ author: Eric Gudgion
 id: getting-started-with-automl-openfe-and-autogluon
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: Using OpenFE and AutoGluon to create features for machine learning in a Snowflake Container Notebook.
+summary: Accelerate ML development with AutoML using OpenFE feature engineering and AutoGluon model training in Snowflake notebooks.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+fork repo link: https://github.com/Snowflake-Labs/sfguide-getting-started-with-automl-openfe-and-autogluon
+
+
+
+
 
 # Getting Started with AutoML, OpenFE and AutoGluon
 <!-- ------------------------ -->
@@ -28,7 +33,7 @@ The workflow for this tutorial is shown in the following diagram.
 * Different ways to call a model
 
 ### What You’ll Need
-* Access to a [Snowflake account](https://signup.snowflake.com/)
+* Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 * Basic familiarity with SQL and Python
 * Access to download `.ipynb` files from [getting-started-with-automl-openfe-and-autogluon](https://github.com/Snowflake-Labs/sfguide-getting-started-with-automl-openfe-and-autogluon/tree/main/notebooks) Git Repo
 

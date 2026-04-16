@@ -2,10 +2,11 @@ author: Kelsey Hammock
 id: snowflake-build-secure-multitenant-data-applications-snowflake-sigma
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: Snowflake Summit 2023 HoL with Sigma
+summary: Snowflake Summit 2023 HoL with Sigma 
 environments: web
 status: Published
 feedback link: https://github.com/sigmacomputing/sigmaquickstarts/issues
+
 
 # Build and Secure Multi-Tenant Data Applications with Snowflake and Sigma
 <!-- The above name is what appears on the website and is searchable. -->
@@ -27,7 +28,7 @@ Data Analysts, Business Analysts, or others who are doing next level analysis on
   <li>A Snowflake trial account with Enterprise Edition or higher.</li>
 </ul>
 
-[Snowflake Free Trial](https://signup.snowflake.com/?utm_cta=quickstarts_)
+[Snowflake Free Trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 
 Once you have created your Snowflake trial environment, you will need to complete the data loading and object creation steps found in the Snowflake Tasty Bytes Quickstart, which you can access here: [An Introduction to Tasty Bytes.](/en/developers/guides/tasty-bytes-introduction/)
 

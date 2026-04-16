@@ -2,7 +2,7 @@ author: Sara Altman, Daniel Chen
 id: analyze-data-with-python-using-posit-workbench-and-snowflake
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/analytics
 language: en
-summary: Analyze Data with Python using Posit Workbench and Snowflake
+summary: Analyze Snowflake data using Python in Posit Workbench for collaborative data science, ML development, and visualization.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -13,6 +13,7 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
     height: auto;
   }
 </style>
+
 
 #  Analyze Data with Python using Posit Workbench and Snowflake
 
@@ -43,7 +44,7 @@ or look at the materials provided in the accompanying repository:
 
 ### Prerequisites
 
-- A [Snowflake account](https://signup.snowflake.com/) with appropriate access to databases and schemas.
+- A [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) with appropriate access to databases and schemas.
 - A Posit Workbench license and the ability to launch Posit Workbench from [Snowflake Native Applications](https://docs.posit.co/ide/server-pro/integration/snowflake/native-app/). This can be provided by an administrator with the `accountadmin` role.
 - Familiarity with Python.
 
@@ -220,7 +221,7 @@ You can learn more about these extensions here: [Shiny extension](https://shiny.
 
 4. In a terminal, **activate the virtual environment** by running `source .venv/bin/activate`.
 
-> aside negative
+> 
 >
 > If you don't already see a terminal open, open the Command Palette (`Ctrl/Cmd+Shift+P`), then select `Terminal: Create New Terminal` to open one.
 
@@ -441,7 +442,7 @@ heart_failure_filtered = (
 )
 ```
 
-> aside positive
+> 
 >
 > By default, Ibis is in _deferred mode_ and lazily evaluates table expressions. To more easily interact with your tables and see the results of your code, you can turn on _interactive code_. In [interactive mode](https://ibis-project.org/how-to/configure/basics#interactive-mode), expressions are executed when printed to the console. Turn on interactive mode with `ibis.options.interactive = True`.
 

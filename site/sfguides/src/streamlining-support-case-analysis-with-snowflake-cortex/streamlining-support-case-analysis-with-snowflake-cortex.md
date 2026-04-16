@@ -2,10 +2,11 @@ author: Kala Govindarajan
 id: streamlining-support-case-analysis-with-snowflake-cortex
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: A streamlined approach using advanced data processing and AI-driven summarization to help analyze support tickets leading to faster resolution times and better insights into common customer issues. By integrating Snowflake Cortex AI features, product managers and support teams can automate the analysis and summarization of support tickets seamlessly.
+summary: A streamlined approach using advanced data processing and AI-driven summarization to help analyze support tickets leading to faster resolution times and better insights into common customer issues. By integrating Snowflake Cortex AI features, product managers and support teams can automate the analysis and summarization of support tickets seamlessly. 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Streamlining Support Case Analysis with Snowflake Cortex
 <!-- ------------------------ -->
@@ -35,7 +36,7 @@ With Cortex Search, one can quickly set up a hybrid (vector and keyword) search 
 
 
 ### What You’ll Need 
-- A [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) account in a region where Snowflake Cortex and Arctic are available.
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) account in a region where Snowflake Cortex and Arctic are available.
 - Access to the ACCOUNTADMIN role. If not, you will need to work with your admin to perform the initial environment setup.
 - Git installed.
 

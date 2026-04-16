@@ -2,10 +2,11 @@ author: Constantin Stanca
 id: xml-processing-snowpark
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/industry/financial-services, snowflake-site:taxonomy/product/platform
 language: en
-summary: Snowflake guide on how to process XML with Snowpark
+summary: Snowflake guide on how to process XML with Snowpark 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Modernize XML Processing for Financial Services with Snowpark XML
 
@@ -24,7 +25,7 @@ Users can leverage Snowpark XML capabilities to:
 - Use simple, Spark-compatible API (`session.read.option(...).xml(...)`).
 
 ### Prerequisites
-- Access to a [Snowflake Account](https://signup.snowflake.com)
+- Access to a [Snowflake Account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Privileges necessary to create a user, database, and virtual warehouse in Snowflake
 - Intermediate knowledge of [Snowpark](https://docs.snowflake.com/en/developer-guide/snowpark/python/index) and Python
 - Access to create and run [Notebooks](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks)

@@ -2,10 +2,11 @@ author: Armin Efendic
 id: building-ml-models-in-minutes-with-hex-and-snowflake-ml-functions
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/community-sourced, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: This lab will walk you through how to use Snowflake ML Functions and Hex.
+summary: Train ML models rapidly using Hex collaborative notebooks with Snowflake ML Functions for quick experimentation and deployment.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Building ML Models In Minutes With Hex And Snowflake ML Functions
 
@@ -17,10 +18,10 @@ In this quickstart, we will be utilizing population data gathered by the US Cens
 ### Prerequisites
 - Familiarity with basic Python and SQL 
 - Familiarity with data science notebooks
-- A [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) Account (if you are using an enterprise account through your organization, it is unlikely that you will have the privileges to use the `ACCOUNTADMIN` role, which is required for this lab).
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) Account (if you are using an enterprise account through your organization, it is unlikely that you will have the privileges to use the `ACCOUNTADMIN` role, which is required for this lab).
 
 
-Head over to the [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) sign-up page and register for a free account. Once you've registered, you'll get an email that will bring you to Snowflake so that you can sign in.
+Head over to the [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) sign-up page and register for a free account. Once you've registered, you'll get an email that will bring you to Snowflake so that you can sign in.
 
 #### Connecting Snowflake with Hex
 If you have an existing Hex account, login in to your account and continue to the `Getting Started With Hex` section. 

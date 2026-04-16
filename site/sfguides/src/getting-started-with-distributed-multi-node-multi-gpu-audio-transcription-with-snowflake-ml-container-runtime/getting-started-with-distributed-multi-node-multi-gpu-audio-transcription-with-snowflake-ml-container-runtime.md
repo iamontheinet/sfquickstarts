@@ -1,11 +1,17 @@
 author: Dharmendra Shavkani
 id: getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime
-summary: This guide will provide step-by-step details for using multi-node multi-gpu audio transcription with snowflake ml container runtime
+summary: This guide will provide step-by-step details for using multi-node multi-gpu audio transcription with snowflake ml container runtime 
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/transformation
 environments: web
+language: en
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 tags: Getting Started, Data Science, Data Engineering, Twitter 
+fork repo link: https://github.com/Snowflake-Labs/sfguide-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime
+
+
+
+
 
 # Distributed Multi-Node and Multi GPU Audio Transcription with Snowflake ML Container Runtime
 <!-- ------------------------ -->
@@ -86,7 +92,7 @@ See details here for the [model](https://huggingface.co/openai/whisper-large-v3)
 
 ### Prerequisites
 
-* A Snowflake Account. Sign up for a 30-day [free trial account](https://signup.snowflake.com/), if required.
+* A Snowflake Account. Sign up for a 30-day [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides), if required.
 
 * Foundational knowledge of Data Science workflows
 
@@ -275,11 +281,11 @@ You can also leverage Snowflake ML Container Runtime outside of Snowflake Notebo
   > Tip: You can generate a config for your account from Snowsight using the `Connect a tool to Snowflake` > `Config File` menu items.
     ![](assets/setup_connect_tool.png) ![](assets/setup_config_file.png)
 
-* Download the files [transcribe_audio.py](https://github.com/sfc-gh-dhung/sfquickstarts/blob/dhung-audio-processing-ml-job-quickstart/site/sfguides/src/getting_started_with_distributed_multi_node_multi_gpu_audio_transcription_with_snowflake_ml_container_runtime/scripts/transcribe_audio.py) and [run_audio_transcription_job.py](https://github.com/sfc-gh-dhung/sfquickstarts/blob/dhung-audio-processing-ml-job-quickstart/site/sfguides/src/getting_started_with_distributed_multi_node_multi_gpu_audio_transcription_with_snowflake_ml_container_runtime/scripts/run_audio_transcription_job.py).
+* Download the files [transcribe_audio.py](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime/scripts/transcribe_audio.py) and [run_audio_transcription_job.py](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime/scripts/run_audio_transcription_job.py).
 
-* Inspect the file [transcribe_audio.py](https://github.com/sfc-gh-dhung/sfquickstarts/blob/dhung-audio-processing-ml-job-quickstart/site/sfguides/src/getting_started_with_distributed_multi_node_multi_gpu_audio_transcription_with_snowflake_ml_container_runtime/scripts/transcribe_audio.py). This is the payload script we will submit and execute inside the Container Runtime using ML Jobs.
+* Inspect the file [transcribe_audio.py](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime/scripts/transcribe_audio.py). This is the payload script we will submit and execute inside the Container Runtime using ML Jobs.
 
-* Run `python run_audio_transcription_job.py` in your local environment. This will upload [transcribe_audio.py](https://github.com/sfc-gh-dhung/sfquickstarts/blob/dhung-audio-processing-ml-job-quickstart/site/sfguides/src/getting_started_with_distributed_multi_node_multi_gpu_audio_transcription_with_snowflake_ml_container_runtime/scripts/transcribe_audio.py) and kick off its execution using the `submit_file()` API from the ML Job SDK.
+* Run `python run_audio_transcription_job.py` in your local environment. This will upload [transcribe_audio.py](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime/scripts/transcribe_audio.py) and kick off its execution using the `submit_file()` API from the ML Job SDK.
 
 * You can monitor the job execution in the Services and Jobs UI in Snowsight
 
@@ -288,7 +294,7 @@ You can also leverage Snowflake ML Container Runtime outside of Snowflake Notebo
 Let's break down what the ML Job workflow is doing:
 
 - Create a Snowflake session from default configuration and set up database context
-- Submit the [transcribe_audio.py](https://github.com/sfc-gh-dhung/sfquickstarts/blob/dhung-audio-processing-ml-job-quickstart/site/sfguides/src/getting_started_with_distributed_multi_node_multi_gpu_audio_transcription_with_snowflake_ml_container_runtime/scripts/transcribe_audio.py) script as an ML Job targeting 5 instances with a minimum of 1, scaling elastically based on available compute pool capacity
+- Submit the [transcribe_audio.py](https://github.com/Snowflake-Labs/sfquickstarts/blob/master/site/sfguides/src/getting-started-with-distributed-multi-node-multi-gpu-audio-transcription-with-snowflake-ml-container-runtime/scripts/transcribe_audio.py) script as an ML Job targeting 5 instances with a minimum of 1, scaling elastically based on available compute pool capacity
 - Configure logging for Ray Cluster and do necessary setups for the Ray Cluster
 - Load audio files from Snowflake stage using SFStageBinaryFileDataSource with file pattern filtering
 - Download and initialize the Whisper large-v3 model from OpenAI for distributed inferencing

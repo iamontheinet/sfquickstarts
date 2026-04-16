@@ -2,10 +2,11 @@ author: Chanin Nantasenamat
 id: automated-query-performance-insights
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: Learn how to analyze query performance in Snowflake using SQL queries to identify bottlenecks and optimize execution times.
+summary: Generate automated query performance insights in Snowflake for proactive optimization, troubleshooting, and efficiency improvements.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Analyze Query Performance in Snowflake Notebooks
 <!-- ------------------------ -->
@@ -23,7 +24,7 @@ You'll learn how to leverage Snowflake's `ACCOUNT_USAGE` schema to analyze query
 A collection of analytical SQL queries that provide insights into query performance, warehouse utilization, and task execution patterns.
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Basic SQL knowledge
 - Access to Snowflake's `ACCOUNT_USAGE` schema
 
@@ -58,7 +59,7 @@ ORDER BY total_elapsed_time desc
 LIMIT 50;
 ```
 
-> aside positive
+> 
 > IMPORTANT:
 > - Replace '<your_warehouse_name>' with your actual warehouse name.
 > - Adjust the DATEADD function to analyze different time periods

@@ -2,10 +2,11 @@ author: Joviane Bellegarde
 id: connectors-google-analytics-raw-data
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/ingestion, snowflake-site:taxonomy/snowflake-feature/connectors
 language: en
-summary: Getting Started with the Snowflake Connector for Google Analytics
+summary: Ingest raw Google Analytics data into Snowflake with a native connector for custom marketing analytics and attribution modeling.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with the Snowflake Connector for Google Analytics
 <!-- ------------------------ -->
@@ -30,7 +31,7 @@ You will learn how to:
 - A [Google Account](https://accounts.google.com/signup/v2/webcreateaccount?hl=en&flowName=GlifWebSignIn&flowEntry=SignUp) to access [Google Analytics](https://analytics.google.com/) and [BigQuery](https://cloud.google.com/bigquery).
 - Familiarity with basic Python and SQL.
 - Familiarity with data science notebooks.
-- Go to the [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
+- Go to the [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
 
 <!-- ------------------------ -->
 ## Snowflake Environment

@@ -2,7 +2,7 @@ author: sanderiam
 id: getting-started-with-pii
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/compliance-security-discovery-governance
 language: en
-summary: Learn how to process PII data using Snowflake RBAC, DAC, Row Access Policies, and Column Level Security
+summary: Learn how to process PII data using Snowflake RBAC, DAC, Row Access Policies, and Column Level Security 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -41,7 +41,7 @@ This is the code companion to the "Journey to Processing PII in the Data Cloud" 
 
 First we'll create a set of users and roles to use for the rest of the demo. 
 
-> aside negative
+> 
 > 
 >  You MUST change the passwords assigned to each user. DO NOT use the samples given here. If you wish, you can remove the `password='usesomethinggoodthiswontwork' must_change_password = true` part of these SQL statements and skip to the key pair instructions below.
 

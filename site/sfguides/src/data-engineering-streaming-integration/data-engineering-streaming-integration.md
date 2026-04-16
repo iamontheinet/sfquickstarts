@@ -1,4 +1,4 @@
-summary: Streaming Data Integration with Snowflake
+summary: Build streaming data pipelines in Snowflake for real-time ingestion from Kafka, Kinesis, CDC sources, and event streams.
 id: data-engineering-streaming-integration
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering
 language: en
@@ -6,6 +6,7 @@ environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/devlabs/issues
 author: Dmytro Yaroshenko
+
 
 # Streaming Data Integration with Snowflake
 <!-- ------------------------ -->
@@ -28,7 +29,7 @@ This quickstart is a part of a series covering various aspects of wваorking wi
 Prerequisites for this guide include:
 * Familiarity with Snowflake, basic SQL knowledge, and understanding of Snowflake objects such as Snowsight UI
 
-* Snowflake account. Existing or Snowflake Free Trial - Registrants of the virtual hands-on lab need to sign up for a [free trial](https://signup.snowflake.com/?utm_cta=quickstarts_).  Please sign up using an email address that hasn’t been used previously
+* Snowflake account. Existing or Snowflake Free Trial - Registrants of the virtual hands-on lab need to sign up for a [free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).  Please sign up using an email address that hasn’t been used previously
 * Additionally, for Kafka step we will need the following installed locally (steps to install are described in the corresponding section):
   * open-source Apache Kafka 2.13-3.1.0
   * Snowflake Kafka Connector 1.9.1.jar (or newer version)

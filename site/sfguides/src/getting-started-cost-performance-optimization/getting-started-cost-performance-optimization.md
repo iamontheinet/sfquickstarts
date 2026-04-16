@@ -2,10 +2,11 @@ author: Praveen Purushothaman
 id: getting-started-cost-performance-optimization
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: This is a Snowflake Guide that walks through optimization features and options on the platform
+summary: Optimize Snowflake costs and performance with warehouse sizing, caching strategies, resource monitors, and query tuning.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with Cost and Performance Optimization
 <!-- ------------------------ -->
@@ -23,7 +24,7 @@ By completing this guide, you will be able to understand and implement various o
 - Familiarity with [Snowflake platform](https://docs.snowflake.com/en/user-guide/intro-key-concepts)
 - Basic understanding of [micro-partitions](https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions)
 - [Accountadmin](https://docs.snowflake.com/en/user-guide/security-access-control-considerations#using-the-accountadmin-role) access on a Snowflake account
-- If you do not have access to a Snowflake account, you can sign up for a [free trial](https://signup.snowflake.com/?utm_cta=website-homepage-hero-button-start-for-free)
+- If you do not have access to a Snowflake account, you can sign up for a [free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 
 ### **What You’ll Learn**
 - How to identify optimization patterns in your Snowflake account 

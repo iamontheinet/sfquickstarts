@@ -2,10 +2,11 @@ author: gflomo@hex.tech
 id: hex-churn-model
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/external-collaboration, snowflake-site:taxonomy/snowflake-feature/snowflake-ml-functions
 language: en
-summary: This lab will walk you through how to use Snowflake and Hex.
+summary: This lab will walk you through how to use Snowflake and Hex. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Churn modeling using Snowflake and Hex
 
@@ -19,7 +20,7 @@ In this Quickstart guide, we will play the role of a data scientist at a telecom
 - Familiarity with basic Python and SQL
 - Familiarity with training ML models
 - Familiarity with data science notebooks
-- Go to the [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
+- Go to the [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) sign-up page and register for a free account. After registration, you will receive an email containing a link that will take you to Snowflake, where you can sign in.
 
 ### What You'll Learn
 

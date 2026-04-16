@@ -2,7 +2,7 @@ author: RelationalAI
 id: kgqa-using-relationalai
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/ingestion/conversational-assistants
 language: en
-summary: This guide shows how to use RelationalAI and Snowflake to create a system that lets a user ask and answer natural language questions on a custom knowledge graph.
+summary: This guide shows how to use RelationalAI and Snowflake to create a system that lets a user ask and answer natural language questions on a custom knowledge graph. 
 environments: web
 status: Published 
 feedback link: https://github.com/RelationalAI/QuestionAnsweringKG/issues
@@ -55,7 +55,7 @@ In our case, we will utilize RelationalAI’s Native App to construct an executa
 ### What You will Build
 - A Question Answering System on Knowledge Graphs using RelationalAI and Snowflake Cortex AI
 
-> aside positive
+> 
 > **_NOTE:_**  If you haven't already done so, please [refer to the documentation](https://relational.ai/docs/native_app/installation) to install RelationalAI as a Snowflake native app.
 
 <!-- ------------------------ -->

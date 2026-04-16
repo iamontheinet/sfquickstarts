@@ -2,10 +2,11 @@ author: Sikha Das
 id: ai-assistant-for-sales-calls
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/certified-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/build, snowflake-site:taxonomy/snowflake-feature/cortex-llm-functions
 language: en
-summary: This application provides a centralized, AI-driven approach to analyze sales calls to gain actionable insights, enhance decision-making, and drive better alignment between product and GTM strategies.
+summary: Build AI assistants for sales call analysis using Snowflake Cortex for transcription, summarization, coaching insights, and trends.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Building AI Assistant using Snowflake Cortex in Snowflake Notebooks
 <!-- ------------------------ -->
@@ -43,7 +44,7 @@ This guide covers:
 
 ### Prerequisites
 - A [GitHub](https://github.com/) Account to access the [GIT REPO](https://github.com/Snowflake-Labs/sfguide-building-ai-assistant-using-snowflake-cortex-snowflake-notebooks/tree/main)
-- A Snowflake account login with a role that has the ability to create database, schema, tables, stages, user-defined functions, and stored procedures. If not, you will need to register for [a free trial](https://signup.snowflake.com/?_fsi=OuImfiWC&_fsi=OuImfiWC) or use a different role.
+- A Snowflake account login with a role that has the ability to create database, schema, tables, stages, user-defined functions, and stored procedures. If not, you will need to register for [a free trial](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&_fsi=OuImfiWC&_fsi=OuImfiWC&utm_cta=developer-guides) or use a different role.
 
 ### What You Will Build
 

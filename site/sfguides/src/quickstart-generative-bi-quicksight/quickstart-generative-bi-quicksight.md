@@ -2,10 +2,11 @@ author: Bharath Suresh
 id: quickstart-generative-bi-quicksight
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai
 language: en
-summary: Build a Generative BI Dashboard using Amazon QuickSight and Amazon Q.
+summary: Build a Generative BI Dashboard using Amazon QuickSight and Amazon Q. 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build a Generative BI Dashboard with Amazon QuickSight and Amazon Q
 
@@ -33,7 +34,7 @@ This guide applies to any business domain where structured data and conversation
 - How to use Amazon Q for Natural Language Q&A
 
 ### What You’ll Need 
-- A Snowflake Account. [Sign up for Snowflake Trial Account](https://signup.snowflake.com/)
+- A Snowflake Account. [Sign up for Snowflake Trial Account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - AWS QuickSight Enterprise enabled
 - Kaggle Dataset
 - Python 3.x with pandas (optional)

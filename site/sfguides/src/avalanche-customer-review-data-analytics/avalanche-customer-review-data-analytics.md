@@ -2,10 +2,11 @@ author: Chanin Nantasenamat
 id: avalanche-customer-review-data-analytics
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/business-intelligence, snowflake-site:taxonomy/snowflake-feature/cortex-analyst
 language: en
-summary: Learn how to process and analyze customer review data using Snowflake's data processing capabilities and visualization tools. This guide demonstrates how to extract insights from unstructured text data through sentiment analysis and visualization.
+summary: Analyze customer review data with Snowflake for sentiment analysis, feedback insights, and product improvements.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build a Customer Review Analytics Dashboard with Snowflake Cortex and Streamlit
 <!-- ------------------------ -->
@@ -26,7 +27,7 @@ By the end of this guide, you'll have built a complete analytics pipeline that e
 A customer review analytics dashboard that processes unstructured text data and visualizes sentiment trends across products and time periods.
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Basic knowledge of SQL and Python
 - Familiarity with data analysis concepts
 

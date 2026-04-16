@@ -2,10 +2,11 @@ author: Jeffrey Chen
 id: getting-started-with-mediawallah-enrichment-native-app
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/industry/advertising-media-and-entertainment, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: This is a guide to use MediaWallah's Enrichment Application
+summary: This is a guide to use MediaWallah's Enrichment Application 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with MediaWallah Enrichment Application
 <!-- ------------------------ -->
@@ -22,7 +23,7 @@ Please Contact MediaWallah if additional time or trial runs are needed.
 Enrichment results are returned in four tables.
 
 ### Prerequisites
-* [Snowflake Account](https://signup.snowflake.com/)
+* [Snowflake Account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 * The provider must accept the Snowflake Marketplace Provider Terms of Service.
 * The consumer must accept the Snowflake Marketplace Consumer Terms of Service.
 * The consumer must be able to operate ACCOUNTADMIN, SECURITYADMIN roles.

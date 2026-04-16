@@ -2,12 +2,13 @@ author: Gabe Flomo [Hex]
 id: hex
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: This lab will walk you through how to use Snowflake and Hex.
+summary: This lab will walk you through how to use Snowflake and Hex. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
 <!-- contact info: gflomo [at] hex.tech --> 
+
 
 # Building and deploying a time series forecast with Hex + Snowflake
 
@@ -31,7 +32,7 @@ In this demo, we will play the role of a data scientist at a large restaurant ch
 
 
 ### What You’ll Need
-- A [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) Account (if you are using an enterprise account through your organization, it is unlikely that you will have the privileges to use the `ACCOUNTADMIN` role, which is required for this lab).
+- A [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) Account (if you are using an enterprise account through your organization, it is unlikely that you will have the privileges to use the `ACCOUNTADMIN` role, which is required for this lab).
 
 ### What You’ll Build
 An end-to-end Machine Learning pipeline to forecast hourly traffic for a restaurant chain using Hex, Snowflake, Snowpark, and XGBoost.
@@ -49,7 +50,7 @@ This pipeline will:
 <!-- ------------------------ -->
 ## Creating a Snowflake account
 
-Head over to the [Snowflake](https://signup.snowflake.com/?utm_cta=quickstarts_) sign-up page and register for a free account. Once you've registered, you'll get an email that will bring you to Snowflake so that you can sign in.
+Head over to the [Snowflake](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) sign-up page and register for a free account. Once you've registered, you'll get an email that will bring you to Snowflake so that you can sign in.
 
 ## Connecting Snowflake with Hex
 

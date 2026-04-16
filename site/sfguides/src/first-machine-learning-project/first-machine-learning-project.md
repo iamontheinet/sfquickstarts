@@ -1,10 +1,11 @@
 author: Chanin Nantasenamat
 id: first-machine-learning-project
-summary: Build a complete, end-to-end machine learning project for classifying bear species using Snowflake Notebooks, Snowpark, Cortex AI, Streamlit, and Snowflake ML.
+summary: Build your first ML project in Snowflake and Streamlit from data preparation through model training, evaluation, and deployment.
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/snowflake-feature/model-development, snowflake-site:taxonomy/snowflake-feature/ml-functions, snowflake-site:taxonomy/snowflake-feature/unstructured-data-analysis, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
 environments: web
 status: Published
+
 
 # Build Your First Machine Learning Project
 
@@ -32,7 +33,7 @@ You will build a comprehensive end-to-end machine learning project for bear spec
 - **Data App**: Build a shareable Streamlit application for model deployment.
 
 ### Prerequisites
-- **Snowflake Account**: Access to a Snowflake account. Sign up for a [30-day free trial account](https://signup.snowflake.com/)
+- **Snowflake Account**: Access to a Snowflake account. Sign up for a [30-day free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - **Snowflake Notebooks**: Access to Snowflake's notebook environment.
 - **Database Permissions**: Ability to create tables, stages, and models.
 - **Compute Resources**: CPU compute pool access for model training.

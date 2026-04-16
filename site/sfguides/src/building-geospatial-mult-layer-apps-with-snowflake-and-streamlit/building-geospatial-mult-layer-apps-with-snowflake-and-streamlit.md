@@ -2,10 +2,11 @@ author: Becky O’Connor
 id: building-geospatial-mult-layer-apps-with-snowflake-and-streamlit
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/analytics, snowflake-site:taxonomy/snowflake-feature/applied-analytics
 language: en
-summary: In this hands-on lab, you'll learn how to analyze and transform geospatial data in Snowflake, progressing from visualizing points on a map to building a multi-layer streamlit app.
+summary: Build multi-layer geospatial applications with Snowflake and Streamlit for location analytics and interactive mapping.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Building Geospatial Multi-Layer Apps with Snowflake and Streamlit
 <!-- ------------------------ -->
@@ -71,7 +72,7 @@ The Lab consists of three notebooks and two Streamlit applications.
 
 
 ### Prerequisites
-- A Snowflake Account. Sign up [here](https://signup.snowflake.com/) for a free 30 day trial.
+- A Snowflake Account. Sign up [here](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides) for a free 30 day trial.
 
  
 

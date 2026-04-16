@@ -2,10 +2,11 @@ author: jmusselwhite-tealium
 id: tealium-snowflake-integration
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/product/platform
 language: en
-summary: This tutorial reviews the process for configuring inbound and outbound Snowflake integrations within Tealium Customer Data Hub
+summary: This tutorial reviews the process for configuring inbound and outbound Snowflake integrations within Tealium Customer Data Hub 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Collect and Activate Customer Data Using Tealium and Snowpipe Streaming
 
@@ -31,7 +32,7 @@ This quickstart guide will review the configuration of the Snowflake Data Source
 ### What You'll Need
 
 - Tealium Customer Data Hub (EventStream and/or AudienceStream) account
-- [Snowflake account](https://signup.snowflake.com/)
+- [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
   - Appropriate privileges (covered individually in next steps)
 
 ### What You’ll Learn 

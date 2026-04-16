@@ -2,7 +2,7 @@ author: Meny Kobel
 id: getting-started-with-hybrid-tables
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: Follow this tutorial to learn the basics of hybrid tables
+summary: Follow this tutorial to learn the basics of hybrid tables 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -790,3 +790,4 @@ Having completed this quickstart you have successfully
 - [Snowflake Unistore Landing Page](/en/data-cloud/workloads/unistore/)
 - [Snowflake Documentation for Hybrid Tables](https://docs.snowflake.com/en/user-guide/tables-hybrid)
 - [Simplify Application Development Hybrid Tables Blog](/blog/simplify-application-development-hybrid-tables)
+- [Getting Started with Snowflake Postgres](/en/developers/guides/getting-started-with-snowflake-postgres/)

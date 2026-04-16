@@ -2,7 +2,7 @@ author: Simon Coombes
 id: building-a-sports-prediction-model-with-snowpark-ml
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/community-sourced, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/industry/sports, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/unstructured-data-analysis, snowflake-site:taxonomy/snowflake-feature/ml-functions
 language: en
-summary: Building a Sports Prediction Model with Snowpark ML
+summary: Predict sports outcomes using Snowpark ML for feature engineering, model training, real-time scoring, and betting analytics.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -38,7 +38,7 @@ In this guide, we'll be walking through all the steps you'll need to go through 
 <!-- ------------------------ -->
 ## Prepare Your Environment
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 
@@ -101,7 +101,7 @@ To load the notebooks in Hex, please follow [these instructions](https://learn.h
 <!-- ------------------------ -->
 ## Ingesting the Data into Tables
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 
@@ -117,7 +117,7 @@ At the end of this step, you should see 3 new tables in the `EURO_2024` database
 <!-- ------------------------ -->
 ## Feature Engineering
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 
@@ -132,7 +132,7 @@ In this notebook you will be executing various feature engineering steps to buil
 <!-- ------------------------ -->
 ## Model Operations
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 
@@ -148,7 +148,7 @@ In this notebook you will be using Snowpark ML and Snowflake Model Registry to p
 <!-- ------------------------ -->
 ## Creating Stored Procedures and UDTFs
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 
@@ -168,7 +168,7 @@ At the end of this step, we will have a model, and all the functions and procedu
 <!-- ------------------------ -->
 ## Simulating the Euro 2024 Tournament
 
-> aside positive
+> 
 > 
 > Please make sure you have downloaded the following [git repo](https://github.com/Snowflake-Labs/sfguide-sporting-events-prediction-using-snowpark-ml).
 

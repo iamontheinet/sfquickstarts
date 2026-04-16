@@ -2,10 +2,11 @@ authors: Matthias Nicola, Vinay Srihari
 id: horizon-intra-org-sharing
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: explore Horizon Collaboration pillar features for sharing of data and apps
+summary: explore Horizon Collaboration pillar features for sharing of data and apps 
 environments: web
 status: Published
 feedback link: <https://github.com/Snowflake-Labs/sfguides/issues>
+
 
 # Explore Cross-Cloud Sharing of Data and Applications with Private Listings
 <!-- ------------------------ -->
@@ -56,7 +57,7 @@ In this lab you will experience the latest Snowflake Horizon Collaboration and D
 
 #### Create 3 Snowflake Trial Accounts in the same Snowflake Organization
 
-Signup for an AWS trial account [here](https://signup.snowflake.com/?utm_cta=quickstarts_)
+Signup for an AWS trial account [here](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 
 - Choose **AWS** as cloud provider, **Business Critical** edition, **AWS_US_WEST_2 (Oregon)** region
 - Activate trial account with admin user `horizonadmin`

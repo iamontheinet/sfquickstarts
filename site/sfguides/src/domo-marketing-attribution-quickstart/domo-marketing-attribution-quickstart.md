@@ -2,10 +2,11 @@ author: Jon Tiritilli
 id: domo-marketing-attribution-quickstart
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/solution-center/certification/partner-solution, snowflake-site:taxonomy/solution-center/includes/architecture, snowflake-site:taxonomy/industry/advertising-media-and-entertainment, snowflake-site:taxonomy/product/data-engineering
 language: en
-summary: Build powerful marketing attribution and media mix models
+summary: Build marketing attribution and media mix models with Domo and Snowflake for campaign ROI and spend optimization.
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Getting Started with Domo Marketing Attribution
 
@@ -28,7 +29,7 @@ For more advanced users, the platform offers powerful AI and automation tools. T
 ### Prerequisites:
 
 - Basic understanding of Snowflake
-- A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/).
+- A Snowflake account. If you do not have a Snowflake account, you can register for a [free trial account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides).
 - A Domo account and a basic understanding of Domo
 - Access to data
 

@@ -2,10 +2,11 @@ author: Chanin Nantasenamat
 id: warehouse-utilization
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/platform
 language: en
-summary: Learn how to create an interactive heatmap visualization of Snowflake warehouse utilization patterns in Snowflake Notebooks and Streamlit.
+summary: Learn how to create an interactive heatmap visualization of Snowflake warehouse utilization patterns in Snowflake Notebooks and Streamlit. 
 environments: web
 status: Published
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Build Warehouse Utilization App in Snowflake Notebooks
 <!-- ------------------------ -->
@@ -22,7 +23,7 @@ Learn how to create an interactive visualization tool that helps you analyze (an
 An interactive dashboard featuring a heatmap visualization of warehouse usage patterns across different hours of the day, thereby helping to identify peak usage times and opportunities for optimization.
 
 ### What You'll Need
-- Access to a [Snowflake account](https://signup.snowflake.com/)
+- Access to a [Snowflake account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - Basic familiarity with SQL and Python
 - Understanding of Snowflake [warehouses](https://docs.snowflake.com/en/user-guide/warehouses-overview)
 

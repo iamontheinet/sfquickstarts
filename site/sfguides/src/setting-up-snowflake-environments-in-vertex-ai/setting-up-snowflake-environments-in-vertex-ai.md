@@ -2,10 +2,11 @@ author: marzillo-snow
 id: setting-up-snowflake-environments-in-vertex-ai
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/ai, snowflake-site:taxonomy/product/applications-and-collaboration
 language: en
-summary: This is a quickstart for Setting up Snowflake Environments in Vertex AI
+summary: This is a quickstart for Setting up Snowflake Environments in Vertex AI 
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+
 
 # Setting up Snowflake Environments in Vertex AI
 <!-- ------------------------ -->
@@ -28,7 +29,7 @@ As this quickstart is targeted at getting environments there are no specific ind
 - How to set up a Snowflake environment in Vertex AI with Google Container Registry.
 
 ### What You’ll Need 
-- A free [Snowflake Account](https://signup.snowflake.com/?utm_cta=quickstarts_)
+- A free [Snowflake Account](https://signup.snowflake.com/?utm_source=snowflake-devrel&utm_medium=developer-guides&utm_cta=developer-guides)
 - [GCP Account](https://cloud.google.com/free) with access to Vertex AI
 - For the sake of the lab it is best if both platforms have access to the public internet and are not in a virtual network
 - Basic familiarity with terminal commands and working with containers

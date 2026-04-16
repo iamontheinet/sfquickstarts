@@ -2,7 +2,7 @@ author: Charles Yorek
 id: build-a-native-app-with-spcs
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/applications-and-collaboration, snowflake-site:taxonomy/snowflake-feature/build, snowflake-site:taxonomy/snowflake-feature/snowpark-container-services, snowflake-site:taxonomy/snowflake-feature/native-apps
 language: en
-summary: This is a sample Snowflake Guide
+summary: Deploy a Snowflake Native App with Snowpark Container Services featuring Vue.js frontend, Flask backend, and nginx routing.
 environments: web
 status: Published 
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
@@ -21,7 +21,7 @@ The Snowflake Native App Framework is a powerful way for application providers t
 - Ability to install and run software on your computer
 - Basic experience using git
 
-> aside positive
+> 
 >
 > Snowpark Container Services is available across a [range of cloud providers and regions](https://docs.snowflake.com/en/developer-guide/snowpark-container-services/overview#label-snowpark-containers-overview-available-regions). For this lab ensure that you have an account in one of the supported regions.
 
