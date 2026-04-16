@@ -14,14 +14,14 @@ feedback link: https://github.com/Snowflake-Labs/sfguides/issues
 
 Most Kafka-to-Snowflake tutorials use a managed connector. This guide skips the connector and shows you how to build the consumer yourself using the [Snowpipe Streaming SDK](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-overview) — giving you full control over batching, error handling, retry logic, and offset tracking.
 
-The use case: a telecom cell tower monitoring pipeline. A fake producer generates Call Detail Records (CDRs) into Kafka. A custom Java consumer reads them and streams each record directly into Snowflake using the SDK's `appendRow` API. Once data is flowing, you train three ML forecast models in pure SQL and create a Semantic View so you can ask questions like "Which towers will have the highest call drop rate this week?" in natural language.
+The use case: a telecom cell tower monitoring pipeline. A fake producer generates Call Detail Records (CDRs) into Kafka. A custom Java consumer reads them and streams each record directly into Snowflake using the Snowpipe Streaming SDK's `appendRow` API. Once data is flowing, you train three ML forecast models in pure SQL and create a Semantic View so you can ask questions like "Which towers will have the highest call drop rate this week?" in natural language.
 
 ### What You Will Learn
 
 - How Snowpipe Streaming channels and offset tokens work
 - How to map Kafka partitions to Snowflake channels with a `ConsumerRebalanceListener`
 - How to commit Kafka offsets only after Snowflake confirms persistence
-- How to handle retries, backpressure, and channel invalidation
+- How to handle retries, backpressure, and channel invalidation with production-grade error handling (exponential backoff, HTTP 409 channel reopening, fail-fast on auth errors)
 - How to train `SNOWFLAKE.ML.FORECAST` models in SQL
 - How to create a Semantic View and query it with Cortex Analyst
 - How to automate the entire pipeline with Cortex Code skills
@@ -64,7 +64,7 @@ cp -r snowpipe-streaming-sdk-examples/custom-kafka-consumer/.cortex/skills/custo
       ~/.snowflake/cortex/skills/
 ```
 
-The skill is automatically discovered by Cortex Code on the next session.
+The skill is automatically discovered by Cortex Code on the next session. Skills are loaded from `~/.snowflake/cortex/skills/` globally, so you can start Cortex Code from any directory — including the `custom-kafka-consumer` project root — and the skill will be available.
 
 ### Available Triggers
 
