@@ -113,6 +113,8 @@ Here is how the skill maps to the steps you complete manually in this guide:
 | Train ML Forecast models | Creates aggregation views and trains `tower_drop_forecast` model |
 | Identify at-risk towers | Runs the maintenance recommendation query and surfaces CRITICAL towers |
 
+The following sections walk through each of these steps manually — so you understand exactly what the skill is doing under the hood.
+
 <!-- ------------------------ -->
 ## Set Up Snowflake
 
