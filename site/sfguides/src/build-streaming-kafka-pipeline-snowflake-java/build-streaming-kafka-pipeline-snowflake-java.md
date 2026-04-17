@@ -5,7 +5,7 @@ language: en
 summary: Build a production-grade Kafka-to-Snowflake streaming pipeline using the Snowpipe Streaming Java SDK, then layer on ML forecasting and natural language analytics with Cortex Analyst.
 environments: web
 status: Published
-feedback link: https://github.com/Snowflake-Labs/sfguides/issues
+feedback link: https://github.com/Snowflake-Labs/sfquickstarts/issues
 
 
 # Build a Kafka-to-Snowflake Streaming Pipeline with the Java SDK
@@ -690,7 +690,7 @@ curl -X POST \
         ]
       }
     ],
-    "semantic_model_file": "@CDR_STREAMING_DB.TELECOM.TOWER_ANALYTICS_SV"
+    "semantic_view": "CDR_STREAMING_DB.TELECOM.TOWER_ANALYTICS_SV"
   }'
 ```
 
