@@ -17,19 +17,31 @@ This is your guide to Snowflake's [**Cortex Code CLI**](http://docs.snowflake.co
 ## Installation instructions
 
 ### What you'll need
-- Snowflake account with appropriate permissions
+- Snowflake account with [appropriate permissions and prerequisites](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli#prerequisites)
+- Available to all Commercial (non-Gov, VPS, Sovereign) accounts with cross-region inference enabled. (`ALTER ACCOUNT SET CORTEX_ENABLED_CROSS_REGION = 'AWS_US';`)
 - A supported environment: macOS on Apple Silicon, Intel Linux on Intel, or Windows Subsystem for Linux (WSL)
 - Terminal access
+
+> **If you're not yet a Snowflake customer** [start your 30-day Cortex Code CLI trial](https://signup.snowflake.com/cortex-code). 
+
+### macOS and Linux (including WSL)
 
 ``` 
 curl -LsS https://ai.snowflake.com/static/cc-scripts/install.sh | sh 
 ```
 
-> **If you're not yet a Snowflake customer** [start your 30-day Cortex Code CLI trial](https://signup.snowflake.com/cortex-code). 
+### Windows
+
+Open PowerShell and run:
+
+```irm https://ai.snowflake.com/static/cc-scripts/install.ps1 | iex ```
+
+The executable installs to %LOCALAPPDATA%\cortex and is added to your PATH automatically.
 
 After installing, run `cortex` and follow the setup wizard to connect to your Snowflake account.
 
 For more details on setup, connections, supported models, or CLI reference, see the [Cortex Code CLI documentation](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli).
+
 
 ### What you'll learn
 
