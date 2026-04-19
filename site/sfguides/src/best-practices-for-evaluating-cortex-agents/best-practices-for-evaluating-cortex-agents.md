@@ -173,6 +173,9 @@ A typical GitHub Actions pipeline:
 5. A quality gate checks whether metrics meet your thresholds (e.g., `answer_correctness >= 0.75`)
 6. If the gate passes, the PR is allowed to merge. If it fails, the PR is blocked and the developer can inspect the evaluation results to understand what regressed
 
+Consider using progressive thresholds across environments: lenient and advisory in dev to avoid blocking experimentation, stricter hard gates in QA, and the highest thresholds in production paired with automatic rollback on failure. Set thresholds based on observed baselines from multiple eval runs rather than aspirational targets — thresholds set too aggressively create flaky gates that erode trust in the pipeline.
+
+
 ### Tips for CI/CD with agent evaluations
 
 - **Pin the orchestration LLM:** Use a specific model (e.g., `claude-4-sonnet`) rather than `auto`. This ensures CI results are reproducible and not affected by model rotation.
