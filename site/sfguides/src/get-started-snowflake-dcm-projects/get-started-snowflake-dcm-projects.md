@@ -42,7 +42,7 @@ In this guide, you'll work with a sample DCM Project that defines a food truck a
 In this step, you'll create a Snowsight Workspace linked to the sample DCM Project repository on GitHub.
 
 1. Navigate to **Projects > Workspaces** in Snowsight.
-2. Click **Create** and select **From Git repository**.
+2. Click **Create** (+) and select **Git repository**.
 3. Enter the repository URL: `https://github.com/snowflake-labs/snowflake-dcm-projects`
 4. Select an API Integration for GitHub ([create one if needed](https://docs.snowflake.com/en/user-guide/ui-snowsight/workspaces-git#label-create-a-git-workspace)).
 5. Select **Public repository**.
@@ -89,7 +89,6 @@ GRANT CREATE ROLE ON ACCOUNT TO ROLE dcm_developer;
 GRANT CREATE DATABASE ON ACCOUNT TO ROLE dcm_developer;
 GRANT EXECUTE MANAGED TASK ON ACCOUNT TO ROLE dcm_developer;
 GRANT EXECUTE TASK ON ACCOUNT TO ROLE dcm_developer;
-
 GRANT MANAGE GRANTS ON ACCOUNT TO ROLE dcm_developer;
 ```
 
@@ -344,7 +343,7 @@ Before deploying changes, always run a **Plan** first. A Plan is a dry-run that 
 
 ### Select the Project
 
-1. In the DCM control panel above the workspace tabs, select the project **get-started-snowflake-dcm-projects/DCM_Projects_Get_Started**.
+1. You should see the DCM control panel in the first tab in the bottom panel. Select the project **get-started-snowflake-dcm-projects/DCM_Projects_Get_Started**.
 2. The `DCM_DEV` target should already be selected (it's the default in the manifest).
 3. Click on the target profile to verify it uses `DCM_PROJECT_DEV` and the `DEV` templating configuration.
 4. Override the templating value for `user` with your own Snowflake username.
@@ -387,7 +386,7 @@ If the plan result looks correct and all planned changes match your expectations
 2. Optionally, add a **Deployment alias** (e.g., "Initial pipeline deployment") — think of it as a commit message that appears in the deployment history of your project.
 3. DCM will create all objects and attach grants and expectations using the owner role of the project object.
 
-![Deploy confirmation dialog](assets/dialog_js.png)
+![Deploy confirmation dialog](assets/deploy_dialog.png)
 
 > **CLI Alternative:** From the command line, deploy with:
 > ```
