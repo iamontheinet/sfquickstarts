@@ -42,6 +42,9 @@ Cortex Agents combine reasoning from large language models with Snowflake’s go
 4.  **Tool execution:**
     -   [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst): Write and run SQL on your semantic views for structured data.
     -   [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview): Retrieve relevant document text for unstructured data.
+    -   [Code Execution](https://docs.snowflake.com/en/LIMITEDACCESS/cortex-agents-code-interpreter): Generate and run Python code in a sandboxed environment.
+    -   [Web Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents#web-search): Query the web for real-time information.
+    -   [MCP Connectors](https://docs.snowflake.com/en/LIMITEDACCESS/snowflake-cortex/mcp-connectors): Connect to external SaaS tools via the Model Context Protocol.
     -   Custom Tools: Execute user-defined functions or stored procedures for actions.
 5.  **Reflection & response:** The orchestrator reviews results, refines if needed, and generates the final answer (including summaries, tables, or charts) shown in the Snowflake Intelligence UI.
 
@@ -576,7 +579,7 @@ The [web search tool](https://docs.snowflake.com/en/user-guide/snowflake-cortex/
 
 > **Preview Feature — Private:** MCP Connectors are available to select accounts.
 
-[MCP Connectors](https://docs.snowflake.com/en/LIMITEDACCESS/snowflake-cortex/mcp-connectors) connect your agents to external SaaS tools via the Model Context Protocol (MCP). Supported connectors include Atlassian (Jira & Confluence), GitHub, Glean, Linear, and Salesforce, and you can build custom connectors for any MCP-compatible endpoint.
+[MCP Connectors](https://docs.snowflake.com/en/LIMITEDACCESS/snowflake-cortex/mcp-connectors) connect your agents to external SaaS tools via the Model Context Protocol (MCP). Supported connectors include Atlassian (Jira & Confluence), GitHub, Glean, Google Workspace, Linear, Salesforce, and Slack, and you can build custom connectors for any MCP-compatible endpoint.
 
 The setup flow for MCP connectors is:
 1.  **Provider setup:** Create an OAuth app on the provider's dashboard and obtain credentials.
@@ -621,7 +624,7 @@ Cortex Agent versioning gives you a clean separation between development and pro
 
 -   **Live version** — a mutable draft where you iterate on prompts, tools, and configs.
 -   **Named versions** — immutable snapshots created from the live version that you can safely test and deploy.
--   **Aliases** (e.g., `production`, `staging`) — pointers that route traffic to a specific version, decoupling your client code from version numbers.
+-   **Aliases** (e.g., `production`, `staging`, `canary`) — pointers that route traffic to a specific version, decoupling your client code from version numbers.
 
 The core workflow maps directly to the three deployment stages below:
 1.  **Prototype** on the live version.
@@ -652,7 +655,7 @@ After the agent use case has been clearly defined and the first version of your 
 
 ### Stage 2: Iteration and agent evaluation
 
-Use the Snowflake Monitoring UI and agent evaluations to identify which queries the agent handles incorrectly or too slowly. Agent traces show planning, tool use, and generation steps so you can pinpoint exactly where things went wrong.
+Use the Snowflake Monitoring UI and [Cortex Agent Evaluations](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents#evaluation) (generally available) to identify which queries the agent handles incorrectly or too slowly. Agent traces show planning, tool use, and generation steps so you can pinpoint exactly where things went wrong.
 
 Before you begin, *ensure you have [AI Observability permissions](https://docs.snowflake.com/en/user-guide/snowflake-cortex/ai-observability/reference#required-privileges) set up properly.*
 
