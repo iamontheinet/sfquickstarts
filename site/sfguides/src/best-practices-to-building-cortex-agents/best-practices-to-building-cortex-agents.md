@@ -404,7 +404,7 @@ Description: Gets consumption data.
 
 ## Using Tools
 
-The Snowflake Cortex suite includes [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) and [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview), which together help turn natural-language questions into accurate, efficient SQL-based answers.
+Cortex Agents support a rich set of built-in tools: [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) for text-to-SQL, [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview) for document retrieval, [code execution](https://docs.snowflake.com/en/LIMITEDACCESS/cortex-agents-code-interpreter) for sandboxed Python, [web search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents#web-search) for real-time information, and [MCP connectors](https://docs.snowflake.com/en/LIMITEDACCESS/snowflake-cortex/mcp-connectors) for integrating with external SaaS tools.
 
 ### Cortex Analyst (Text-to-SQL)
 
