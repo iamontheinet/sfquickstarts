@@ -12,7 +12,6 @@ fork repo link:
 <!-- ------------------------ -->
 ## Overview
 
-> aside negative
 > **Preview Feature — Private:** Available to select accounts.
 
 Connect Cortex Agents to **Snowflake-managed MCP servers** (Cortex Search, Cortex Analyst) and **external MCP connectors** (Atlassian, GitHub, Glean, Linear, Salesforce). Data, tools, MCP servers, and agents are all governed in Snowflake via RBAC.
@@ -147,7 +146,6 @@ The setup script creates **10 specialized MCP servers** across the three schemas
 
 This step is **optional**. External MCP connectors let your agents reach into SaaS tools like Jira, GitHub, or Salesforce. You can add **any combination** of the connectors below -- or skip this step entirely and come back to it later.
 
-> aside positive
 > **Tip:** You can use [Cortex Code](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code) to set up external MCP servers and add them to your Cortex Agents interactively. Just ask: _"Connect my Cortex Agent to Jira via an external MCP server"_ and Cortex Code will walk you through the OAuth integration, server creation, and agent wiring.
 
 Each connector follows the same pattern:
