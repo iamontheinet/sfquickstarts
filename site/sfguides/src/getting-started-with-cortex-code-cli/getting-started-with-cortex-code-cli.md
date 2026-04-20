@@ -46,7 +46,7 @@ curl -LsS https://ai.snowflake.com/static/cc-scripts/install.sh | sh
 
 The script installs the `cortex` executable to `~/.local/bin` and adds it to your PATH.
 
-### Windows (native — preview)
+### Windows (native)
 
 Open PowerShell and run:
 
@@ -87,7 +87,7 @@ Cortex Code CLI supports two authentication methods:
 | Browser-based SSO (`externalbrowser`) | Interactive use on a machine with a web browser |
 | Programmatic access token (PAT) | Headless environments or automation |
 
-You can generate a PAT from Snowsight under your user menu. See [Using programmatic access tokens for authentication](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens) for details.
+You can generate a PAT from Snowsight or via SQL. See [Using programmatic access tokens for authentication](https://docs.snowflake.com/en/user-guide/programmatic-access-tokens) for details.
 
 ### Verify the connection
 
@@ -98,6 +98,8 @@ Once connected, Cortex Code CLI drops you into an interactive session. Type:
 ```
 
 This prints your active connection, role, warehouse, database, and schema.
+
+> **Tip:** Cortex Code CLI defaults to the best available model for your account. Use `/model` to see or switch the active model at any time.
 
 <!-- ------------------------ -->
 ## Run Your First Query
@@ -133,7 +135,7 @@ Cortex Code CLI displays its reasoning steps as it works. If it needs more infor
 
 ### Table viewer
 
-When a query returns tabular data, press **Ctrl+T** to open the built-in table viewer. Inside the viewer you can scroll, sort, and copy data.
+When a query returns tabular data, press **Ctrl+T** to open the built-in table viewer. Inside the viewer you can scroll through results, cycle between tables with **Tab**, and press **c** to copy the query to your clipboard.
 
 ### Direct SQL
 
@@ -207,7 +209,7 @@ This creates a new session branched from the current point.
 
 Congratulations! You've successfully installed Cortex Code CLI, connected it to your Snowflake account, and run your first natural-language queries from the terminal.
 
-From here you can explore slash commands (`/help`), enable plan mode for step-by-step approval (`/plan`), connect MCP servers for external tools, and add custom skills to tailor the assistant to your workflow.
+From here you can explore slash commands (`/help`), enable plan mode (`/plan`) to review and approve each action before it runs, connect MCP servers for external tools, and add custom skills to tailor the assistant to your workflow.
 
 ### What You Learned
 - How to install Cortex Code CLI on any supported platform
