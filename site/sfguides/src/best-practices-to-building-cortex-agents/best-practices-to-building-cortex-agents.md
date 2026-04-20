@@ -24,7 +24,7 @@ This guide is your map to building agents for use with Snowflake Intelligence, f
 - How Snowflake Intelligence and Cortex Agents work together.
 - How to define agent purpose and scope.
 - How to configure orchestration and response instructions.
-- How to design effective tools for Cortex Agents, including code execution, web search, and MCP connectors.
+- How to design effective tools for Cortex Agents.
 - How to use agent versioning to manage your deployment lifecycle.
 - How to evaluate and monitor agent performance.
 
