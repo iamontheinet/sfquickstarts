@@ -402,7 +402,7 @@ Description: Gets consumption data.
 | **Unclear optionality**<br>"region (optional)" | **Provide default guidance**<br>"region (optional, defaults to 'ALL', returns data for all regions)" |
 | **Using inconsistent terminology**<br>Pick one term and use it consistently everywhere.<br>Instructions say "customers" but tool descriptions say "accounts" | **Use consistent terminology**<br>If your domain has multiple terms for the same concept, define them explicitly:<br>"Account (also called 'customer' in billing context): A business entity that..." |
 
-## Using Cortex Tools
+## Using Tools
 
 The Snowflake Cortex suite includes [Cortex Analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst) and [Cortex Search](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview), which together help turn natural-language questions into accurate, efficient SQL-based answers.
 
