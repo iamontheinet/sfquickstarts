@@ -234,7 +234,7 @@ Documentation:
 
 Guides:
 - [Best Practices for Cortex Code CLI](https://www.snowflake.com/en/developers/guides/best-practices-cortex-code-cli/)
-- [Getting Started with MCP Connectors](https://www.snowflake.com/en/developers/guides/getting-started-with-mcp-connectors/)
+- [Getting Started with MCP Connectors](https://www.snowflake.com/en/developers/guides/sfguide-getting-started-with-mcp-connectors/)
 
 Additional Reading:
 - [Snowflake Developers Blog](https://developers.snowflake.com/blog/)
