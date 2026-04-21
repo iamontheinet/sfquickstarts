@@ -3,14 +3,18 @@ id: dcm-projects-for-dynamic-tables
 summary: Learn how to use DCM Projects to manage dynamic table pipelines, evolve their schemas, and optimize refreshes with immutability constraints.
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart, snowflake-site:taxonomy/product/data-engineering, snowflake-site:taxonomy/snowflake-feature/dynamic-tables
 environments: web
-status: Draft
+status: Public
 language: en
 feedback link: https://github.com/Snowflake-Labs/sfguides/issues
-fork repo link: https://github.com/Snowflake-Labs/snowflake_dcm_dynamic_tables
+fork repo link: https://github.com/Snowflake-Labs/snowflake-dcm-projects
 
 # DCM Projects for Dynamic Tables
 <!-- ------------------------ -->
 ## Overview
+
+In the [Build Data Pipelines with Snowflake DCM Projects](https://www.snowflake.com/en/developers/guides/build-data-pipelines-with-snowflake-dcm-projects/) guide, you learned how to split infrastructure across multiple DCM Projects and build a medallion architecture with Dynamic Tables defined as code.
+
+In this guide, you'll focus on **dynamic table lifecycle management** — making changes and enhancements to your pipeline while maintaining control over the backfill process.
 
 Dynamic tables are the backbone of declarative data pipelines in Snowflake — you define the *what*, and Snowflake handles the *when* and *how*. But managing dynamic tables at scale introduces real challenges: How do you version-control their definitions? How do you promote changes across environments? And when you need to evolve a schema, how do you avoid an expensive full recomputation of historical data?
 
@@ -52,22 +56,23 @@ In this step, you'll create a Snowsight Workspace linked to the sample DCM Proje
 
 1. Navigate to **Projects > Workspaces** in Snowsight.
 2. Click **Create** and select **From Git repository**.
-3. Enter the repository URL: `https://github.com/snowflake-labs/snowflake_dcm_dynamic_tables`
+3. Enter the repository URL: `https://github.com/snowflake-labs/snowflake-dcm-projects`
 4. Select an API Integration for GitHub ([create one if needed](https://docs.snowflake.com/en/user-guide/ui-snowsight/workspaces-git#label-create-a-git-workspace)).
 5. Select **Public repository**.
 
 ![Creating a Workspace from a Git repository](assets/create_workspace.png)
 
-Once the workspace is created, you'll see the repository files in the file explorer. Navigate to **Quickstarts/DCM_DynamicTables_Quickstart** to find the project files you'll be working with.
+Once the workspace is created, you'll see the repository files in the file explorer. Navigate to **Quickstarts/dcm-projects-for-dynamic-tables** to find two directories:
 
-The `scripts/` folder contains numbered SQL files that you'll run at different stages of this guide:
+- **`DCM_Projects_DT_Lifecycle/`** — The DCM Project itself (manifest, definitions, macros). This is what DCM reads during Plan & Deploy.
+- **`scripts/`** — Numbered SQL files that you'll run in Snowsight worksheets at different stages of this guide. These live outside the DCM project directory so they don't interfere with it.
 
 | File | When to Run |
 |:-----|:------------|
-| `01_pre_deploy.sql` | Before the first DCM Plan & Deploy |
-| `02_post_deploy.sql` | After the first successful deployment |
-| `03_schema_change.sql` | After the second deployment (with immutability) |
-| `04_cleanup.sql` | When you're done and want to tear everything down |
+| `scripts/01_pre_deploy.sql` | Before the first DCM Plan & Deploy |
+| `scripts/02_post_deploy.sql` | After the first successful deployment |
+| `scripts/03_schema_change.sql` | After the second deployment (with immutability) |
+| `scripts/04_cleanup.sql` | When you're done and want to tear everything down |
 
 Open `scripts/01_pre_deploy.sql` in a Snowsight worksheet — you'll use it in the next step.
 
@@ -76,7 +81,7 @@ Open `scripts/01_pre_deploy.sql` in a Snowsight worksheet — you'll use it in t
 
 Before deploying the pipeline, you need to create a dedicated role for managing DCM Projects and a DCM Project object.
 
-Open `scripts/01_pre_deploy.sql` in a Snowsight worksheet and run each section in order. The script does the following:
+Open `scripts/01_pre_deploy.sql` in a Snowsight worksheet and run each section in order. This script lives outside the DCM project directory, so it won't be picked up by Plan or Deploy. The script does the following:
 
 ### 1. Create a DCM Developer Role
 
@@ -149,11 +154,11 @@ The DCM Project object `dcm_project_dev` is now created in `dcm_demo.projects`. 
 <!-- ------------------------ -->
 ## Explore the Project Files
 
-Now that the infrastructure is in place, take a moment to explore the DCM Project structure before deploying. A DCM Project consists of a **manifest file** and one or more **definition files** organized in a `sources/` directory.
+Now that the infrastructure is in place, take a moment to explore the DCM Project structure before deploying. Navigate into the `DCM_Projects_DT_Lifecycle/` directory — this is the actual DCM Project that the Plan & Deploy operations read. A DCM Project consists of a **manifest file** and one or more **definition files** organized in a `sources/` directory.
 
 ### Manifest
 
-Open `manifest.yml` in the file explorer. The manifest is the configuration file for your DCM Project. It defines:
+Open `DCM_Projects_DT_Lifecycle/manifest.yml` in the file explorer. The manifest is the configuration file for your DCM Project. It defines:
 
 - **Targets** — Named deployment environments (e.g., DEV, STAGE, PROD), each pointing to a specific Snowflake account and DCM Project object
 - **Templating configurations** — Variable values that change per environment (e.g., database suffixes, warehouse sizes, team lists)
@@ -347,7 +352,7 @@ Before deploying changes, always run a **Plan** first. A Plan is a dry-run that 
 
 ### Select the Project
 
-1. In the DCM control panel above the workspace tabs, select the project **DCM_DynamicTables_Quickstart**.
+1. In the DCM control panel above the workspace tabs, select the project **dcm-projects-for-dynamic-tables/DCM_Projects_DT_Lifecycle**.
 2. The `DCM_DEV` target should already be selected (it's the default in the manifest).
 3. Click on the target profile to verify it uses `DCM_PROJECT_DEV` and the `DEV` templating configuration.
 4. Override the templating value for `user` (line 44 in `manifest.yml`) with your own Snowflake username.
@@ -621,4 +626,5 @@ The combination of DCM Projects and immutability constraints gives you a product
 - [Managing DCM Projects using Snowflake CLI](https://docs.snowflake.com/developer-guide/snowflake-cli/data-pipelines/dcm-projects)
 - [Dynamic Tables — Immutability Constraints](https://docs.snowflake.com/en/user-guide/dynamic-tables-performance-optimize-immutability)
 - [Understanding Immutability Constraints (Concepts)](https://docs.snowflake.com/en/user-guide/dynamic-tables-immutability-constraints)
-- [Sample DCM Projects Repository](https://github.com/Snowflake-Labs/snowflake_dcm_dynamic_tables)
+- [Build Data Pipelines with Snowflake DCM Projects](https://www.snowflake.com/en/developers/guides/build-data-pipelines-with-snowflake-dcm-projects/)
+- [Sample DCM Projects Repository](https://github.com/Snowflake-Labs/snowflake-dcm-projects)
