@@ -13,7 +13,9 @@ fork repo link: https://github.com/Snowflake-Labs/sfguide-getting-started-with-c
 <!-- ------------------------ -->
 ## Overview
 
-Cortex Code CLI is Snowflake's AI-powered command-line assistant. It lets you query data, build applications, and manage Snowflake resources using plain English directly from your terminal. Behind the scenes it writes and runs SQL, orchestrates Snowflake-native skills, and connects to external tools through the Model Context Protocol (MCP).
+Cortex Code is Snowflake's AI-powered coding agent. It is available in two interfaces: directly in [Snowsight](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-snowsight) for web-based use, and as a **command-line interface (CLI)** for developers who prefer the terminal. This guide focuses on the CLI.
+
+Cortex Code CLI lets you query data, build applications, and manage Snowflake resources using plain English directly from your terminal. Behind the scenes it writes and runs SQL, orchestrates Snowflake-native skills, and connects to external tools through the Model Context Protocol (MCP).
 
 In this guide you will install the CLI, connect it to a Snowflake account, and run a handful of queries to see what it can do.
 
@@ -99,7 +101,9 @@ Once connected, Cortex Code CLI drops you into an interactive session. Type:
 
 This prints your active connection, role, warehouse, database, and schema.
 
-> **Tip:** Cortex Code CLI defaults to the best available model for your account. Use `/model` to see or switch the active model at any time.
+> **Tip:** Cortex Code CLI defaults to the best available model for your account. Use `/model` to see or switch the active model at any time. Supported models include Claude Opus 4, Claude Sonnet 4, and OpenAI GPT -- see [Supported models](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli#supported-models) for the full list.
+
+> **Note:** If your preferred model is not available in your region, an ACCOUNTADMIN can enable [cross-region inference](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cross-region-inference) to access it from another region.
 
 <!-- ------------------------ -->
 ## Run Your First Query
@@ -222,10 +226,15 @@ From here you can explore slash commands (`/help`), enable plan mode (`/plan`) t
 
 Documentation:
 - [Cortex Code CLI](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli)
+- [Cortex Code in Snowsight](https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-snowsight)
 - [Cortex Code CLI Reference](https://docs.snowflake.com/en/user-guide/cortex-code/cli-reference)
 - [Cortex Code CLI Settings](https://docs.snowflake.com/en/user-guide/cortex-code/settings)
 - [Cortex Code CLI Workflow Examples](https://docs.snowflake.com/en/user-guide/cortex-code/workflows)
 - [Model Context Protocol (MCP)](https://docs.snowflake.com/en/user-guide/cortex-code/extensibility.html#extensibility-mcp)
+
+Guides:
+- [Best Practices for Cortex Code CLI](https://www.snowflake.com/en/developers/guides/best-practices-cortex-code-cli/)
+- [Getting Started with MCP Connectors](https://www.snowflake.com/en/developers/guides/getting-started-with-mcp-connectors/)
 
 Additional Reading:
 - [Snowflake Developers Blog](https://developers.snowflake.com/blog/)
