@@ -2,7 +2,7 @@
 id: best-practices-for-evaluating-cortex-agents
 language: en
 summary: Learn how to evaluate, version, deploy, and monitor Cortex Agents in production using Snowflake's built-in evaluation framework, CI/CD pipelines, and observability tools.
-author: Josh Reini, Krista Muir
+author: Josh Reini, Elliott Botwick, Larry Orimoloye
 categories: snowflake-site:taxonomy/solution-center/certification/quickstart
 environments: web
 status: Published
